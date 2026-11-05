@@ -1,0 +1,9 @@
+build/
+.gradle/
+*.apk
+local.properties
+tools/.cache/
+__pycache__/
+*.jks
+keystore.properties
+.bori/agent.lock

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="com.bori.keyboard.settings.SettingsActivity"
+    android:supportsSwitchingToNextInputMethod="true">
+
+    <subtype
+        android:label="@string/subtype_en_us"
+        android:imeSubtypeLocale="en_US"
+        android:languageTag="en-US"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="AsciiCapable,layout=qwerty" />
+
+    <subtype
+        android:label="@string/subtype_es_es"
+        android:imeSubtypeLocale="es_ES"
+        android:languageTag="es-ES"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="AsciiCapable,layout=qwerty_es" />
+
+</input-method>

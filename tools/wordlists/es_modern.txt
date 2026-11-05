@@ -1,0 +1,148 @@
+# Spanish extra words. Format: word tier era variants...  (see README.md)
+# Modern slang (Spain and Latin America), texting, tech and the anglicisms people type.
+
+# ---------------------------------------------------------------- texting
+jaja 1 text jajaja jajajaja jajajajaja jaj jajaj jeje jejeje jiji jijiji
+xd 2 text
+porfa 1 text porfi porfis xfa xfavor
+q 3 text
+k 3 text
+xq 2 text pq porq
+tmb 2 text tb tmbn tambn
+ntp 3 text
+tqm 2 text tkm tq tk
+bss 3 text besos bsos
+grax 3 text grx graxias
+ok 1 text okey okis oki okay vale
+
+# ---------------------------------------------------------------- slang
+chido 2 slang chida chidos chidas chidísimo
+neta 2 slang netas
+güey 2 slang wey we way güeyes weyes buey
+chamba 2 slang chambear chambeando chambeo chambas
+pana 2 slang panas
+parce 2 slang parcero parcera parceros parceritos
+bacán 2 slang bacanes bacano bacana
+chévere 2 slang
+guay 2 slang guays
+mola 2 slang molar molan molaba mazo
+flipar 2 slang flipo flipas flipante flipando flipado
+tío 2 slang tía tíos tías
+random 2 slang randoms
+crush 1 slang crushes
+cringe 2 slang
+stalkear 2 slang stalkeando stalkeé stalker stalkers
+likear 3 slang likeó
+like 2 slang likes
+postear 2 slang posteó posteando post posts
+tuitear 3 slang tuit tuits tuiteó tuitero
+googlear 3 slang googleé googleando
+hater 2 slang haters
+spoiler 2 slang spoilers spoilear spoileó
+streaming 2 slang
+streamer 2 slang streamers
+influencer 1 slang influencers influencers
+youtuber 2 slang youtubers
+tiktoker 2 slang tiktokers
+selfi 2 slang selfie selfis selfies
+meme 1 slang memes
+emoji 1 slang emojis emoticono emoticonos
+gamer 2 slang gamers
+friki 2 slang frikis friqui
+pringado 3 slang pringada pringados
+cutre 3 slang cutres
+chungo 3 slang chunga chungos
+currar 2 slang curro curra currando currado
+pasta 2 slang
+chela 2 slang chelas
+padre 2 slang padrísimo
+órale 2 slang
+cuate 3 slang cuates
+morro 3 slang morra morros morras
+fresa 3 slang fresas
+naco 4 slang naca nacos
+chafa 3 slang
+gacho 3 slang gacha
+vato 3 slang vatos bato
+carnal 3 slang carnales
+boricua 2 slang boricuas
+chavo 3 slang chava chavos chavas
+pibe 3 slang piba pibes pibas
+boludo 3 slang boluda boludos
+che 3 slang
+chabón 4 slang chabona
+cachai 3 slang
+weón 3 slang weona huevón
+flow 2 slang
+perreo 2 slang perrear perreando
+reguetón 2 slang reggaetón reguetonero
+bichote 4 slang
+janguear 3 slang jangueo janguear
+corillo 3 slang
+chinchorro 3 slang
+bellaco 4 slang bellaca
+brutal 2 slang
+literal 2 slang literalmente
+nmms 3 text
+alv 3 text
+fresco 2 slang
+
+# ---------------------------------------------------------------- tech, AI
+IA 1 ai
+ChatGPT 1 ai
+chatbot 1 ai chatbots
+algoritmo 2 ai algoritmos
+prompt 2 ai prompts
+app 1 tech apps aplicación
+smartphone 2 tech smartphones
+celular 1 tech celulares cel
+móvil 1 tech móviles
+plegable 2 tech plegables
+wifi 1 tech
+bluetooth 2 tech
+online 1 tech
+offline 2 tech
+link 1 tech links linkear
+email 2 tech emails mail mails
+login 2 tech
+password 2 tech
+hashtag 2 tech hashtags
+podcast 2 tech podcasts
+streaming 2 tech
+videollamada 2 tech videollamadas
+captura 2 tech capturas pantallazo pantallazos
+tuit 3 tech
+YouTube 1 brand
+TikTok 1 brand
+Instagram 1 brand insta
+WhatsApp 1 brand wasap guasap whatsappear
+Netflix 1 brand
+Spotify 2 brand
+iPhone 2 brand
+criptomoneda 3 tech criptomonedas cripto
+bitcoin 3 tech
+
+# ---------------------------------------------------------------- Puerto Rico (and Caribbean)
+# Wiktionary has most of these, but only as weakly valid words, so "wepa" became "sepa".
+wepa 2 slang wepaa
+acho 2 slang
+guagua 2 slang guaguas
+mofongo 2 slang mofongos
+alcapurria 3 slang alcapurrias
+zafacón 2 slang zafacones zafacon
+revolú 3 slang
+chiringa 3 slang chiringas
+parquear 3 slang parqueo parqueé parqueó parquea parqueando
+chinchorro 3 slang chinchorros chinchorreo chinchorrear chinchorreando
+janguear 2 slang jangueo janguea jangueando jangueé jangueamos
+bochinche 2 slang bochinchero bochinchera bochinches
+chavienda 3 slang
+bellaquera 3 slang
+borinqueño 3 slang borinqueña borinqueños
+pichear 3 slang pichea pichié picheó picheando
+afrentao 3 slang afrentá afrentada
+enchismao 3 slang enchismá enchismada
+pai 2 slang
+mai 2 slang
+mija 2 slang mijo
+chimba 3 slang

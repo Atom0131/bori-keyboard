@@ -1,0 +1,515 @@
+# English extra words. Format: word tier era variants...  (see README.md)
+# Multi-word phrases (bee's knees, no cap) can't be one dictionary word; their parts are listed.
+
+# ---------------------------------------------------------------- 1920s
+swell 2 1920s swellest sweller
+ritzy 3 1920s ritzier ritziest ritz
+spiffy 3 1920s spiffier spiffiest spiffed spiffing
+flapper 3 1920s flappers
+speakeasy 3 1920s speakeasies speakeasys
+bootlegger 3 1920s bootleggers bootlegging bootleg bootlegs bootlegged
+hooch 3 1920s hootch
+moll 4 1920s molls
+gams 4 1920s gam
+applesauce 3 1920s
+baloney 3 1920s boloney bologna
+horsefeathers 4 1920s
+hokum 4 1920s
+blotto 4 1920s
+zozzled 4 1920s
+ossified 4 1920s
+copacetic 3 1920s copasetic copesetic kopasetic copacetically
+darb 4 1920s darbs
+flivver 4 1920s flivvers
+gatecrasher 3 1920s gatecrashers gatecrash gatecrashing gatecrashed
+wisenheimer 4 1920s weisenheimer wisenheimers
+moxie 3 1920s moxy
+palooka 4 1920s palookas paluka
+scram 3 1920s scrammed scramming scrams
+swanky 3 1920s swankier swankiest swank
+sockdollager 4 1920s sockdolager
+killjoy 3 1920s killjoys
+heebie 4 1920s heebies jeebies heeby jeeby
+hotsy 4 1920s totsy
+skidoo 4 1920s skiddoo
+giggle 2 1920s
+sheba 4 1920s
+sheik 4 1920s sheikh
+
+# ---------------------------------------------------------------- 1930s
+hep 4 1930s
+jitterbug 3 1930s jitterbugs jitterbugging jitterbugged
+doozy 3 1930s doozie doozies doozey
+jive 3 1930s jived jiving jives jivey
+fuddy 4 1930s duddy fuddyduddy
+kisser 3 1930s
+shamus 4 1930s
+bunk 3 1930s bunkum buncombe
+swingin 4 1930s swinging
+
+# ---------------------------------------------------------------- 1940s
+hepcat 4 1940s hepcats
+snafu 3 1940s snafus snafued
+gobbledygook 3 1940s gobbledegook gobbledygooks
+kilroy 4 1940s
+zoot 4 1940s
+ducky 3 1940s duckie
+dreamboat 3 1940s dreamboats
+smooch 3 1940s smooches smooching smooched smoochy
+swoon 3 1940s swoons swooning swooned swoony
+jeepers 3 1940s jeez jeeze geez geeze
+golly 3 1940s gosh
+cooties 3 1940s cootie
+spiv 4 1940s spivs
+
+# ---------------------------------------------------------------- 1950s
+daddio 4 1950s daddy-o daddyo
+greaser 3 1950s greasers
+beatnik 3 1950s beatniks
+kooky 3 1950s kookie kookier kookiest kook kooks
+nifty 3 1950s niftier niftiest
+cruisin 4 1950s cruising
+threads 3 1950s
+wheels 2 1950s
+bodacious 4 1950s bodaciously
+nerd 2 1950s nerds nerdy nerdier nerdiest nerding nerded nerdish nurd
+
+# ---------------------------------------------------------------- 1960s
+groovy 3 1960s groovier grooviest groove grooves grooving grooved
+fab 3 1960s fabs
+bummer 2 1960s bummers bummed
+trippy 3 1960s trippier trippiest
+hippie 3 1960s hippy hippies hippys hippiedom
+psychedelic 3 1960s psychedelics psychedelia
+funky 3 1960s funkier funkiest funk funkadelic
+mod 3 1960s mods
+fuzz 3 1960s
+heavy 2 1960s
+
+# ---------------------------------------------------------------- 1970s
+foxy 3 1970s foxier foxiest
+bogart 4 1970s bogarting bogarted bogarts
+boogie 3 1970s boogies boogieing boogying boogied
+disco 3 1970s discos discotheque
+truckin 4 1970s trucking
+psych 3 1970s psyched psyching psyche psychs
+dynomite 4 1970s dynamite
+
+# ---------------------------------------------------------------- 1980s
+rad 2 1980s radder raddest
+radical 2 1980s
+tubular 3 1980s
+gnarly 3 1980s gnarlier gnarliest narly gnar
+grody 4 1980s groady grodie grodier
+barf 3 1980s barfed barfing barfs barfy
+bogus 3 1980s
+wicked 2 1980s wikkid
+dweeb 3 1980s dweebs dweeby dweebish
+poser 3 1980s posers poseur poseurs
+bitchin 4 1980s bitchen bitching
+cowabunga 4 1980s kowabunga
+def 3 1980s
+fresh 2 1980s
+fly 2 1980s
+wack 3 1980s wak whack wacky wackier
+homeboy 3 1980s homeboys homegirl homegirls
+homie 2 1980s homies homey homeys homy
+yuppie 3 1980s yuppies yuppy yuppified
+gag 2 1980s gagging
+
+# ---------------------------------------------------------------- 1990s
+phat 3 1990s phatter phattest
+booyah 4 1990s booya booyaa booyakasha
+props 3 1990s
+wassup 3 1990s whassup wazzup wazup whaddup whaddap waddup wassap wasup
+sup 2 1990s supp suuup
+diss 3 1990s dissed dissing disses dis
+bling 3 1990s blingy blinged blingin blinging
+playa 3 1990s playas player playah
+buggin 4 1990s bugging bugged
+trippin 3 1990s tripping tripped
+jiggy 4 1990s jiggier
+whatevs 3 1990s whatev whatevah whatevz
+shizzle 4 1990s shiznit shiz
+dawg 3 1990s dog dawgs dogg
+chillin 3 1990s chilling chillax chillaxing chillaxed
+illin 4 1990s illing
+dopest 3 1990s doper
+oof 2 1990s ooof oooof
+
+# ---------------------------------------------------------------- 2000s
+crunk 3 2000s crunked crunkin
+noob 2 2000s noobs newb newbs newbie newbies nub nubs n00b
+pwned 3 2000s pwn pwns pwning pwnage pwnd powned
+owned 2 2000s
+epic 2 2000s epically
+fail 2 2000s fails epicfail
+emo 3 2000s emos
+hater 2 2000s haters haterade
+frenemy 3 2000s frenemies
+bromance 3 2000s bromances bromantic
+staycation 3 2000s staycations
+sexting 3 2000s sext sexts sexted
+texting 1 2000s text texted texts textin texter
+totes 3 2000s totez
+jelly 3 2000s jelly's
+cray 3 2000s craycray
+amazeballs 4 2000s
+ridic 4 2000s ridonculous redonculous
+adorbs 4 2000s adorable
+obvi 4 2000s obvs obvz obvious
+hawt 4 2000s hawter hawtest
+woot 3 2000s woohoo woop whoop whoopwhoop
+lulz 3 2000s lulzy
+rickroll 3 2000s rickrolled rickrolling rickrolls
+googling 2 2000s google googled googles
+unfriend 2 2000s unfriended unfriending unfriends defriend defriended
+=bff 2 2000s bffs bestie besties bestfriend
+ttyl 3 2000s ttyl8r ttys
+brb 2 2000s brbs
+gtg 3 2000s g2g
+roflmao 4 2000s
+=rofl 3 2000s roflol roflcopter
+wtg 4 2000s
+bling 3 2000s
+pimp 3 2000s pimped pimpin pimping
+
+# ---------------------------------------------------------------- 2010s
+yolo 2 2010s yoloing yoloed
+swag 2 2010s swaggy swagger swagged
+fleek 3 2010s onfleek
+bae 2 2010s baes
+fam 1 2010s fams famalam fammy
+lit 1 2010s litty lituation
+savage 2 2010s savages savagery
+salty 2 2010s saltier saltiest
+shade 2 2010s shady shading shaded
+squad 2 2010s squads squadgoals
+goals 2 2010s
+basic 2 2010s
+extra 2 2010s
+woke 2 2010s wokeness wokeism
+=stan 2 2010s stans stanning stanned stanner
+tea 2 2010s
+thirsty 2 2010s thirst thirstier
+turnt 3 2010s turnup turnups turnin
+ratchet 3 2010s ratchetness
+ghosting 2 2010s ghost ghosted ghosts ghoster
+binge 2 2010s bingeing binging binged bingewatch bingewatching
+clapback 3 2010s clapbacks
+dab 3 2010s dabbing dabbed dabs
+yeet 2 2010s yeeted yeeting yeets yote yeeet yeeeet
+lowkey 1 2010s low-key lowkeyy
+highkey 2 2010s high-key
+=af 2 2010s asf
+smh 1 2010s smdh smhh smhhh
+tbh 1 2010s tbf tbhh
+ngl 1 2010s ngll
+mood 2 2010s moods moody
+slay 2 2010s slayed slaying slays slayy slayyy slayer
+snatched 3 2010s
+glowup 3 2010s glowups
+deadass 3 2010s
+bruh 1 2010s bruhh bruhhh bruhhhh brah bro bruv bruhs bruhmoment
+hundo 4 2010s hunnid hunnit
+doggo 3 2010s doggos pupper puppers floof floofy borker
+boi 3 2010s bois boii boiii
+sksksk 4 2010s sksk sksksksk
+simp 2 2010s simps simping simped simpin
+finsta 3 2010s finstas rinsta
+sus 1 2010s suss sussy sussed suspect
+periodt 3 2010s periodttt periot
+boomer 2 2010s boomers
+zoomer 3 2010s zoomers
+millennial 2 2010s millennials millenial millenials
+fomo 2 2010s jomo
+hangry 3 2010s hangrier
+adulting 3 2010s adult adulted
+humblebrag 3 2010s humblebragging humblebrags
+mansplain 3 2010s mansplaining mansplained mansplains mansplainer
+photobomb 3 2010s photobombed photobombing photobombs
+listicle 4 2010s listicles
+clickbait 2 2010s clickbaity clickbaits
+facepalm 3 2010s facepalms facepalmed facepalming
+derp 3 2010s derpy herp
+fangirl 3 2010s fangirls fangirling fanboy fanboys fanboying
+ship 2 2010s shipping shipped shipper shippers
+otp 4 2010s
+headcanon 4 2010s headcanons
+thicc 3 2010s thiccc thicc
+gucci 3 2010s
+bet 1 2010s bett bettt
+dope 2 2010s
+legit 2 2010s legitly
+vibe 1 2010s vibes vibing vibed vibey vibin vibez
+lowkey 1 2010s
+mumblecore 4 2010s
+normie 3 2010s normies normy
+wig 3 2010s wigs
+
+# ---------------------------------------------------------------- 2020s
+rizz 1 2020s rizzed rizzing rizzes rizzy rizzler rizzlers rizzin unrizz
+skibidi 3 2020s skibbidi skibidy skibiddi
+sigma 2 2020s sigmas
+mewing 3 2020s mew mewed mews
+mogging 3 2020s mog mogged mogs mogger
+aura 2 2020s auras
+delulu 2 2020s delusional deluluu
+situationship 2 2020s situationships
+bussin 2 2020s bussing bussinn bussiin
+cap 1 2020s capping capped caps cappin nocap
+cheugy 4 2020s cheugier
+mid 1 2020s
+slaps 2 2020s slapped slap
+ong 3 2020s onggg ongg
+fr 1 2020s frfr frr frfrfr
+glazing 2 2020s glaze glazed glazer glazers glazin
+npc 2 2020s npcs
+girlboss 3 2020s girlbosses girlbossing
+gatekeep 2 2020s gatekeeping gatekept gatekeeper gatekeepers gatekeeps
+gaslight 2 2020s gaslighting gaslit gaslighted gaslighter gaslights
+ick 2 2020s icks
+doomscroll 2 2020s doomscrolling doomscrolled doomscrolls doomscroller
+brainrot 2 2020s brainrotted
+fanum 4 2020s
+yapping 2 2020s yap yapped yaps yapper yappers yappin yappy
+unalive 3 2020s unalived unaliving unalives
+pookie 3 2020s pookies pookie's
+iykyk 3 2020s
+goated 2 2020s goat goats
+based 2 2020s
+cringe 1 2020s cringey cringy cringier cringiest cringed cringing cringeworthy
+ratio 2 2020s ratioed ratioing ratios
+bffr 4 2020s
+demure 3 2020s
+brat 2 2020s bratty
+sheesh 2 2020s sheeesh sheeeesh sheeeeesh
+oop 3 2020s oops oopsie oopsies
+valid 2 2020s
+copium 3 2020s hopium
+lore 2 2020s
+drip 2 2020s dripped drippy drippin
+fit 1 2020s fits fitcheck
+dub 3 2020s dubs
+unserious 3 2020s
+nepo 3 2020s nepotism
+himbo 3 2020s himbos
+bougie 2 2020s boujee bougee boujie bourgie bougier
+chopped 3 2020s
+tuff 3 2020s
+twin 2 2020s twinnn twinnin
+crashout 3 2020s crashouts crashing
+gyat 4 2020s gyatt
+opp 3 2020s opps
+stfu 3 text
+pov 2 2020s povs
+oml 3 text
+ate 1 2020s
+coded 3 2020s
+roman 2 2020s
+era 2 2020s eras
+caught 2 2020s
+quiet 2 2020s
+rawdog 4 2020s rawdogging
+vibecoding 3 ai vibecode vibecoder vibecoded
+
+# ---------------------------------------------------------------- texting, internet
+lol 1 text lolol lololol lool loool lolz lols lul lel loll lollll
+lmao 1 text lmaoo lmaooo lmaoooo lmfao lmfaoo lmaoo lmaooooo
+=rofl 3 text
+omg 1 text omgg omggg omfg omgosh
+idk 1 text idek idkk dunno donno
+idc 2 text idgaf
+=imo 2 text =imho
+=btw 1 text
+=fyi 2 text
+irl 2 text
+iirc 3 text
+=afaik 3 text
+dm 1 text dms dmed =dmd dming
+ikr 2 text
+=rn 1 text
+wyd 2 text wbu hbu wya
+nvm 2 text nvmd
+=np 2 text
+=ty 1 text tysm tyvm thx thanx thnx thnks thank
+pls 1 text plz plss plsss pleaseee pleasee
+=bc 2 text bcuz cuz coz cos becuz bcos
+tho 1 text tho' thoe
+thru 2 text
+ofc 2 text
+jk 2 text jkjk jkk
+ily 2 text ilysm ilu ilyy
+gg 2 text ggs ggwp
+afk 3 text
+=nsfw 3 text sfw
+=ur 2 text urs
+u 1 text
+ya 2 text yah yeah yeh yaaa
+yea 2 text yeaa yeaaa
+yup 2 text yep yeppers yuppers yuh yerr
+nope 2 text nah naw nahh nahhh nuh
+=ok 1 text okay okk okkk okie okey okayy kk =kay
+haha 1 text hahaha hahahaha ha hah heh hehe hehehe ahaha bahaha
+lmk 1 text
+hmu 2 text
+tmi 2 text
+smol 3 text smoll
+heckin 4 text heck
+tryna 2 text tryina tryn
+finna 2 text fixin fixing
+boutta 2 text bouta abouta bout
+imma 2 text ima i'ma ion
+lemme 2 text
+gimme 2 text
+kinda 1 text
+sorta 2 text
+outta 2 text
+shoulda 2 text
+coulda 2 text
+woulda 2 text
+musta 3 text
+hafta 3 text
+oughta 3 text
+gotcha 2 text gotchu
+whatcha 3 text whatchu wachu
+betcha 3 text
+y'all 1 text yall ya'll yallll
+ain't 1 text aint
+gonna 1 text gunna gona
+wanna 1 text wana
+gotta 1 text gota
+
+# ---------------------------------------------------------------- AI
+AI 1 ai
+ChatGPT 1 ai
+GPT 2 ai gpts
+LLM 2 ai llms
+OpenAI 2 ai
+Anthropic 2 ai
+Claude 2 ai
+Gemini 2 ai
+copilot 2 ai copilots
+Midjourney 3 ai
+chatbot 1 ai chatbots
+genai 3 ai
+agentic 2 ai
+prompting 2 ai prompt prompts prompted prompter
+hallucination 2 ai hallucinations hallucinate hallucinates hallucinating hallucinated
+deepfake 2 ai deepfakes deepfaked
+finetune 3 ai finetuned finetuning finetunes
+tokenizer 3 ai tokenizers tokenize tokenized tokenization tokens
+embeddings 3 ai embedding
+multimodal 3 ai
+dataset 2 ai datasets
+datacenter 3 ai datacenters
+transformer 3 ai transformers
+neural 2 ai
+inference 3 ai
+chain 2 ai
+jailbreak 3 ai jailbreaks jailbroken jailbreaking
+superintelligence 3 ai
+alignment 3 ai
+AGI 3 ai
+GPU 2 tech gpus
+CPU 2 tech cpus
+NPU 3 tech npus
+API 2 tech apis
+SDK 3 tech sdks
+UX 3 tech
+VR 3 tech
+NFT 3 tech nfts
+OLED 3 tech
+HDMI 3 tech
+USB 2 tech
+SSD 3 tech ssds
+
+# ---------------------------------------------------------------- tech, phones, apps
+foldable 2 tech foldables
+smartwatch 2 tech smartwatches
+smartphone 1 tech smartphones
+earbuds 2 tech earbud
+Bori 2 brand
+AirPods 2 brand
+touchscreen 2 tech touchscreens
+homescreen 3 tech homescreens
+lockscreen 3 tech lockscreens
+livestream 1 tech livestreams livestreaming livestreamed livestreamer livestreamers
+streamer 2 tech streamers streaming
+influencer 1 tech influencers influencing
+podcast 1 tech podcasts podcaster podcasters podcasting
+vlog 2 tech vlogs vlogger vloggers vlogging vlogged
+blog 2 tech blogs blogger bloggers blogging blogged
+YouTube 1 brand
+YouTuber 2 brand youtubers
+TikTok 1 brand tiktoks tiktoker tiktokers
+Instagram 1 brand insta
+Snapchat 2 brand snap snapped snaps snapchatting
+WhatsApp 2 brand
+Spotify 2 brand
+Netflix 1 brand netflixing
+Reddit 2 brand redditor redditors subreddit subreddits
+discord 2 brand
+twitch 2 brand
+Venmo 3 brand venmoed venmoing
+uber 2 brand ubered
+Lyft 3 brand
+DoorDash 3 brand doordashing
+Airbnb 3 brand airbnbs
+Gmail 2 brand
+android 2 brand androids
+iPhone 1 brand iphones
+iPad 2 brand ipads
+MacBook 3 brand macbooks
+Chromebook 3 brand chromebooks
+Samsung 2 brand
+pixel 2 brand pixels
+emoji 1 tech emojis emojis emoji's
+gif 2 tech gifs
+meme 1 tech memes memed meming memer memey
+hashtag 2 tech hashtags hashtagged
+retweet 3 tech retweets retweeted retweeting
+repost 2 tech reposts reposted reposting
+unfollow 2 tech unfollowed unfollowing unfollows
+follower 1 tech followers
+upvote 3 tech upvotes upvoted upvoting downvote downvotes downvoted downvoting
+screenshot 1 tech screenshots screenshotted screenshotting screencap screencaps
+selfie 1 tech selfies
+crypto 2 tech cryptos cryptocurrency cryptocurrencies
+blockchain 3 tech blockchains
+bitcoin 2 tech bitcoins
+metaverse 3 tech
+ebike 3 tech ebikes
+rideshare 3 tech rideshares ridesharing
+telehealth 3 tech telemedicine
+webinar 3 tech webinars
+onboarding 3 tech onboard onboarded
+cybersecurity 3 tech cyberattack cyberattacks
+malware 3 tech ransomware spyware adware
+phishing 3 tech phish phished
+captcha 3 tech captchas
+passkey 3 tech passkeys
+hotspot 2 tech hotspots
+wifi 1 tech wi-fi
+bluetooth 2 tech
+username 2 tech usernames
+login 2 tech logins logon
+logout 3 tech logouts
+signup 3 tech signups
+wearable 3 tech wearables
+esports 3 tech esport
+gamer 2 tech gamers gaming gamertag
+speedrun 3 tech speedruns speedrunner speedrunners speedrunning
+respawn 3 tech respawned respawning respawns
+nerfed 3 tech =nerf nerfs nerfing
+buffed 3 tech buff buffs
+laggy 3 tech lag lagging lagged
+clutch 2 tech clutched clutching
+pog 3 tech poggers pogchamp
+copypasta 4 tech copypastas
+emote 3 tech emotes
+unsubscribe 3 tech unsubscribed unsubscribing
+autocorrect 2 tech autocorrected autocorrecting autocorrects
+autocomplete 3 tech autocompleted
+app 1 tech apps
+smart 1 tech
