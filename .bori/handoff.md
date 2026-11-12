@@ -238,10 +238,75 @@ Touch heat map, Dictionary, theme editor (colour picker in a dialog), Swipe Trai
 use the grouped style. **Settings style guide: .bori/settings-style.md** (follow it for any
 new settings). See session-log Session 34.
 
+## Session 35 (suggestion bar invisible; built OK 10:26, user: "it is back!")
+On solid-colour themes the keyboard's background fill painted over the suggestion bar (📋, ⚙,
+suggestions) since Session 30 turned off child clipping. Keyboard, bar and search bar now fill
+only their own rectangle. See session-log Session 35.
+
+## Session 36 (P6 = theme 3.8 share + Surprise me; built OK 10:34, phone test pending)
+Theme → "Surprise me" (random, always ≥ 4.5:1, re-tap replaces, Undo) and a Share group:
+"Share <theme>" (.boritheme zip with your Keys & letters + Background baked in) and "Add a
+shared theme" (file picker; Bori is also in the share sheet). Editor has Share too. Import is
+size/name-checked and always lands in Mine. See session-log Session 36.
+
+## Session 37 (calibration layout; not yet built)
+Fit to my thumbs: sideways the practice keys covered the text and slider, and the text was left-
+aligned when unfolded. Typing step is now one stacked column (header, instructions, slider,
+centred sentence, keys); all text centred. See session-log Session 37.
+
+## Session 38 (day + night themes, Coquí day, El Yunque scene; not yet built)
+Every built-in theme except the 5 fixed ones (Snow, Charcoal, Pure Black, High Contrast Light/Dark)
+now has day + night colours; "Coquí Night" is now "Coquí" (id unchanged) with a day look and a new
+drawn El Yunque scene (Backdrop.kt). Gallery cards show "☀ ☾". See session-log Session 38.
+
+## Session 39 (remember emails + usernames; not yet built)
+Email and sign-in fields show saved emails/usernames in the bar (+ "@gmail.com"-style endings after
+@). Learned from email fields (shown after 2 uses) and from the field before a password field (at
+once). Settings → Clipboard & privacy → Emails & usernames. learn/LoginStore.kt. See session-log
+Session 39.
+
+## Session 40 (prediction + modern words; built OK, user: "looking good")
+AI/phone/brand/slang word lists (en + es, Puerto Rico first), texting phrase lists counted into
+the n-grams (modern words now predicted in context: en 1/25 → 19/25, es 1/15 → 10/15),
+conversation cache (predictions only since Session 45). typo_bench: C 0% en + es, B/E/F same.
+Round-2 phrases (en 696 / es 399 lines) rebuilt 16:47 (needs a Bori build). How-to: tools/README.md
+"Prediction round". See session-log Session 40.
+
+## Session 41 (theme 3.9 ambient effects; not yet built)
+Theme → Effects & lighting → Background effect: rain, snow, leaves, sun rays, clouds, storm,
+stars, aurora, fireflies, confetti, hearts, fireworks (view/AmbientView.kt). See Session 41.
+
+## Session 42 (smoother LED + background frames; not yet built)
+LED lighting and background effects now animate on the display's vsync at 60 fps
+(view/FrameTicker.kt) instead of an uneven 33 ms timer. See session-log Session 42.
+
+## Session 43 (Razer-style rainbow, full refresh rate; not yet built)
+Rainbow wave / row rainbow are one continuous gradient across the keys (not a colour per key),
+animated every vsync (120 fps on the Fold), highest display mode requested while animating; new
+Rainbow size + Direction. See session-log Session 43.
+
+## Session 44 (choppy rainbow fixed; built, user: "perfect now")
+The LED clock was a Float (moved in 16–32 ms steps); now Double + vsync time; Android 15+
+high-frame-rate vote; fps logged to Copy diagnostics. See session-log Session 44.
+
+## Session 45 (English correction check; not yet built)
+Old vs new dictionaries give identical fixes for the user's logged typos; conversation cache now
+only for predictions. See session-log Session 45.
+
+## Session 46 (ETA/ASAP kept as typed; en dictionary rebuilt)
+New tools/wordlists/en_abbrev.txt: 145 abbreviations/acronyms kept as typed (ETA, ASAP, RSVP,
+WFH, TV, NFL, FBI, DNA, ADHD, DMV, VPN, SUV, LGBTQ, EST…) + phrases.
+See session-log Session 46.
+
 ## Next step
-0. Settings redesign approved (built OK 20:49). Left from its plan: two-pane list-detail when
-   unfolded (≥ 600 dp) and settings search. Then P6 (3.8 share .boritheme + Surprise me), then
-   3.9, 3.10, autocorrect tidy-up, Stage 4, Stage 5 (plan.md "Build order").
+0. User: Build + Install (round-2 dictionaries, Session 45 cache change, Session 46 abbreviations). Then: Build + Install; check the rainbow wave is smooth and blended (if not: Copy diagnostics, the "anim led" lines); try Background effect on a dark and a light theme.
+   Claude: finish Session 40 pending (benches, round-2 rebuild).
+   Also: sign in to something twice and check the bar; Settings → Clipboard &
+   privacy → Emails & usernames. Also: Dark mode Always light/Always dark in Themes, Coquí day + night.
+   Also: redo Fit to my thumbs sideways + unfolded; try Share → re-import,
+   Surprise me ×10 + Undo. Then 3.9 ambient
+   effects, 3.10 living themes; settings two-pane + search after the theme phases.
+   Then 3.9, 3.10, autocorrect tidy-up, Stage 4, Stage 5 (plan.md "Build order").
 1. User: Install the 17:09 build if not done (Session 24, phase 3.3). Settings → Themes → Keys & letters: try each
    key style, shape and font with the test box open; check Dot Matrix, Retro Typewriter,
    Mechanical, Neon LED, Snow. Paste any build errors.
@@ -256,5 +321,5 @@ new settings). See session-log Session 34.
 
 ## Last Bori build
 Result: OK
-Time: 2026-11-11 20:49
+Time: 2026-11-12 17:14
 debug build, app-debug.apk

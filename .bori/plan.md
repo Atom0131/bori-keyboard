@@ -34,7 +34,7 @@ opt-in weather for living themes (Open-Meteo, off by default; Stage 3.10).
   - [ ] F: neural glide decoder (optional)
 - [x] Clipboard upgrade + GIF search (Session 21, awaiting build)
 - [ ] Stage 3: theme engine (in progress), Keys Cafe/SwiftKey/Gboard/LED-app features and more.
-      Phases 3.1–3.10 in .bori/theme-plan.md (APPROVED). 3.1 + 3.2 built OK (user using a theme); 3.3 (key styles + 14 fonts) built OK 17:09; 3.4 backgrounds built OK; 3.5 effects + LED built OK; 3.6 sound packs built OK; 3.7 editor written (Session 32).
+      Phases 3.1–3.10 in .bori/theme-plan.md (APPROVED). 3.1 + 3.2 built OK (user using a theme); 3.3 (key styles + 14 fonts) built OK 17:09; 3.4 backgrounds built OK; 3.5 effects + LED built OK; 3.6 sound packs built OK; 3.7 editor built OK; 3.8 share + Surprise me built OK 10:34 (Session 36); calibration layout fix written (Session 37); day + night for every non-fixed preset + Coquí day + El Yunque scene written (Session 38); 3.9 ambient effects written (Session 41).
       Then a tidy-up pass on the autocorrect code.
 - [x] Keyboard height per way of holding (folded/unfolded x upright/sideways), Session 25, built OK 19:12
 - [ ] Fit-to-thumbs (user idea 2026-11-12, agreed; see session-log Session 25):
@@ -42,6 +42,8 @@ opt-in weather for living themes (Open-Meteo, off by default; Stage 3.10).
         corrector aims at the learned shift (roadmap C for the corrector; key hit boxes not moved yet)
   - [x] Calibration (Session 27 + 28 fix, built, user: "better"): thumbs → height + split per posture,
         practice sentence → heat map seed; "Move keys to fit my aim" (tap targets from the map)
+- [x] Remember emails + usernames in sign-in fields (user request 2026-11-12, Session 39, awaiting build)
+- [x] Prediction round: modern word lists + texting phrases + conversation cache (Session 40, built OK)
 - [ ] Stage 4: clipboard w/ expiry, one-handed/split/floating, voice delegation, emoji panel
 - [ ] Stage 5: F-Droid release (LICENSE, ATTRIBUTION, fastlane, gradle wrapper)
 - [ ] Stage 6 (later): neural decoder, neural next-word, more languages
@@ -53,7 +55,7 @@ opt-in weather for living themes (Open-Meteo, off by default; Stage 3.10).
 2–8. Themes 3.4 → 3.10 (.bori/theme-plan.md). 3.4–3.7 done.
    Inserted (user, 2026-11-12): settings redesign. Done + approved: Sessions 33–34 (start page,
    every sub-page; rules in .bori/settings-style.md). Left: two-pane when unfolded + search.
-   Then continue with 3.8.
+   Then continue with 3.8 (done, Session 36), then 3.9.
 9. Autocorrect tidy-up (no behaviour change; typo_bench/glide_bench unchanged).
 10. Stage 4 (one-handed/floating, voice key, clipboard/emoji gaps), one build each.
 11. Stage 5 (F-Droid prep; commit/push only when asked).

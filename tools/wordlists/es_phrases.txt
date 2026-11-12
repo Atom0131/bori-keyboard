@@ -1,0 +1,412 @@
+# Frases de todos los días para mensajes (escritas para Bori, Session 40). tools/ngram_count.py
+# las cuenta PHRASE_WEIGHT veces junto con Tatoeba y los subtítulos. Cada 10ª línea se aparta
+# para predict_bench.py. Una frase por línea.
+
+# ---------------------------------------------------------------- Puerto Rico
+wepa ya llegué
+wepa mano
+acho no sé
+acho qué brutal
+acho estoy cansao
+diantre qué calor
+vamos a janguear
+vamos a janguear esta noche
+quieres janguear mañana
+estamos janguiando en la playa
+el corillo está aquí
+dile al corillo
+qué es la que hay
+qué es la que hay mano
+qué hay pa hoy
+está brutal
+eso está brutal
+qué nítido
+está nítido
+bendito sea
+ay bendito
+ay bendito nene
+mira nene ven acá
+mira nena
+nena ven
+estoy bregando con eso
+déjame bregar con eso
+yo te brego
+no puedo con esa brega
+estoy en la guagua
+coge la guagua
+parquea al frente
+no encuentro parking
+dónde parqueaste
+bota eso en el zafacón
+échalo al zafacón
+qué revolú
+eso es un revolú
+cuéntame el bochinche
+tengo un chisme
+qué chisme
+no tengo chavos
+no tengo ni un chavo
+me debes chavos
+vamos al chinchorro
+vamos de chinchorreo
+quiero mofongo
+vamos a comer mofongo
+quiero alcapurrias
+vamos a Piñones
+vamos pal Yunque
+vamos a la playa
+nos vemos en la playa
+estoy en Bayamón
+voy pa Ponce
+estoy en el tapón
+hay un tapón brutal
+se fue la luz
+se fue la luz otra vez
+LUMA se llevó la luz
+no hay luz en mi casa
+ya volvió la luz
+se fue el agua
+pásame por ATH Móvil
+te pago por ATH Móvil
+te lo paso por ATH
+me voy pa la parranda
+nos vemos en la parranda
+quiero coquito
+el coquito está brutal
+feliz Navidad
+felices fiestas
+el perreo está duro
+pon reguetón
+pon a Bad Bunny
+Bad Bunny sacó un álbum nuevo
+qué bellaco
+me tienes enchismao
+estoy afrentao
+qué jartera
+estoy jarto
+tú eres un lambón
+no seas lambón
+estás guillao
+pichéale a eso
+le voy a pichear
+ese pana es buena gente
+mi pana
+mi broki
+dímelo
+dímelo pana
+qué pasó mano
+ya voy mano
+estoy llegando
+ahorita voy
+ahorita te llamo
+voy ahorita
+
+# ---------------------------------------------------------------- Caribe, México, Sur, España
+klk
+klk mi pana
+qué lo que
+qué vaina
+esa vaina
+qué chido
+está bien chido
+qué padre
+neta
+la neta no sé
+órale pues
+ándale pues
+no mames
+no manches
+qué onda
+qué onda güey
+qué pedo
+aguas con eso
+vamos por unas chelas
+qué bacano
+parce qué más
+qué chimba
+che boludo
+qué quilombo
+qué fome
+qué guay
+mola mucho
+me mola
+qué flipe
+estoy flipando
+tío qué dices
+vale nos vemos
+venga vale
+el finde
+este finde
+nos vemos el finde
+
+# ---------------------------------------------------------------- IA y celular
+le pregunté a ChatGPT
+pregúntale a ChatGPT
+usa ChatGPT
+lo hice con ChatGPT
+ChatGPT me lo escribió
+lo hizo la IA
+eso lo hizo la IA
+eso parece hecho con IA
+la IA se lo inventó
+la IA está alucinando
+pregúntale a Gemini
+usa la IA del celular
+oye Siri
+Alexa pon música
+resume esto
+hazme un resumen
+tradúcelo al inglés
+corrige esto
+escríbelo mejor
+mi celular se está muriendo
+se me murió el celular
+tengo poca batería
+me queda poca batería
+tienes cargador
+se me olvidó el cargador
+necesito cargar el celular
+se me rompió la pantalla
+se me cayó el celular
+no encuentro mi celular
+tenía el celular en silencio
+perdón tenía el celular en silencio
+no vi tu mensaje
+acabo de ver tu mensaje
+mándame la ubicación
+te mando la ubicación
+comparte tu ubicación
+mándame el link
+te mando el link
+mándame una captura
+mándame la foto
+mándame un audio
+te mandé un audio
+escucha el audio
+te escribo ahorita
+te llamo ahorita
+llámame cuando puedas
+escríbeme cuando llegues
+avísame cuando llegues
+avísame
+te aviso
+cuál es la clave del wifi
+cuál es la contraseña del wifi
+el wifi está lento
+no tengo señal
+no tengo datos
+se me acabaron los datos
+préstame el hotspot
+prende el bluetooth
+apaga el bluetooth
+descarga la aplicación
+borra la aplicación
+actualiza la aplicación
+la aplicación no abre
+se me llenó la memoria
+olvidé mi contraseña
+cambia la contraseña
+mándame el código
+te llegó el código
+escanea el código QR
+mándalo por WhatsApp
+escríbeme por WhatsApp
+mándalo al grupo
+el grupo está muerto
+silencia el grupo
+lo vi en TikTok
+lo vi en Instagram
+síguela en Instagram
+sube una historia
+lo subí a mi historia
+viste mi historia
+te lo paso por Zelle
+te mando por Venmo
+lo pedí en Amazon
+lo pedí en Temu
+lo compré en Shein
+pide un Uber
+ya llegó el Uber
+el Uber está cerca
+está en Netflix
+ponlo en Spotify
+
+# ---------------------------------------------------------------- todos los días
+ya llegué
+ya voy
+voy en camino
+estoy afuera
+sal afuera
+llego en cinco minutos
+voy tarde
+perdón la tardanza
+ya estoy en casa
+llegué a casa
+comiste
+qué vas a comer
+tengo hambre
+tengo sueño
+estoy cansada
+estoy cansado
+me voy a dormir
+me acabo de levantar
+buenos días
+buenas noches
+que descanses
+dulces sueños
+cómo estás
+cómo te fue
+cómo te fue hoy
+qué haces
+qué estás haciendo
+qué vas a hacer hoy
+estás libre mañana
+nos vemos mañana
+nos vemos ahorita
+hablamos luego
+te quiero
+te quiero mucho
+te amo
+te extraño
+yo también
+feliz cumpleaños
+felicidades
+muchas gracias
+gracias por todo
+de nada
+no te preocupes
+no pasa nada
+está bien
+todo bien
+claro que sí
+por supuesto
+no sé
+no me importa
+creo que sí
+ojalá
+qué pasó
+estás bien
+lo siento
+mucha suerte
+tú puedes
+estoy orgullosa de ti
+
+# ---------------------------------------------------------------- más (Session 40, ronda 2)
+estoy en la guagua ahora
+estoy en la playa
+estoy en la casa
+estoy en el carro
+estoy en el trabajo
+ay bendito
+ay bendito mano
+ay bendito qué pena
+ay bendito pobrecito
+ay Dios mío
+ay no
+wepa wepa
+wepa qué bueno
+wepa felicidades
+wepa ya es viernes
+acho qué cansancio
+acho mano
+acho no puedo
+vamos a janguear al Viejo San Juan
+vamos a janguear con el corillo
+quieres janguear
+pa janguear
+no tengo chavos pa eso
+no tengo tiempo
+no tengo batería
+no tengo señal aquí
+le pregunté a la IA
+le pregunté a Gemini
+pregúntale a la IA
+la IA me ayudó
+lo hice con la IA
+mándame el audio
+mándame el número
+mándame el código
+mándame la dirección
+mándame la foto
+te mandé la foto
+te mandé el link
+te mandé un mensaje
+te escribí por WhatsApp
+contéstame
+contesta el teléfono
+llámame
+te llamé
+no me contestas
+estaba en una llamada
+se cayó la llamada
+la llamada se cortó
+no te escucho
+estás en mute
+lo vi en Facebook
+lo vi en las noticias
+lo subí a Instagram
+lo subí a TikTok
+súbelo a TikTok
+ponlo en tu historia
+vi tu historia
+me dejaste en visto
+me dejó en visto
+no me ha contestado
+qué brutal está eso
+está brutal mano
+está cabrón
+está cabrón eso
+qué cabrón
+no jodas
+no me jodas
+qué jodienda
+me cago en
+puñeta mano
+qué mucho calor
+hace un calor brutal
+está lloviendo
+se va a ir la luz
+hay apagón
+otro apagón
+pon el generador
+prende la planta
+se fue el internet
+no hay internet
+el internet está lento
+reinicia el router
+pásame el wifi
+conéctate al wifi
+se me rompió el celular
+se me mojó el celular
+necesito un celular nuevo
+quiero el iPhone nuevo
+quiero el Galaxy nuevo
+el Samsung nuevo está brutal
+mis AirPods se murieron
+perdí mis AirPods
+el cargador no sirve
+pásame el cargador
+voy a pedir comida
+pide un DoorDash
+pide por Uber Eats
+voy a pedir un Uber
+el Uber está aquí
+pagué con ATH Móvil
+te mando por ATH Móvil
+me debes cinco pesos
+dame los chavos
+te pago mañana
+qué perreo
+pon música
+pon a Bad Bunny
+pon reguetón viejo
+vamos pal party
+vamos pa la fiesta
+vamos pal chinchorreo
+vamos a la playa mañana
+nos vemos en la playa
+qué vamos a comer
+vamos a comer mofongo
+quiero arroz con gandules
+quiero pernil
+quiero un tostón

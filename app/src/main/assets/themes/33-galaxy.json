@@ -6,6 +6,35 @@
   "category": "Scenes",
   "light": {
     "colors": {
+      "background": "#E8D8FF",
+      "keyLetter": "#B3FFFFFF",
+      "keyFunction": "#80FFFFFF",
+      "keyPressed": "#E6FFFFFF",
+      "accent": "#A0105A",
+      "onAccent": "#FFFFFF",
+      "text": "#2A0845",
+      "textFunction": "#2A0845",
+      "hint": "#6A4A8E",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#2A0845",
+      "stripText": "#2A0845",
+      "backgroundGradient": [
+        "#F3E8FF",
+        "#E0C8FF",
+        "#FFC8E4"
+      ],
+      "keyBorder": "#80FFFFFF"
+    },
+    "keys": {
+      "radius": 12,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "orbitron"
+    }
+  },
+  "dark": {
+    "colors": {
       "background": "#2A0845",
       "keyLetter": "#26FFFFFF",
       "keyFunction": "#1AFFFFFF",

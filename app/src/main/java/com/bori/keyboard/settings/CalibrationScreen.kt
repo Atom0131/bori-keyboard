@@ -12,7 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -135,14 +142,81 @@ internal fun CalibrationScreen(onBack: () -> Unit) {
         if (touching.isNotEmpty()) capture(anchor)
     }
 
+    val finish = {
+        map.save()
+        done = done + posture.id
+        prefs.calibrated = done
+        prefs.calibrationAsked = true
+        step = STEP_DONE
+    }
+
+    if (step == STEP_TYPE) {
+        // One column, top to bottom, so nothing can overlap (sideways the keys used to cover the
+        // text and the slider): header, instructions (shrink and scroll), height slider (always
+        // shown), then the sentence and the practice keys at the bottom.
+        Column(
+            Modifier
+                .fillMaxSize()
+                .onSizeChanged { boxW = it.width; boxH = it.height },
+        ) {
+            CalibrationHeader(posture, onBack)
+            Column(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                if (result.isNotEmpty()) CenteredText(result, MaterialTheme.typography.bodyMedium)
+                CenteredText(
+                    "Type the sentence on the keys below, the way you normally would. Don't fix mistakes; they're what Bori learns from.",
+                    MaterialTheme.typography.bodyMedium,
+                )
+            }
+            Row(
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .widthIn(max = TEXT_MAX_WIDTH)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text("Key height ${(heightScale * 100).toInt()}%", style = MaterialTheme.typography.labelLarge)
+                Slider(
+                    value = heightScale,
+                    onValueChange = {
+                        heightScale = it
+                        prefs.setKeyHeightScale(posture, it)
+                    },
+                    valueRange = Prefs.HEIGHT_MIN..Prefs.HEIGHT_MAX,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            PracticeKeyboard(
+                prefs = prefs,
+                posture = posture,
+                width = boxW,
+                heightScale = heightScale,
+                splitOn = splitOn,
+                navBottomPx = navBottom,
+                map = map,
+                onDone = finish,
+            )
+        }
+        return
+    }
+
     Box(
         Modifier
             .fillMaxSize()
             .onSizeChanged { boxW = it.width; boxH = it.height },
     ) {
-        // Touch areas first, so the buttons and text drawn after them stay tappable.
-        when (step) {
-            STEP_THUMBS -> Canvas(
+        // Touch area first, so the buttons and text drawn after it stay tappable.
+        if (step == STEP_THUMBS) {
+            Canvas(
                 Modifier
                     .fillMaxSize()
                     .pointerInput(posture) {
@@ -170,52 +244,23 @@ internal fun CalibrationScreen(onBack: () -> Unit) {
                     drawCircle(Color(0xFF3D8BFF), 36.dp.toPx(), pt, style = Stroke(3.dp.toPx()))
                 }
             }
-            STEP_TYPE -> PracticeKeyboard(
-                prefs = prefs,
-                posture = posture,
-                width = boxW,
-                heightScale = heightScale,
-                splitOn = splitOn,
-                navBottomPx = navBottom,
-                map = map,
-                onDone = {
-                    map.save()
-                    done = done + posture.id
-                    prefs.calibrated = done
-                    prefs.calibrationAsked = true
-                    step = STEP_DONE
-                },
-            )
         }
-        Column(
-            Modifier.fillMaxWidth().safeDrawingPadding().padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            TextButton(onClick = onBack) { Text("← Back") }
-            Text("Fit to my thumbs", style = MaterialTheme.typography.headlineSmall)
-            Text("Now: ${posture.label}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            when (step) {
-                STEP_THUMBS -> {
-                    Text("Hold the phone the way you type. Rest both thumbs on the lower part of the screen where they feel natural, and keep them still for a second.")
-                    TextButton(onClick = { step = STEP_TYPE }) { Text("Skip, keep my height") }
-                }
-                STEP_TYPE -> {
-                    if (result.isNotEmpty()) Text(result, style = MaterialTheme.typography.bodySmall)
-                    Text("Too tall or too short? Drag to adjust; the keys below follow.", style = MaterialTheme.typography.bodySmall)
-                    Text("Key height: ${(heightScale * 100).toInt()}%")
-                    Slider(
-                        value = heightScale,
-                        onValueChange = {
-                            heightScale = it
-                            prefs.setKeyHeightScale(posture, it)
-                        },
-                        valueRange = Prefs.HEIGHT_MIN..Prefs.HEIGHT_MAX,
+        Column(Modifier.fillMaxWidth()) {
+            CalibrationHeader(posture, onBack)
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                if (step == STEP_THUMBS) {
+                    CenteredText(
+                        "Hold the phone the way you type. Rest both thumbs on the lower part of the screen where they feel natural, and keep them still for a second.",
+                        MaterialTheme.typography.bodyLarge,
                     )
-                    Text("Now type this on the keys below, the way you normally would. Don't fix mistakes; they're what Bori learns from.")
-                }
-                else -> {
-                    Text("Done for this way of holding the phone ✓", style = MaterialTheme.typography.titleMedium)
-                    Text("Fold, unfold or turn the phone to fit that way too. This page stays open.")
+                    TextButton(onClick = { step = STEP_TYPE }) { Text("Skip, keep my height") }
+                } else {
+                    CenteredText("Done for this way of holding the phone ✓", MaterialTheme.typography.titleMedium)
+                    CenteredText("Fold, unfold or turn the phone to fit that way too. This page stays open.", MaterialTheme.typography.bodyMedium)
                     for (p in Posture.entries) {
                         Text((if (p.id in done) "✓ " else "○ ") + p.label, style = MaterialTheme.typography.bodySmall)
                     }
@@ -226,13 +271,32 @@ internal fun CalibrationScreen(onBack: () -> Unit) {
                 }
             }
         }
-
     }
 }
 
+/** Back, title and the way the phone is held, on one line (keeps room for the keys sideways). */
+@Composable
+private fun CalibrationHeader(posture: Posture, onBack: () -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)).padding(horizontal = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        TextButton(onClick = onBack) { Text("← Back") }
+        Text("Fit to my thumbs", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+        Text(posture.label, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 12.dp))
+    }
+}
 
 @Composable
-private fun androidx.compose.foundation.layout.BoxScope.PracticeKeyboard(
+private fun CenteredText(text: String, style: androidx.compose.ui.text.TextStyle) {
+    Text(text, style = style, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = TEXT_MAX_WIDTH))
+}
+
+private val TEXT_MAX_WIDTH = 560.dp
+
+
+@Composable
+private fun PracticeKeyboard(
     prefs: Prefs,
     posture: Posture,
     width: Int,
@@ -270,7 +334,7 @@ private fun androidx.compose.foundation.layout.BoxScope.PracticeKeyboard(
     var index by remember(posture) { mutableIntStateOf(0) }
     val taps = remember(posture) { mutableStateListOf<Offset>() }
 
-    Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(bottom = (navBottomPx / density).dp)) {
+    Column(Modifier.fillMaxWidth().padding(bottom = (navBottomPx / density).dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             buildAnnotatedString {
                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) { append(sentence.substring(0, index)) }
@@ -282,7 +346,8 @@ private fun androidx.compose.foundation.layout.BoxScope.PracticeKeyboard(
                 }
             },
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(16.dp),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         )
         val keyColor = MaterialTheme.colorScheme.surfaceVariant
         val outline = MaterialTheme.colorScheme.outline

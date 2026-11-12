@@ -1,15 +1,45 @@
 {
   "version": 1,
   "id": "coqui_night",
-  "name": "Coquí Night",
+  "name": "Coquí",
   "author": "Bori",
   "category": "Puerto Rico",
   "light": {
     "colors": {
+      "background": "#CDE8C4",
+      "keyLetter": "#D9FFFFFF",
+      "keyFunction": "#B3EAF6E4",
+      "keyPressed": "#FFFFFFFF",
+      "accent": "#2E7D32",
+      "onAccent": "#FFFFFF",
+      "text": "#103A1E",
+      "textFunction": "#103A1E",
+      "hint": "#4A6E52",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#103A1E",
+      "stripText": "#0B2A15",
+      "backgroundGradient": [
+        "#BFE3F2",
+        "#A8D49A"
+      ]
+    },
+    "keys": {
+      "radius": 12,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "yunque"
+    }
+  },
+  "dark": {
+    "colors": {
       "background": "#0E2418",
-      "keyLetter": "#163322",
-      "keyFunction": "#11291B",
-      "keyPressed": "#25503A",
+      "keyLetter": "#D9163322",
+      "keyFunction": "#D911291B",
+      "keyPressed": "#E625503A",
       "accent": "#9BE15D",
       "onAccent": "#0B1F12",
       "text": "#DDF3E3",
@@ -29,6 +59,10 @@
       "gapH": 5,
       "gapV": 8,
       "font": "nunito"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "yunque"
     }
   }
 }

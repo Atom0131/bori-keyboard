@@ -28,6 +28,8 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,9 +64,19 @@ internal fun ThemesScreen(onBack: () -> Unit, navigate: (String) -> Unit) = Sett
     val context = LocalContext.current
     val prefs = remember { Prefs(context) }
     val store = remember { ThemeStore(context) }
-    val selected = prefs.themeId
+    var selected by remember { mutableStateOf(prefs.themeId) }
     val spec = remember(selected) { store.get(selected) }
     var mode by remember { mutableStateOf(prefs.themeMode) }
+    val scope = rememberCoroutineScope()
+    var message by remember { mutableStateOf("") }
+    // Surprise me: the theme before the first surprise (for Undo) and the latest surprise.
+    var beforeSurprise by remember { mutableStateOf<String?>(null) }
+    var lastSurprise by remember { mutableStateOf<String?>(null) }
+    val use = { id: String -> selected = id; prefs.themeId = id; prefs.themeRevision = prefs.themeRevision + 1 }
+    val importer = rememberThemeImporter { msg ->
+        message = msg
+        selected = prefs.themeId
+    }
     var borders by remember { mutableStateOf(prefs.keyBorders) }
     val night = KeyboardTheme.wantsDark(context, mode)
     val overrides = remember(borders) { prefs.themeOverrides() }
@@ -74,6 +86,30 @@ internal fun ThemesScreen(onBack: () -> Unit, navigate: (String) -> Unit) = Sett
 
     Group(null) {
         NavRow("Gallery", spec.name, SettingsIcons.Palette) { navigate(SCREEN_THEME_GALLERY) }
+        RowDivider()
+        NavRow("Surprise me", if (lastSurprise == selected) "Tap again for another one" else "A random theme, always readable") {
+            val made = runCatching { com.bori.keyboard.theme.SurpriseTheme.make().also { store.save(it) } }.getOrNull()
+            if (made == null) {
+                message = "Couldn't make a theme. Try again."
+                return@NavRow
+            }
+            // Another tap replaces the last surprise, so Mine doesn't fill up with tries.
+            val old = lastSurprise
+            if (old != null && old == selected) dropTheme(context, old) else beforeSurprise = selected
+            lastSurprise = made.id
+            message = ""
+            use(made.id)
+        }
+        val before = beforeSurprise
+        if (before != null && lastSurprise == selected) {
+            RowDivider()
+            NavRow("Undo surprise", "Back to " + store.get(before).name) {
+                lastSurprise?.let { dropTheme(context, it) }
+                lastSurprise = null
+                beforeSurprise = null
+                use(before)
+            }
+        }
         RowDivider()
         ChoiceRow("Dark mode", THEME_MODES, mode) { mode = it; prefs.themeMode = it }
         RowDivider()
@@ -98,6 +134,14 @@ internal fun ThemesScreen(onBack: () -> Unit, navigate: (String) -> Unit) = Sett
             NavRow("Edit ${spec.name}", "Your theme") { navigate(EDIT_PREFIX + selected) }
         }
     }
+    Group("Share") {
+        NavRow("Share ${spec.name}", "As a .boritheme file, with your Keys & letters and Background") {
+            scope.launch { message = shareTheme(context, spec) ?: "" }
+        }
+        RowDivider()
+        NavRow("Add a shared theme", "From a .boritheme file") { importer() }
+    }
+    if (message.isNotEmpty()) Footnote(message)
     Footnote("Your Keys & letters, Background and Effects choices apply on top of any theme.")
 }
 
@@ -142,6 +186,9 @@ private fun effectsStatus(prefs: Prefs): String {
     val parts = listOfNotNull(
         press.title.takeIf { press != com.bori.keyboard.view.EffectsView.Effect.NONE },
         led.title.takeIf { led != com.bori.keyboard.view.LedLights.Mode.OFF },
+        com.bori.keyboard.view.AmbientView.Effect.of(prefs.ambientEffect).let { a ->
+            a.title.takeIf { a != com.bori.keyboard.view.AmbientView.Effect.NONE }
+        },
     )
     return if (parts.isEmpty()) "Off" else parts.joinToString(" · ")
 }
@@ -298,7 +345,8 @@ private fun ThemeCard(
     ) {
         KeyboardPreview(theme, Modifier.fillMaxWidth().aspectRatio(1.45f))
         Text(
-            (if (isSelected) "✓ " else "") + spec.name,
+            // "☀ ☾" marks themes with their own night colours (they change with Dark mode).
+            (if (isSelected) "✓ " else "") + spec.name + (if (spec.dark != null) "  ☀ ☾" else ""),
             Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,

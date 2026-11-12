@@ -24,6 +24,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DICT = os.path.join(ROOT, "app", "src", "main", "assets", "dict")
 CACHE = os.path.join(ROOT, "tools", ".cache", "ngrams")
 BITS = 21
+# Conversation cache (Suggester.CACHE_*): words used in the last CACHE_SIZE words get
+# CACHE_BOOST * ln(1 + uses). 0 = off.
+CACHE_BOOST = float(os.environ.get("CACHE_BOOST", "0.3"))
+CACHE_SIZE = int(os.environ.get("CACHE_SIZE", "300"))
+# Unknown previous word: offer the commonest words instead of nothing (Suggester.predict).
+UNK_FALLBACK = os.environ.get("UNK_FALLBACK") == "1"
 
 
 class Ngram:
@@ -76,6 +82,26 @@ class Model:
         self.nodes = word_nodes(self.d)
         self.ng = Ngram(ngram, self.d.n) if ngram else None
         self.raw = raw_bigrams
+        self.cache = {}
+        self.recent = []
+        self._top = None
+
+    def remember(self, toks):
+        for t in toks:
+            n = self.nodes.get(t)
+            if n is None or n == 0:
+                continue
+            self.recent.append(n)
+            self.cache[n] = self.cache.get(n, 0) + 1
+            if len(self.recent) > CACHE_SIZE:
+                old = self.recent.pop(0)
+                self.cache[old] -= 1
+
+    def top_words(self, k):
+        if self._top is None:
+            # Commonest words overall (unigram frequency).
+            self._top = sorted(self.nodes.values(), key=lambda n: -self.d.freq[n])[:k]
+        return self._top
 
     def predict(self, ctx_words, k=3):
         """ctx_words: tokens before the cursor, "<s>" first if the sentence starts there."""
@@ -89,6 +115,8 @@ class Model:
                 break
         ids.reverse()
         if not ids:
+            if UNK_FALLBACK and not self.raw:
+                return self.top_words(k)
             return []
         c = ids[-1]
         big = self.low.big.get(c, {})
@@ -105,7 +133,12 @@ class Model:
         scored = []
         for w in cands:
             s2 = math.log(self.low.p2(w, c))
-            scored.append((Ngram.score(r, w, s2), w))
+            sc = Ngram.score(r, w, s2)
+            if CACHE_BOOST:
+                u = self.cache.get(w, 0)
+                if u:
+                    sc += CACHE_BOOST * math.log(1 + u)
+            scored.append((sc, w))
         scored.sort(reverse=True)
         return [w for _, w in scored[:k]]
 
@@ -128,13 +161,16 @@ def run(lang, model, lines):
                 if i >= 2:
                     deep_total += 1
                     deep3 += target in preds[:3]
+            model.remember(toks[1:])
     return top1 / total * 100, top3 / total * 100, deep3 / max(1, deep_total) * 100, total
 
 
 def main():
     lang = sys.argv[1]
     n = int(sys.argv[2]) if len(sys.argv) > 2 else 4000
-    with open(os.path.join(CACHE, f"{lang}.holdout.txt"), encoding="utf-8") as f:
+    # HOLDOUT=phrases: the held-out texting sentences (tools/wordlists/<lang>_phrases.txt).
+    name = "phrases_holdout" if os.environ.get("HOLDOUT") == "phrases" else "holdout"
+    with open(os.path.join(CACHE, f"{lang}.{name}.txt"), encoding="utf-8") as f:
         lines = [x for x in f.read().split("\n") if x][:n]
     configs = []
     if os.environ.get("BASE_BDIC"):

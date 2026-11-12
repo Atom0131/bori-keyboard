@@ -65,14 +65,22 @@ theme(7, "high_contrast_dark", "High Contrast Dark", "Simple",
       prev_bg="#000000", prev_text="#FFE600", border="#FFFFFF"), K(radius=6, borderWidth=2, font="atkinson", labelScale=1.1)))
 
 # ---- Glow & LED
+DOT_KEYS = dict(radius=22, gapH=6, gapV=9, borderWidth=1, font="doto", shape="circle", labelScale=1.1)
 theme(10, "dot_matrix", "Dot Matrix", "Glow & LED",
+  V(C("#F2F2F2", "#FFFFFF", "#E6E6E6", "#CFCFCF", "#D71921", "#FFFFFF", "#111111", "#6A6A6A",
+      prev_bg="#FFFFFF", border="#C8C8C8"), K(**DOT_KEYS)),
   V(C("#000000", "#111111", "#0A0A0A", "#2B2B2B", "#D71921", "#FFFFFF", "#F2F2F2", "#7A7A7A",
-      prev_bg="#1E1E1E", border="#2A2A2A"), K(radius=22, gapH=6, gapV=9, borderWidth=1, font="doto", shape="circle", labelScale=1.1)),
-  None)
+      prev_bg="#1E1E1E", border="#2A2A2A"), K(**DOT_KEYS)))
 theme(11, "neon_led", "Neon LED", "Glow & LED",
+  V(C("#F4F0FF", "#FFFFFF", "#ECE6FF", "#D9CCFF", "#C2179F", "#FFFFFF", "#1A1033", "#6A5A8A",
+      prev_bg="#FFFFFF", border="#00A8C6"), K(radius=10, gapH=7, gapV=10, borderWidth=1.5, glow=3, font="monoton", labelCase="upper", labelScale=0.95)),
   V(C("#05010F", "#0B0720", "#0B0720", "#1D1450", "#FF2BD6", "#05010F", "#CFFBFF", "#6FD7E6",
       prev_bg="#1D1450", border="#00E5FF"), K(radius=10, gapH=7, gapV=10, borderWidth=1.5, glow=6, font="monoton", labelCase="upper", labelScale=0.95)))
+RGB = ["#FF0040", "#FF8A00", "#FFE600", "#00FF66", "#00C8FF", "#5B3BFF", "#FF00E1"]
 theme(12, "gamer_rgb", "Gamer RGB", "Glow & LED",
+  V(C("#E9ECEF", "#FFFFFF", "#F4F5F7", "#D5D9DE", "#007A43", "#FFFFFF", "#111111", "#5F6368",
+      prev_bg="#FFFFFF", border_grad=RGB),
+    K(radius=6, gapH=6, gapV=9, borderWidth=1.5, glow=2, font="orbitron")),
   V(C("#050505", "#121212", "#0B0B0B", "#2A2A2A", "#00FF88", "#001A0E", "#F5F5F5", "#9E9E9E",
       prev_bg="#2A2A2A",
       border_grad=["#FF0040", "#FF8A00", "#FFE600", "#00FF66", "#00C8FF", "#5B3BFF", "#FF00E1"]),
@@ -80,36 +88,58 @@ theme(12, "gamer_rgb", "Gamer RGB", "Glow & LED",
 theme(13, "mechanical", "Mechanical", "Glow & LED",
   V(C("#2B2B2B", "#EAE4D6", "#A39E94", "#CFC7B6", "#C2410C", "#FFFFFF", "#2F2B26", "#6E675C",
       text_fn="#1E1B17", prev_bg="#EAE4D6", border="#1A1A1A", strip="#EAE4D6"),
+    K(radius=4, gapH=4, gapV=6, borderWidth=1, font="jetbrains_mono", look="raised")),
+  V(C("#121212", "#2E2E2E", "#1F1F1F", "#454545", "#E8590C", "#1A0A00", "#EFE8D8", "#A39E94",
+      prev_bg="#454545", border="#000000", strip="#EFE8D8"),
     K(radius=4, gapH=4, gapV=6, borderWidth=1, font="jetbrains_mono", look="raised")))
 
 # ---- Glass
 theme(20, "glass", "Glass", "Glass",
+  V(C("#89C4F4", "#80FFFFFF", "#4DFFFFFF", "#CCFFFFFF", "#0B4F9C", "#FFFFFF", "#0B2547", "#2F5580",
+      prev_bg="#FFFFFF", grad=["#A8DCFF", "#6FA8E8"], border="#B3FFFFFF"),
+    K(radius=12, borderWidth=1, font="inter")),
   V(C("#24467F", "#33FFFFFF", "#22FFFFFF", "#66FFFFFF", "#7FDBFF", "#0B2547", "#FFFFFF", "#CFE3FF",
       prev_bg="#3A5E9A", grad=["#1E3C72", "#2A5298"], border="#55FFFFFF"),
     K(radius=12, borderWidth=1, font="inter")))
 theme(21, "candy_glass", "Candy Glass", "Glass",
   V(C("#E6C3F2", "#80FFFFFF", "#4DFFFFFF", "#B3FFFFFF", "#D61F69", "#FFFFFF", "#4A1E5E", "#8A5A9E",
       prev_bg="#FFFFFF", grad=["#FFD1E8", "#C9B6FF"], border="#B3FFFFFF"),
+    K(radius=16, borderWidth=1, font="nunito", shape="pill")),
+  V(C("#2A1540", "#26FFFFFF", "#1AFFFFFF", "#4DFFFFFF", "#FF5FA2", "#2A1540", "#FFF0FA", "#D2B6E6",
+      prev_bg="#4A2A6A", grad=["#1E0F33", "#3A1B5C"], border="#40FFFFFF"),
     K(radius=16, borderWidth=1, font="nunito", shape="pill")))
 
 # ---- Scenes
 theme(30, "sunset", "Sunset", "Scenes",
+  V(C("#FFC3A0", "#B3FFFFFF", "#80FFFFFF", "#E6FFFFFF", "#B23A6B", "#FFFFFF", "#3A1C3F", "#7A4A6E",
+      prev_bg="#FFFFFF", strip="#3A1C3F", grad=["#FFE0B5", "#FFB199", "#F78CA8"]), K(radius=10, font="nunito")),
   V(C("#6A2C5A", "#1FFFFFFF", "#1F000000", "#59FFFFFF", "#FFD166", "#3A1C3F", "#FFFFFF", "#FFE3D3",
       prev_bg="#7A3A5E", grad=["#2E1A47", "#6A2C5A", "#A3405A"]), K(radius=10, font="nunito")))
 theme(31, "ocean", "Ocean", "Scenes",
+  V(C("#7FD3D8", "#B3FFFFFF", "#80FFFFFF", "#E6FFFFFF", "#00687A", "#FFFFFF", "#06323A", "#2E6670",
+      prev_bg="#FFFFFF", strip="#06323A", grad=["#B8F0F0", "#5CC8D6", "#F2E2B8"]), K(radius=10, font="inter")),
   V(C("#203A43", "#26FFFFFF", "#1AFFFFFF", "#4DFFFFFF", "#4DD0E1", "#062A30", "#FFFFFF", "#B6E3EA",
       prev_bg="#2C5364", grad=["#0F2027", "#203A43", "#2C5364"]), K(radius=10, font="inter")))
 theme(32, "aurora", "Aurora", "Scenes",
+  V(C("#D4F5EA", "#B3FFFFFF", "#80FFFFFF", "#E6FFFFFF", "#0F7A5A", "#FFFFFF", "#0B3A33", "#3F7066",
+      prev_bg="#FFFFFF", strip="#0B3A33", grad=["#E6F7FF", "#C9F2E4", "#A8E6D2"], border="#6633B38C"),
+    K(radius=10, borderWidth=1, font="inter")),
   V(C("#123247", "#17FFFFFF", "#14FFFFFF", "#4DFFFFFF", "#7CF3C0", "#06261A", "#E8FFF7", "#9FD9C4",
       prev_bg="#1B4A5A", grad=["#0B1026", "#123247", "#155450", "#1A6A5A"], border="#33A8FFE0"),
     K(radius=10, borderWidth=1, font="inter")))
 theme(33, "galaxy", "Galaxy", "Scenes",
+  V(C("#E8D8FF", "#B3FFFFFF", "#80FFFFFF", "#E6FFFFFF", "#A0105A", "#FFFFFF", "#2A0845", "#6A4A8E",
+      prev_bg="#FFFFFF", strip="#2A0845", grad=["#F3E8FF", "#E0C8FF", "#FFC8E4"], border="#80FFFFFF"),
+    K(radius=12, borderWidth=1, font="orbitron")),
   V(C("#2A0845", "#26FFFFFF", "#1AFFFFFF", "#59FFFFFF", "#D0106A", "#FFFFFF", "#FFFFFF", "#D2C2F0",
       prev_bg="#4A2A7A", grad=["#0B0221", "#2A0845", "#6441A5"], border="#33FFFFFF"),
     K(radius=12, borderWidth=1, font="orbitron")))
 theme(34, "retro_typewriter", "Retro Typewriter", "Scenes",
   V(C("#3B2F2A", "#F2EBDD", "#C9BFAE", "#D8CDB8", "#8B1E1E", "#F2EBDD", "#2A211C", "#7A6A5C",
       prev_bg="#F2EBDD", border="#1A1410", strip="#F2EBDD"),
+    K(radius=22, gapH=7, gapV=9, borderWidth=2, font="special_elite", shape="circle", look="raised")),
+  V(C("#14110F", "#3A2F28", "#2A221D", "#4E4036", "#C0392B", "#FFF7EA", "#F2EBDD", "#B8A992",
+      prev_bg="#3A2F28", border="#000000", strip="#F2EBDD"),
     K(radius=22, gapH=7, gapV=9, borderWidth=2, font="special_elite", shape="circle", look="raised")))
 
 # Drawn scenes (theme/Backdrop.kt Scenes). The contrast check can't see the drawing, so the
@@ -143,9 +173,14 @@ theme(40, "borinquen", "Borinquen", "Puerto Rico",
       prev_bg="#FFFFFF"), K(radius=10, font="nunito", look="raised")),
   V(C("#0D2B55", "#173E72", "#11325F", "#2A5590", "#E4002B", "#FFFFFF", "#FFFFFF", "#9FC4E8",
       prev_bg="#2A5590"), K(radius=10, font="nunito", look="raised")))
-theme(41, "coqui_night", "Coquí Night", "Puerto Rico",
-  V(C("#0E2418", "#163322", "#11291B", "#25503A", "#9BE15D", "#0B1F12", "#DDF3E3", "#7FA98E",
-      prev_bg="#25503A", grad=["#06140D", "#0E2418", "#173A26"]), K(radius=12, font="nunito")))
+# Id stays coqui_night (it was night-only before) so people using it keep it.
+theme(41, "coqui_night", "Coquí", "Puerto Rico",
+  V(C("#CDE8C4", "#D9FFFFFF", "#B3EAF6E4", "#FFFFFFFF", "#2E7D32", "#FFFFFF", "#103A1E", "#4A6E52",
+      prev_bg="#FFFFFF", strip="#0B2A15", grad=["#BFE3F2", "#A8D49A"]),
+    K(radius=12, font="nunito"), SCENE("yunque")),
+  V(C("#0E2418", "#D9163322", "#D911291B", "#E625503A", "#9BE15D", "#0B1F12", "#DDF3E3", "#7FA98E",
+      prev_bg="#25503A", grad=["#06140D", "#0E2418", "#173A26"]),
+    K(radius=12, font="nunito"), SCENE("yunque")))
 
 os.makedirs(OUT, exist_ok=True)
 for n, t in T:

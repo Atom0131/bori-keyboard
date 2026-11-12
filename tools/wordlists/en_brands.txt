@@ -1,0 +1,192 @@
+# English brand and product names people text about. Own list, Session 40.
+# Capitals only where the word is only ever a name; names that are also everyday words
+# (apple, pixel, galaxy, threads, target, chase…) stay lowercase so normal text isn't capitalised.
+# Format: word tier era variants...  (see README.md)
+
+# ---------------------------------------------------------------- phones, devices, makers
+Samsung 1 brand
+iPhone 1 brand iPhones
+iPad 2 brand iPads
+iPod 3 brand
+iOS 2 brand
+iCloud 2 brand
+iTunes 3 brand
+AirPods 2 brand AirPod
+AirTag 3 brand AirTags
+MacBook 2 brand MacBooks
+iMac 3 brand
+macOS 3 brand
+mac 2 brand macs
+Android 1 brand
+Motorola 3 brand
+Moto 3 brand
+OnePlus 3 brand
+Xiaomi 3 brand
+Huawei 3 brand
+Nokia 3 brand
+Sony 2 brand
+Lenovo 3 brand
+Dell 3 brand
+HP 3 brand
+Asus 3 brand
+Acer 4 brand
+Microsoft 1 brand
+windows 2 brand
+Chromebook 3 brand Chromebooks
+chrome 2 brand
+Firefox 3 brand
+safari 2 brand
+Fitbit 3 brand Fitbits
+Garmin 3 brand
+GoPro 3 brand
+kindle 3 brand kindles
+Roku 3 brand
+Alexa 1 brand
+echo 3 brand
+nest 3 brand
+ring 3 brand
+Tesla 2 brand Teslas
+Bose 3 brand
+JBL 3 brand
+beats 3 brand
+galaxy 2 brand
+ultra 3 brand
+pixel 2 brand pixels
+Verizon 2 brand
+AT&T 3 brand
+TMobile 3 brand
+boost 3 brand
+cricket 3 brand
+metro 3 brand
+Xfinity 3 brand
+spectrum 3 brand
+Claro 3 brand
+liberty 3 brand
+
+# ---------------------------------------------------------------- apps, sites, services
+Google 1 brand googled googling google
+Gmail 2 brand
+YouTube 1 brand
+FaceTime 1 brand
+WhatsApp 1 brand
+messenger 2 brand
+Facebook 1 brand FB
+Instagram 1 brand IG insta
+TikTok 1 brand
+Snapchat 2 brand snapchat
+Twitter 1 brand
+threads 3 brand
+Bluesky 3 brand
+LinkedIn 2 brand
+Pinterest 2 brand
+Reddit 2 brand
+Tumblr 3 brand
+telegram 2 brand
+signal 3 brand
+discord 2 brand
+twitch 2 brand
+zoom 2 brand
+teams 2 brand
+slack 3 brand
+Skype 3 brand
+outlook 2 brand
+Hotmail 3 brand
+yahoo 2 brand
+Dropbox 3 brand
+OneDrive 3 brand
+Canva 3 brand
+CapCut 3 brand
+Duolingo 2 brand
+Waze 2 brand
+maps 2 brand
+Spotify 1 brand
+Pandora 3 brand
+SoundCloud 3 brand
+Shazam 3 brand shazamed
+Netflix 1 brand
+Hulu 2 brand
+Disney 1 brand
+HBO 2 brand
+max 2 brand
+peacock 3 brand
+paramount 3 brand
+Crunchyroll 3 brand
+prime 2 brand
+Amazon 1 brand
+eBay 2 brand
+Etsy 3 brand
+Shein 2 brand
+Temu 2 brand
+Walmart 1 brand
+Costco 2 brand
+target 2 brand
+Kroger 3 brand
+Publix 3 brand
+Walgreens 2 brand
+CVS 2 brand
+IKEA 3 brand
+Sephora 3 brand
+Ulta 3 brand
+Nike 2 brand Nikes
+Adidas 2 brand
+Jordans 2 brand
+crocs 3 brand
+Stanley 3 brand
+Starbucks 1 brand
+McDonald's 1 brand McDonalds Mcdonalds
+Wendy's 2 brand
+Chipotle 2 brand
+chick 2 brand
+Popeyes 3 brand
+Domino's 3 brand
+DoorDash 2 brand
+UberEats 3 brand
+Grubhub 3 brand
+Instacart 3 brand
+Uber 1 brand
+Lyft 3 brand
+Airbnb 2 brand Airbnbs
+Expedia 3 brand
+Venmo 2 brand venmoed venmo
+Zelle 2 brand zelled
+CashApp 2 brand cashapp
+PayPal 2 brand
+ApplePay 3 brand
+GooglePay 3 brand
+Klarna 3 brand
+Afterpay 3 brand
+Coinbase 3 brand
+Robinhood 3 brand
+Ticketmaster 3 brand
+StubHub 4 brand
+tinder 2 brand
+bumble 3 brand
+hinge 3 brand
+Grindr 3 brand
+OnlyFans 3 brand
+Roblox 2 brand
+Fortnite 2 brand
+Minecraft 2 brand
+PlayStation 2 brand PS
+PS5 3 brand
+Xbox 2 brand
+Nintendo 2 brand
+switch 3 brand
+steam 3 brand
+Valorant 3 brand
+Pokemon 2 brand Pokémon
+Wordle 3 brand
+canvas 3 brand
+blackboard 4 brand
+Wikipedia 2 brand wiki
+Quizlet 3 brand
+Chegg 4 brand
+Glovo 4 brand
+Wix 4 brand
+Shopify 3 brand
+Squarespace 4 brand
+Zillow 3 brand
+Craigslist 3 brand
+Nextdoor 4 brand
+Yelp 3 brand
+Groupon 4 brand

@@ -112,6 +112,13 @@ class KeyboardView(context: Context) : View(context) {
     private val density = resources.displayMetrics.density
     private val handler = Handler(Looper.getMainLooper())
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER }
+    private val backgroundPaint = Paint()
+    private val ledTicker = FrameTicker(this, "led")
+    private val pressedNow = ArrayList<PlacedKey>(4)
+    /** Upper-case labels, made once (not a new String per key per frame). */
+    private val upperLabels = HashMap<String, String>()
+    /** False while an ambient effect runs behind us: InputRootView paints the background. */
+    var paintBackground = true
     private val hintPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.RIGHT }
     /** Draws keys in the theme's look; set up in [updateBorderPaint]. */
     private val painter = com.bori.keyboard.theme.KeyPainter()
@@ -179,6 +186,7 @@ class KeyboardView(context: Context) : View(context) {
     fun setKeyboard(layout: KeyboardLayout, locale: Locale) {
         cancelAll()
         this.layout = layout
+        if (locale != this.locale) upperLabels.clear()
         this.locale = locale
         rebuildGeometry(width, height)
         requestLayout()
@@ -300,18 +308,31 @@ class KeyboardView(context: Context) : View(context) {
     // ---------------------------------------------------------------- drawing
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(theme.solidBackground)
+        // Only our own rectangle: drawColor fills the whole clip, and InputRootView turns
+        // child clipping off (for press effects), so it would paint over the suggestion bar.
+        val bg = theme.solidBackground
+        if (paintBackground && android.graphics.Color.alpha(bg) != 0) {
+            backgroundPaint.color = bg
+            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
+        }
         val g = geometry ?: return
         val keyH = g.rowHeight
         val scale = theme.labelScale
-        val now = android.os.SystemClock.uptimeMillis()
+        // The frame's vsync time (even steps), not the clock at draw time (Session 44).
+        val now = ledTicker.now()
         val ledOn = led.active
         val rowCount = g.rows.size
         val w = width.toFloat()
+        // Continuous rainbow (wave, rows, rainbow breathing): one gradient across all keys.
+        val ledPaint = if (ledOn) led.framePaint(w, height.toFloat(), now) else null
+        val ledKeys = ledPaint != null && led.target == LedLights.Target.KEYS
+        // Pressed keys, once per frame (no iterator per key at 120 fps).
+        pressedNow.clear()
+        for (p in pointers.values) if (p.popup == null) p.placed?.let { pressedNow.add(it) }
         for (ri in 0 until rowCount) for (pk in g.rows[ri]) {
             val key = pk.key
-            val light = if (ledOn) led.colorFor(pk, ri, rowCount, pk.visual.centerX(), w, now) else 0
-            val pressed = pointers.values.any { it.placed === pk && it.popup == null }
+            val light = if (ledOn && ledPaint == null) led.colorFor(pk, ri, rowCount, pk.visual.centerX(), w, now) else 0
+            val pressed = pressedNow.contains(pk)
             val accentFill = key.kind == KeyKind.ENTER ||
                 (key.code == KeyCode.Shift && shift == ShiftState.LOCKED)
             val fill = when {
@@ -322,7 +343,9 @@ class KeyboardView(context: Context) : View(context) {
             }
             // "Key borders" off: only pressed and accent keys get a shape (inside the painter).
             val lit = if (light != 0 && led.target == LedLights.Target.KEYS) LedLights.mix(fill, light) else fill
-            val face = painter.draw(canvas, pk.visual, lit, pressed, accentFill || lit != fill)
+            val face = painter.draw(canvas, pk.visual, lit, pressed, accentFill || lit != fill || ledKeys)
+            if (ledKeys && !pressed) painter.overlay(canvas, ledPaint!!)
+            if (ledPaint != null && led.target == LedLights.Target.OUTLINE) painter.outline(canvas, ledPaint, dp(2f))
             if (light != 0 && led.target == LedLights.Target.OUTLINE) painter.outline(canvas, light, dp(2f))
 
             val label = displayLabel(key)
@@ -340,6 +363,16 @@ class KeyboardView(context: Context) : View(context) {
             textPaint.textSize = keyH * scale * if (small) 0.26f else 0.40f
             textPaint.typeface = if (small) labelFaceBold else labelFace
             drawCentered(canvas, label, face, textPaint)
+            if (ledPaint != null && led.target == LedLights.Target.LETTERS) {
+                // The letters again in the rainbow, over the normal ones (alpha = brightness).
+                val alpha = ledPaint.alpha
+                textPaint.shader = ledPaint.shader
+                textPaint.color = android.graphics.Color.WHITE
+                textPaint.alpha = alpha
+                drawCentered(canvas, label, face, textPaint)
+                textPaint.shader = null
+                textPaint.alpha = 255
+            }
 
             if (theme.hints) key.hint?.let {
                 hintPaint.color = theme.hint
@@ -348,15 +381,20 @@ class KeyboardView(context: Context) : View(context) {
                 canvas.drawText(it, face.right - dp(4f), face.top + hintPaint.textSize + dp(1f), hintPaint)
             }
         }
-        // LED animation: about 30 frames a second while a mode moves or keys fade; idle otherwise.
-        if (led.animating && isShown) postInvalidateDelayed(LED_FRAME_MS)
+        // LED animation: 60 frames a second on the display's vsync while a mode moves or keys
+        // fade; idle otherwise.
+        if (led.animating && isShown) ledTicker.request() else ledTicker.cancel()
     }
 
     private fun displayLabel(key: Key): String = when (key.code) {
         KeyCode.Enter -> enterLabel
         KeyCode.Space -> spaceLabel
         KeyCode.Shift -> if (shift == ShiftState.OFF) "⇧" else "⬆"
-        else -> if (key.isLetter && showUpper()) key.label.uppercase(locale) else key.label
+        else -> if (key.isLetter && showUpper()) {
+            upperLabels.getOrPut(key.label) { key.label.uppercase(locale) }
+        } else {
+            key.label
+        }
     }
 
     private fun showUpper(): Boolean = when (theme.labelCase) {
@@ -677,7 +715,6 @@ class KeyboardView(context: Context) : View(context) {
         const val GLIDE_START = 0.6f
         /** How far (in key widths/heights) past a key's edge a finger goes before it changes key. */
         const val KEY_HYSTERESIS = 0.25f
-        const val LED_FRAME_MS = 33L
         /** How far past a letter's face (in keys) a touch can still be given to it by aim. */
         const val AIM_ZONE = 0.3f
         /** Movement (in key widths) before a space/delete touch becomes a slide. */

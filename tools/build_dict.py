@@ -215,11 +215,10 @@ def load_words(lang, cfg):
 
 
 def merge_wordlist(lang, words):
-    """Adds tools/wordlists/<lang>_modern.txt. Words only ever go up in frequency; a capitalised
-    entry sets the display form, a lowercase one keeps an existing display (e.g. a name)."""
-    path = os.path.join(WORDLISTS, f"{lang}_modern.txt")
-    if not os.path.exists(path):
-        return 0, [], set(), set()
+    """Adds tools/wordlists/<lang>_*.txt (modern, ai, phone, brands, slang...; not the phrase
+    list). Words only ever go up in frequency; a capitalised entry sets the display form, a
+    lowercase one keeps an existing display (e.g. a name)."""
+    from wordlist_files import word_files
     added, skipped, keep, listed = 0, [], set(), set()
 
     def put(token, tier, own_display):
@@ -242,7 +241,8 @@ def merge_wordlist(lang, words):
         disp = token if exact or (own_display and token != key) else old[0]
         words[key] = (disp, max(old[1], c), old[2])
 
-    with open(path, encoding="utf-8") as f:
+    for path in word_files(lang):
+      with open(path, encoding="utf-8") as f:
         for line in f:
             p = line.split("#", 1)[0].split()
             if len(p) < 3:

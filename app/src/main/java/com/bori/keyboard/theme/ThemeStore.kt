@@ -42,6 +42,9 @@ class ThemeStore(context: Context) {
         tmp.renameTo(File(dir, "theme.json"))
     }
 
+    /** The folder a user theme's files (theme.json, photo) live in. */
+    fun dirOf(id: String) = File(userDir, safeId(id))
+
     fun delete(id: String) {
         if (!isBuiltIn(id)) File(userDir, safeId(id)).deleteRecursively()
     }

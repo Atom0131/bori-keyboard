@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.bori.keyboard.view.AmbientView
 import com.bori.keyboard.view.EffectsView
 import com.bori.keyboard.view.LedLights
 
@@ -43,6 +44,11 @@ internal fun EffectsScreen(onBack: () -> Unit) = SettingsPage("Effects & lightin
     var ledColor by remember { mutableStateOf(prefs.ledColor) }
     var speed by remember { mutableFloatStateOf(prefs.ledSpeed) }
     var brightness by remember { mutableFloatStateOf(prefs.ledBrightness) }
+    var ledSize by remember { mutableFloatStateOf(prefs.ledSize) }
+    var direction by remember { mutableStateOf(prefs.ledDirection) }
+    var ambient by remember { mutableStateOf(prefs.ambientEffect) }
+    var amount by remember { mutableFloatStateOf(prefs.ambientAmount) }
+    var ambientSpeed by remember { mutableFloatStateOf(prefs.ambientSpeed) }
 
     Group("When you press a key") {
         ChoiceRow("Effect", EffectsView.Effect.entries.map { it.id to it.title }, effect) { effect = it; prefs.pressEffect = it }
@@ -52,6 +58,17 @@ internal fun EffectsScreen(onBack: () -> Unit) = SettingsPage("Effects & lightin
                 Text("Colour")
                 Swatches(listOf("theme", "rainbow") + PALETTE, effectColor) { effectColor = it; prefs.effectColor = it }
             }
+        }
+    }
+
+    Group("Background") {
+        ChoiceRow("Background effect", AmbientView.Effect.entries.map { it.id to it.title }, ambient) {
+            ambient = it; prefs.ambientEffect = it
+        }
+        if (ambient != "none") {
+            RowDivider()
+            SliderRow("Amount", amount, "${(amount * 100).toInt()}%", 0.2f..1f, onChange = { amount = it }, onDone = { prefs.ambientAmount = amount })
+            SliderRow("Speed", ambientSpeed, "${(ambientSpeed * 100).toInt()}%", 0.5f..2f, onChange = { ambientSpeed = it }, onDone = { prefs.ambientSpeed = ambientSpeed })
         }
     }
 
@@ -67,6 +84,20 @@ internal fun EffectsScreen(onBack: () -> Unit) = SettingsPage("Effects & lightin
                     Swatches(listOf("rainbow") + PALETTE, ledColor) { ledColor = it; prefs.ledColor = it }
                 }
             }
+            if (mode == "wave" || mode == "rows") {
+                RowDivider()
+                SliderRow(
+                    "Rainbow size", ledSize,
+                    if (ledSize in 0.95f..1.05f) "One rainbow" else "%.1f rainbows".format(ledSize),
+                    0.5f..3f, onChange = { ledSize = it }, onDone = { prefs.ledSize = ledSize },
+                )
+            }
+            if (mode == "wave") {
+                RowDivider()
+                ChoiceRow("Direction", LedLights.Direction.entries.map { it.id to it.title }, direction) {
+                    direction = it; prefs.ledDirection = it
+                }
+            }
             RowDivider()
             if (mode != "rows") {
                 SliderRow("Speed", speed, "${(speed * 100).toInt()}%", 0.25f..3f, onChange = { speed = it }, onDone = { prefs.ledSpeed = speed })
@@ -74,7 +105,7 @@ internal fun EffectsScreen(onBack: () -> Unit) = SettingsPage("Effects & lightin
             SliderRow("Brightness", brightness, "${(brightness * 100).toInt()}%", 0.1f..1f, onChange = { brightness = it }, onDone = { prefs.ledBrightness = brightness })
         }
     }
-    Footnote("Type in the bar below to see them. Moving lights use a little more battery; all effects stop in password fields.")
+    Footnote("Type in the bar below to see them. Moving lights and background effects use a little more battery; all effects stop in password fields.")
 }
 
 private val PALETTE = listOf("#FF3B6B", "#FF9F1C", "#FFE14D", "#3DDC84", "#22D3EE", "#3D8BFF", "#9B5DE5", "#FFFFFF")

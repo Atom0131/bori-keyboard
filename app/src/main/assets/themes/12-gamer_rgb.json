@@ -6,6 +6,39 @@
   "category": "Glow & LED",
   "light": {
     "colors": {
+      "background": "#E9ECEF",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#F4F5F7",
+      "keyPressed": "#D5D9DE",
+      "accent": "#007A43",
+      "onAccent": "#FFFFFF",
+      "text": "#111111",
+      "textFunction": "#111111",
+      "hint": "#5F6368",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#111111",
+      "stripText": "#111111",
+      "keyBorderGradient": [
+        "#FF0040",
+        "#FF8A00",
+        "#FFE600",
+        "#00FF66",
+        "#00C8FF",
+        "#5B3BFF",
+        "#FF00E1"
+      ]
+    },
+    "keys": {
+      "radius": 6,
+      "gapH": 6,
+      "gapV": 9,
+      "borderWidth": 1.5,
+      "glow": 2,
+      "font": "orbitron"
+    }
+  },
+  "dark": {
+    "colors": {
       "background": "#050505",
       "keyLetter": "#121212",
       "keyFunction": "#0B0B0B",

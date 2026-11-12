@@ -18,6 +18,8 @@ class InputRootView(context: Context) : FrameLayout(context) {
     /** Takes the strip's place while typing a GIF or clipboard search. */
     val searchBar = SearchBarView(context).apply { visibility = GONE }
     val keyboard = KeyboardView(context)
+    /** Ambient background effect (rain, snow…), behind the bar and the keys. */
+    val ambient = AmbientView(context)
     /** Press effects over the keys (sparkles, hearts…); may spill up over the strip. */
     val effects = EffectsView(context)
     val overlay = KeyOverlayView(context)
@@ -55,6 +57,7 @@ class InputRootView(context: Context) : FrameLayout(context) {
             clipChildren = false
             addView(keys, LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
         }
+        addView(ambient, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         addView(column, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
         addView(overlay, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         keyboard.overlay = overlay
@@ -80,6 +83,20 @@ class InputRootView(context: Context) : FrameLayout(context) {
         clipboard.setTheme(theme)
         emoji.setTheme(theme)
         gif.setTheme(theme)
+    }
+
+    /**
+     * After the ambient effect changes: while one runs, the bar and keys stop painting their own
+     * solid background (it would hide the effect); this view's background still paints it.
+     */
+    fun syncAmbient() {
+        val clear = ambient.active
+        strip.paintBackground = !clear
+        searchBar.paintBackground = !clear
+        keyboard.paintBackground = !clear
+        strip.invalidate()
+        searchBar.invalidate()
+        keyboard.invalidate()
     }
 
     /** Shows [p] in the key area (the keys stay laid out underneath to keep the height). */

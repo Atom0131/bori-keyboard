@@ -171,6 +171,26 @@ class Prefs(context: Context) {
         get() = sp.getFloat(LED_BRIGHTNESS, 0.6f)
         set(v) = sp.edit().putFloat(LED_BRIGHTNESS, v).apply()
 
+    /** LED rainbow size: rainbows across the keyboard (1 = one, edge to edge). */
+    var ledSize: Float
+        get() = sp.getFloat(LED_SIZE, 1f)
+        set(v) = sp.edit().putFloat(LED_SIZE, v).apply()
+    /** LED rainbow wave direction: ltr, rtl or diagonal (LedLights.Direction). */
+    var ledDirection: String
+        get() = sp.getString(LED_DIRECTION, "ltr") ?: "ltr"
+        set(v) = sp.edit().putString(LED_DIRECTION, v).apply()
+
+    /** Ambient background effect (view/AmbientView.kt), "none" = off. */
+    var ambientEffect: String
+        get() = sp.getString(AMBIENT_EFFECT, "none") ?: "none"
+        set(v) = sp.edit().putString(AMBIENT_EFFECT, v).apply()
+    var ambientAmount: Float
+        get() = sp.getFloat(AMBIENT_AMOUNT, 0.6f)
+        set(v) = sp.edit().putFloat(AMBIENT_AMOUNT, v).apply()
+    var ambientSpeed: Float
+        get() = sp.getFloat(AMBIENT_SPEED, 1f)
+        set(v) = sp.edit().putFloat(AMBIENT_SPEED, v).apply()
+
     /** Settings → Themes → Background, on top of any theme; null = the theme's own. */
     var backgroundOverride: com.bori.keyboard.theme.BackgroundSpec?
         get() = sp.getString(BACKGROUND, null)?.takeIf { it.isNotEmpty() }?.let {
@@ -280,6 +300,11 @@ class Prefs(context: Context) {
         get() = sp.getBoolean(CLIPBOARD_CHIP, true)
         set(v) = sp.edit().putBoolean(CLIPBOARD_CHIP, v).apply()
 
+    /** Learn emails and usernames typed in sign-in fields and suggest them there (learn/LoginStore.kt). */
+    var rememberLogins: Boolean
+        get() = sp.getBoolean(REMEMBER_LOGINS, true)
+        set(v) = sp.edit().putBoolean(REMEMBER_LOGINS, v).apply()
+
     /** How long unpinned clips are kept, in ms; 0 = until deleted. Default one week. */
     var clipboardKeepMs: Long
         get() = sp.getLong(CLIPBOARD_KEEP, CLIP_KEEP_WEEK)
@@ -339,6 +364,7 @@ class Prefs(context: Context) {
         private const val RECENT_EMOJI = "recent_emoji"
         const val CLIPBOARD_HISTORY = "clipboard_history"
         private const val CLIPBOARD_CHIP = "clipboard_chip"
+        private const val REMEMBER_LOGINS = "remember_logins"
         const val CLIPBOARD_KEEP = "clipboard_keep_ms"
         const val CLIP_KEEP_HOUR = 60 * 60 * 1000L
         const val CLIP_KEEP_DAY = 24 * CLIP_KEEP_HOUR
@@ -404,7 +430,15 @@ class Prefs(context: Context) {
         private const val LED_SPEED = "led_speed"
         private const val LED_BRIGHTNESS = "led_brightness"
         /** Prefs that change press effects or LED lighting (the IME re-applies them live). */
-        val EFFECT_KEYS = setOf(PRESS_EFFECT, EFFECT_COLOR, LED_MODE, LED_TARGET, LED_COLOR, LED_SPEED, LED_BRIGHTNESS)
+        private const val LED_SIZE = "led_size"
+        private const val LED_DIRECTION = "led_direction"
+        private const val AMBIENT_EFFECT = "ambient_effect"
+        private const val AMBIENT_AMOUNT = "ambient_amount"
+        private const val AMBIENT_SPEED = "ambient_speed"
+        val EFFECT_KEYS = setOf(
+            PRESS_EFFECT, EFFECT_COLOR, LED_MODE, LED_TARGET, LED_COLOR, LED_SPEED, LED_BRIGHTNESS,
+            AMBIENT_EFFECT, AMBIENT_AMOUNT, AMBIENT_SPEED, LED_SIZE, LED_DIRECTION,
+        )
         private const val INCOGNITO = "incognito"
         private const val BLOCK_OFFENSIVE = "block_offensive"
         private const val HAPTICS = "haptics"

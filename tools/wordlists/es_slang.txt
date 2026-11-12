@@ -1,0 +1,222 @@
+# Spanish slang beyond Puerto Rico: Mexico, the Caribbean, Colombia, Argentina, Spain, US
+# Spanglish, texting and rude slang (added like any word, user choice). Own list, Session 40.
+# Format: word tier era variants...  (see README.md)
+
+# ---------------------------------------------------------------- Dominican Republic, Cuba, Venezuela
+vaina 1 caribe vainas
+klk 1 caribe qlq
+tiguere 2 caribe tíguere tígueres
+jevi 2 caribe
+chercha 3 caribe
+bacano 2 caribe bacana
+chamo 2 caribe chama chamos
+pana 1 caribe
+asere 2 caribe
+qué 1 caribe
+jeva 2 caribe
+yuma 3 caribe
+guagüero 3 caribe
+chévere 1 caribe
+dímelo 2 caribe
+tato 2 caribe
+pariguayo 3 caribe
+chin 2 caribe
+cuero 3 caribe
+mangú 2 caribe
+concón 3 caribe
+
+# ---------------------------------------------------------------- Mexico
+güey 1 mx wey we buey
+neta 1 mx
+chido 1 mx chida chidos chidas
+padre 1 mx padrísimo
+chamba 1 mx chambear chambeando chambita
+órale 1 mx orale
+ándale 1 mx andale
+híjole 2 mx
+chale 2 mx
+fresa 2 mx
+naco 3 mx naca
+morro 2 mx morra morros morras
+chavo 2 mx chava chavos chavas
+cuate 2 mx cuates
+carnal 2 mx carnales
+chela 1 mx chelas
+pedo 1 mx pedos
+pinche 1 mx pinches
+chingón 1 mx chingona chingones chingonas chingar chingado chingada chinga
+chingadera 2 mx chingaderas
+madre 1 mx madres madrazo madrazos
+mames 1 mx
+nmms 2 text
+alv 2 text
+qpd 3 text
+x 2 text
+equis 2 mx
+aguas 1 mx
+fiesta 1 mx
+pachanga 2 mx
+chamaco 2 mx chamaca
+lana 2 mx
+varo 2 mx varos
+gacho 2 mx gacha
+chafa 2 mx
+codo 2 mx coda
+mande 2 mx
+ahorita 1 mx
+camión 1 mx
+troca 2 mx trocas
+taquería 2 mx
+antojitos 2 mx
+cruda 2 mx crudo
+peda 2 mx
+jalar 2 mx jala jalando jaló
+ya 1 mx
+sale 1 mx
+simón 2 mx
+nel 2 mx
+vato 2 mx vatos bato batos
+chicano 2 mx chicana chicanos
+
+# ---------------------------------------------------------------- Colombia, Argentina, Chile, Peru
+parce 1 sur parcero parcera parceros
+bacano 1 sur
+chimba 2 sur chimbita
+berraco 2 sur berraca verraco
+marica 1 sur
+gonorrea 2 sur
+chévere 1 sur
+vaina 1 sur
+che 1 sur
+boludo 1 sur boluda boludos boludas boludez
+pibe 2 sur piba pibes pibas
+quilombo 2 sur
+mina 2 sur minas
+chabón 2 sur chabona
+laburo 2 sur laburar laburando
+birra 2 sur birras
+posta 2 sur
+re 2 sur
+copado 2 sur copada
+flashear 2 sur flasheando flasheó
+cachai 2 sur
+weón 1 sur weona weones huevón huevona
+po 2 sur
+fome 2 sur
+bacán 2 sur bacanes
+pololo 2 sur polola pololear
+cuático 3 sur
+pata 2 sur patas
+chamba 1 sur
+causa 2 sur
+pucha 3 sur
+
+# ---------------------------------------------------------------- Spain
+tío 1 es tía tíos tías
+guay 1 es guays
+mola 1 es molar molan molaba
+mazo 1 es
+flipar 1 es flipo flipas flipante flipando flipado flipada
+curro 1 es currar curra currando
+pasta 2 es
+quedada 2 es quedadas
+movida 1 es movidas
+chungo 2 es chunga
+cutre 2 es cutres
+pringado 2 es pringada
+hostia 1 es hostias
+joder 1 es jodido jodida jodidos jodiendo jode
+coñazo 2 es
+gilipollas 1 es
+capullo 2 es capulla
+cabrear 2 es cabreado cabreada cabreo
+majo 1 es maja majos majas
+chaval 1 es chavala chavales
+vale 1 es
+venga 1 es
+finde 1 es findes
+ostras 2 es
+cañas 2 es caña
+botellón 2 es
+piso 1 es
+móvil 1 es
+ordenador 1 es
+zumo 1 es
+coche 1 es
+tronco 2 es
+peña 2 es
+rollo 1 es
+liarse 2 es liado liada lío
+pavo 2 es
+cotilla 2 es cotillear cotilleo
+
+# ---------------------------------------------------------------- Spanglish (US) and everyday anglicisms
+textear 1 spanglish texteando texteó texteo texteamos
+chatear 1 spanglish chateando chateo
+parquear 2 spanglish
+lonche 2 spanglish lonchera
+troca 2 spanglish
+marqueta 3 spanglish
+biles 2 spanglish bil
+aplicar 2 spanglish
+rentar 2 spanglish renta rentando
+babysitter 2 spanglish
+weekend 2 spanglish
+okey 1 spanglish
+cool 1 spanglish
+nice 2 spanglish
+random 1 spanglish
+crush 1 spanglish
+date 2 spanglish
+hangear 3 spanglish
+lukear 3 spanglish
+googlear 2 spanglish googleé googleando
+stalkear 2 spanglish stalkeando
+likear 2 spanglish likeó
+postear 1 spanglish posteé posteó posteando
+spoilear 2 spanglish spoileó
+cringe 1 spanglish
+mood 1 spanglish
+vibra 1 spanglish vibras
+flow 1 spanglish
+hype 2 spanglish
+fake 2 spanglish
+shippear 3 spanglish shippeo
+ghostear 2 spanglish ghosteó ghosteando
+funar 2 spanglish funado funada funa
+rizz 3 spanglish
+red 2 spanglish
+bro 1 spanglish
+literal 1 spanglish literalmente
+tipo 1 spanglish
+onda 1 spanglish
+crack 2 spanglish cracks
+
+# ---------------------------------------------------------------- texting
+jaja 1 text jajaja jajajaja jajajajaja jsjs jsjsjs jajsj jajsjs
+xd 1 text
+xq 1 text pq porq xk
+tmb 1 text tb tmbn
+tqm 1 text tkm tq tk tqiero
+ntp 2 text
+nc 2 text
+npi 3 text
+ptm 2 text
+ctm 3 text
+alv 2 text
+ksi 3 text
+salu2 3 text
+bn 2 text
+dnd 2 text
+q 2 text
+k 2 text
+xfa 2 text porfa porfi
+pa 1 text
+pal 1 text
+na 2 text
+nah 2 text
+toy 2 text
+tamos 2 text
+ta 2 text
+tá 2 text
+pa'l 2 text

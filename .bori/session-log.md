@@ -6,6 +6,595 @@ every session.
 
 ---
 
+## Session 46 — 2026-11-12 (Claude Code): ETA / ASAP kept as typed
+
+### Why
+User: round-2 build "looking good"; "it needs to learn this like eta and asap, it keeps correcting eta".
+
+### Cause
+verify_dict: "eta" freq 102, "asap" 110, no flags. Below REALFIX_RARE_FREQ (170) a valid word counts
+as a rare look-alike, so a real-word fix could swap it (eta → eat). TBD, EOD, WFH, DIY, OOO, ICYMI
+were flag 64 (weakly valid, never swiped).
+
+### Fix
+- tools/wordlists/en_abbrev.txt (new, own list): ETA, ASAP (tier 1), RSVP, TBD, TBA, EOD, EOW, WFH,
+  OOO, PTO, OOTO, DIY, FAQ, ATM, ICYMI, aka, BYOB, DOB, SSN, PDF, URL, ETD, ASL, VIP, CEO, HR, PSA,
+  EOM, NDA, KPI, ROI (tier 1–3). Tier ≤ 2 = kept as typed; listed words lose the weak flag.
+- Left out on purpose: RIP, MIA, COB, ID (capitals would change "rip", "Mia", "cob", "id"/"I'd"),
+  and texting shorthand already kept lowercase in en_modern.txt (tbh, imo, nvm, omw, dm, irl,
+  fomo, yolo, pov, tldr). Note: a later file in name order wins the display form (en_modern's
+  "=fyi" keeps fyi lowercase).
+- en_phrases.txt: 26 lines with ETA/ASAP/RSVP/EOD/WFH/OOO/PTO/DIY/ATM/FYI ("what's your ETA",
+  "call me ASAP"). English rebuilt (count → dict → ngrams → typos).
+- Lesson: never `pkill -f <pattern>` from a Bash call whose own command line contains the
+  pattern; it kills the calling shell (exit 144). Kill by pid.
+
+### Round 2: "make sure it knows all the English ones"
+- Scan (script was /tmp/scan/abbrev_scan.py, logic recorded here): Wiktionary entries tagged
+  abbreviation/initialism/acronym (2–6 letters) × wordfreq Zipf ≥ 3 × our dictionary (freq < 170,
+  weak/rare flag, or missing) → 2,607 candidates; only-uppercase forms and not a Hunspell word →
+  864. Wiktionary tags are noisy (NOTES, CATS, names), so the final list was picked by hand.
+- en_abbrev.txt now 145 entries: places/media (TV, USA, UK, EU, NYC, DC, PR, BBC, CNN, ESPN…),
+  sports (NFL, NBA, NHL, MLB, NCAA, UFC, WWE, MVP, QB…), government/money (FBI, CIA, IRS, FDA, CDC,
+  NASA, DMV, DUI, EBT, USPS, LLC, CFO, IPO, GDP, APR…), health/school (DNA, HIV, MRI, ICU, CPR,
+  ADHD, PTSD, GPA, GED, MBA, PhD…), tech/cars/home (PC, DVD, HTML, VPN, QR, USB, SUV, RV, MPH,
+  BMW, HVAC, AC, BBQ…), culture (LGBTQ, BLM, AARP, BTS), time zones (EST, PST, CST, GMT, UTC).
+- Excluded (also everyday words): SAT, ACT, ER, AD, LA, UPS, COO, SNAP, WIC, AM, PM, IT, US, STEM,
+  RIP, MIA, COB, ID.
+- Rebuilt with /tmp/rebuild_dict.sh (build_dict → build_ngrams → build_typos, no recount: the
+  counts didn't change) + suggest_sim spot checks.
+
+### Build
+Not built yet.
+
+### Next step
+User: Build + Install; type "eta", "asap", "what's your" → ETA, and acronyms (nfl, fbi, adhd, dmv).
+
+---
+
+## Session 45 — 2026-11-12 (Claude Code): "English correction felt better earlier"
+
+### Why
+User felt English correction got worse after Session 40 and that they make more typos; pasted
+typo-log lines (buttergiled, pred, hava, themese, thrmes, tiue, pleae, tokw).
+
+### Findings
+- Only "buttergiled" (15:17) is from after the new dictionaries (built 14:18); the rest are older.
+- tools/suggest_sim.py on all of them + 20 classic typos: **identical** results with the old
+  (tools/.cache/baseline) and new en.bdic. (suggest_sim ignored BDIC before: fixed, `BDIC=` now works.)
+- typo_bench en new vs old: B 86.2 = 86.2, C false changes 0% = 0%, E 73.0 = 73.0, F 77.8 vs 78.4,
+  D1 89.7 vs 90.3 (1–2 items), M (modern words) better: changed 3.9→2.3%, fixed 69.0→73.1%.
+  Set V "rare words changed 2.0→4.7%" is not a regression: V samples random rare words from each
+  dictionary separately, so the two runs test different words.
+- Real weaknesses in the log (old too): "themes" is rare in the subtitles (freq 91 vs these 196),
+  so themese→these and thrmes→there's/three; tokw / tiue are far from the wanted words.
+- The one Session 40 change the simulator can't see was the conversation cache, which also fed
+  corrections: now **predictions only** (Suggester.cacheBoost in predict(); userBoost no longer
+  includes it).
+- "More typos" (taps, not fixes) isn't explained by any dictionary change; candidates to check on
+  the phone: "Move keys to fit my aim" (learned shifts, Session 27) and typing with LED lighting on
+  vs off (120 fps redraws on the main thread).
+
+### Files
+predict/Suggester.kt, tools/suggest_sim.py (BDIC env).
+
+### Build
+Not built yet. Brace/paren and nested-comment checks pass.
+
+### Next step
+User: Build + Install; if taps still feel worse, try a day with Settings → Corrections → Touch heat map →
+"Move keys to fit my aim" off (and once with lighting off), and keep the typo log on.
+Possible follow-up: let words the user types often (themes) beat common look-alikes sooner
+(USER_WORD_BOOST, measured with typo_bench set U).
+
+---
+
+## Session 44 — 2026-11-12 (Claude Code): why the rainbow was still choppy at 120 Hz
+
+### Why
+User: still choppy after Session 43; "there's an Android SDK to read the screen frame rate and
+adapt to it, why can't the keyboard?"
+
+### Findings (research + code reading)
+1. **Float clock (main cause):** LedLights did `now / 1000f` with `now` = uptime ms. As a Float, a
+   clock of ~10^8–10^9 ms (days since boot) only changes in 8–64 ms steps, so the wave advanced
+   ~30–60 times a second whatever the frame rate. Now all phases are computed in Double and reduced
+   mod the period before going to Float (`phase()`, `breath()`).
+2. **Draw-time clock:** frames used the clock at draw time, which wobbles a few ms per frame. Now
+   animations use the Choreographer vsync time of the frame (FrameTicker.now()/frameTimeMs), so each
+   frame steps exactly one refresh period. AmbientView too.
+3. **Refresh rate:** an app can read the display's rate (Display.getRefreshRate / getMode) and
+   pace itself to vsync (Choreographer) — the keyboard does both now. But the keyboard window isn't
+   the focused app, so it can't pick the screen's mode by itself; the system decides from the app in
+   front unless a view votes. Android 15+ has View.setRequestedFrameRate (category HIGH): the
+   FrameTicker now votes while animating (by reflection, so it compiles on any SDK), on top of the
+   Session 43 window preferredDisplayModeId. Votes are withdrawn when the animation stops.
+4. **Per-frame garbage:** at 120 fps each frame made ~40 iterators (pressed-key check) and up to
+   ~30 upper-case Strings; now one pass into a reused list, and a label cache.
+5. **Measurement:** FrameTicker logs every 5 s of animation: measured fps, display Hz, frames that
+   took longer than 1.5 vsyncs, whether the high-rate vote is on; the window mode choice is logged
+   too. Settings → Help improve Bori → Copy diagnostics shows them ("anim led: …", "refresh: …").
+
+### Files
+view/FrameTicker.kt (rewritten), view/LedLights.kt (Double phases), view/KeyboardView.kt,
+view/AmbientView.kt, ime/BoriImeService.kt (log).
+
+### Build
+Bori build OK; user: "this is perfect now" (smooth on the Galaxy Z Fold 8, 120 Hz screens).
+User prefers full-refresh smoothness over battery.
+
+### Next step
+(Done.) If it ever regresses: run Rainbow wave ~10 s, then Copy diagnostics and paste the "anim led" and
+"refresh" lines if it still isn't smooth (they say whether the screen ran at 120 Hz).
+
+---
+
+## Session 43 — 2026-11-12 (Claude Code): Razer-style continuous rainbow at full refresh rate
+
+### Why
+User (Galaxy Z Fold 8, both screens 120 Hz): Session 42's 60 fps still looked jittery; and in
+pics/Screenshot_20261112_154449/154454 the rainbow was blocks: one flat colour per key (sampled at
+its centre), neighbours ~36° of hue apart, so it didn't blend. Wanted a gradual Razer-like wave,
+one even rainbow, at the screen's refresh rate ("battery is the user's prerogative").
+
+### What changed
+- **Continuous gradient** (view/LedLights.kt `framePaint`): Rainbow wave, Row rainbow and rainbow
+  Breathing draw ONE LinearGradient (13 hue stops, REPEAT) across the keyboard; the wave only
+  moves the shader matrix (one rainbow length per 3 s at speed 1). No allocations per frame
+  (shader rebuilt only when size/orientation changes). Colour cycle, single-colour breathing and
+  Light up on press keep per-key colours.
+- theme/KeyPainter.kt: `overlay(c, paint)` fills the face of the key just drawn with the gradient
+  (outline-look keys get it on their line), `outline(c, paint, w)` for gradient outlines.
+- view/KeyboardView.kt: Keys target → gradient overlay at brightness alpha (not on pressed keys,
+  so presses still show); Letters → labels drawn again with the shader; Outlines → gradient stroke.
+- **Full refresh rate:** FrameTicker default = every vsync (no cap); AmbientView uses it too
+  (FPS constant removed). BoriImeService.highRefresh(): while LED animates (or reactive) or a
+  background effect runs, the IME window prefers the display mode with the highest refresh rate
+  at the current resolution (preferredDisplayModeId; 0 = system choice when off). View
+  setRequestedFrameRate (API 35) not used, to avoid a compile risk on Bori's android.jar.
+- **New controls** (Effects & lighting → LED lighting, Prefs led_size / led_direction, live):
+  Rainbow size (0.5–3 rainbows across, default "One rainbow") for wave + rows; Direction (Left to
+  right / Right to left / Diagonal 35°) for the wave.
+
+### Build
+Not built yet. Brace/paren and nested-comment checks pass.
+
+### Not tested on the phone
+Wave on Keys / Letters / Outlines on both Fold screens; smoothness at 120 Hz; Rainbow size and
+Direction; Row rainbow; key styles raised/outline/floating with the overlay; battery.
+
+### Next step
+User: Build + Install; Effects & lighting → Lighting: Rainbow wave. If 120 fps drains too much,
+add a "Battery saver (60 fps)" switch (FrameTicker takes a cap).
+
+---
+
+## Session 42 — 2026-11-12 (Claude Code): smoother LED / background animation
+
+### Why
+User (after the 3.9 build): "it looks good but the background rgb effect needs to have smoother frames".
+
+### Cause
+LED lighting (KeyboardView) asked for its next frame with postInvalidateDelayed(33 ms), and the
+ambient view did the same. A fixed timer isn't tied to the display's vsync, so frames landed 33 or
+50 ms apart (uneven), which shows as stutter on a moving rainbow.
+
+### Fix
+- view/FrameTicker.kt (new): Choreographer frame callback; redraws on vsync, at most one frame
+  per minIntervalMs (15 ms → 60 fps on 60 Hz and 120 Hz screens; every 2nd vsync on 120 Hz to
+  save battery). Stops as soon as nothing requests a frame; cancelled when the view detaches.
+- KeyboardView: LED animation uses it (LED_FRAME_MS removed). AmbientView: FPS 30 → 60 on the
+  ticker; kick() cancels it when hidden/off. Motion was already time-based, so speeds don't change.
+
+### Build
+Not built yet. Brace/paren and nested-comment checks pass.
+
+### Not tested on the phone
+Rainbow wave / colour cycle / breathing smoothness; ambient effects at 60 fps; battery feel.
+
+---
+
+## Session 41 — 2026-11-12 (Claude Code): theme 3.9, ambient background effects
+
+### Why
+Session 40's build (themes, logins, new dictionaries) built with no errors. User: "let's keep going
+with next phase of custom" → theme phase 3.9 from .bori/theme-plan.md.
+
+### Decisions
+- **view/AmbientView.kt** (new): 12 effects + None: Rain, Snow, Falling leaves, Sun rays, Clouds,
+  Thunderstorm (rain + random flash and bolt), Starry night (twinkle + shooting star), Aurora (3
+  sine bands, mirrored gradient), Fireflies (wander + pulse glow), Confetti (flipping), Floating
+  hearts, Fireworks (bursts with gravity and drag). Fixed pool of 200 particles, no allocations
+  per frame (except the lightning path seed), at most 30 fps (postInvalidateDelayed), dt capped.
+- **Behind the keys:** InputRootView adds it under the column. While an effect runs,
+  `syncAmbient()` sets `paintBackground = false` on the keyboard, the suggestion bar and the search
+  bar, so their solid fill doesn't hide it; the root's own background still paints the theme.
+  It shows in the key gaps, the bar and through see-through keys.
+- **Readable on any theme:** the service passes `lightBackground` (theme background luma > 0.6);
+  snow, rain, stars, clouds and fireflies switch to a dark ink on light themes.
+- **Battery / rules:** stops while the keyboard is hidden (`running`, from onWindowShown /
+  onWindowHidden, and set again when a new input view appears while shown), off in password
+  fields and with system animations off (same `allowed` as press effects, Stage 3 rule 2).
+- **Settings:** Theme → Effects & lighting gets a "Background" group first: Background effect
+  (choice dialog) + Amount (20–100%) + Speed (50–200%) under it while on (style guide rule 6).
+  Theme hub status line includes it. Prefs ambient_effect / ambient_amount / ambient_speed are
+  in EFFECT_KEYS, so the keyboard updates live while the try-bar is open.
+
+### Files changed
+view/AmbientView.kt (new), view/InputRootView.kt, view/KeyboardView.kt, view/SuggestionStripView.kt,
+view/SearchBarView.kt (paintBackground), ime/BoriImeService.kt (applyEffects, window shown/hidden),
+settings/Prefs.kt, settings/EffectsSettings.kt, settings/ThemesScreen.kt (status).
+
+### Build
+Not built yet. Brace/paren and nested-comment checks pass.
+
+### Known gaps
+- Not in the theme JSON yet (a theme can't come with its own effect); 3.10 living themes can add
+  that (rain when it rains).
+- With an effect on, panels (clipboard/emoji) still paint their own background over it (fine).
+
+### Not tested on the phone
+Each effect on a dark and a light theme, solid / gradient / photo backgrounds; Amount and Speed;
+stops when the keyboard hides; nothing in a password field; battery feel after a while.
+
+### Next step
+User: Build + Install, Settings → Theme → Effects & lighting → Background effect. Then 3.10.
+
+### How to catch up
+1. This entry. 2. view/AmbientView.kt. 3. InputRootView.syncAmbient + BoriImeService.applyEffects.
+
+---
+
+## Session 40 — 2026-11-12 (Claude Code): better prediction + modern vocabulary
+
+### Why
+User: get better at text prediction; teach AI terms, phone terms, every slang and every product.
+Spot checks (verify_dict) showed many modern words already in the dictionary but with **no
+context**: nothing led to them, so they were never predicted. Some were flagged weak (eSIM,
+sideload, Temu, Shein: not swipeable), some missing (Zelle, One UI) or wrongly cased.
+
+### User decisions
+Spanish: Puerto Rico first, then Caribbean / Mexico / South America / Spain / Spanglish. Rude and
+sexual slang: added like any word (not flagged offensive).
+
+### What changed
+- **Word lists** (tools/wordlists, own work): en_ai (~130), en_phone (~140), en_brands (~190),
+  en_slang (~260, incl. rude), es_pr (~200: slang, food, towns, artists), es_slang (~215),
+  es_tech (~135). Rule: capitals only for words that are only ever names (iPhone, WhatsApp);
+  brand names that are everyday words (pixel, galaxy, target, zoom, claro, mercado, cursor,
+  character, sonnet…) stay lowercase or are left out, or normal text would be capitalised.
+  build_dict.py / build_typos.py / typo_bench.py read every `<lang>_*.txt` (tools/wordlist_files.py).
+  Result: en +273 new words, 523 kept-as-typed; es +223, 470.
+- **Phrase lists** (en_phrases 696 lines, es_phrases 399): everyday texting sentences with the new
+  words. tools/ngram_count.py counts each line PHRASE_WEIGHT=100 times next to Tatoeba + subtitles
+  (every 10th held out into `<lang>.phrases_holdout.txt`); then build_dict (bigrams), build_ngrams,
+  build_typos as before. WORKERS env (2 for es: with 3 it was killed for memory once).
+- **Conversation cache** (predict/Suggester.kt + TypingSession): the last 300 dictionary words typed
+  in this app get CACHE_BOOST 0.3 × ln(1+uses) (cleared when the app changes; never fed in
+  incognito/password fields, since it's fed from learn()). Swept 0.3/0.6/1.0 with
+  tools/predict_bench.py (CACHE_BOOST, CACHE_SIZE env): 0.3 best.
+- Tried and not shipped: unknown-previous-word fallback to common words (+0.1 top-3 only).
+
+### Results (tools/predict_bench.py, 4000 held-out lines; top-3)
+| | before | after |
+|---|---|---|
+| en subtitles | 28.8% | 28.9% (cache) |
+| es subtitles | 26.0% | 26.1% |
+| en texting holdout | 25.7% | 26.1% |
+| es texting holdout | 22.9% | 25.9% |
+Context check (/tmp script, top-3 after the context): en 1/25 → 19/25 ("turn off" → bluetooth,
+"send me a" → screenshot, "he has so much" → rizz, "the AI is" → hallucinating, "spill the" → tea);
+es 1/15 → 10/15 ("wepa ya" → llegué, "bota eso en el" → zafacón, "te paso por" → zelle/ath,
+"qué es la que" → hay, "le pregunté a" → chatgpt). The first build used round 1 of the phrases
+(497 en / 281 es); round 2 (+200 en, +120 es aimed at the misses) is written, rebuild pending.
+
+### Build
+Bori build OK with the round-1 dictionaries (user: "built with no errors").
+
+### Safety benchmarks (typo_bench 300/set, log tools/.cache/bench_after.log)
+| set | en old | en new | es new |
+|---|---|---|---|
+| B everyday typos fixed | 86.2% | 86.2% | 84.5% |
+| C correct words changed | 0.00% | 0.00% | 0.00% |
+| D1 typo lists | 90.3% | 89.7% | 97.3% |
+| E fast typing | 73.0% | 73.0% | 67.9% |
+| F thumb typing | 78.4% | 77.8% | 77.3% |
+| M modern words typed right, changed | 3.9% | 2.3% | 0.7% |
+| M modern typos fixed | 69.0% | 73.1% | 79.8% |
+es old vs new: B 84.5 = 84.5, C 0% = 0%, D1 97.3 = 97.3, E 67.9 = 67.9, F 79.1 → 77.3 (~3 items),
+M typed right changed 3.7 → 0.7%, M typos fixed 72.9 → 79.8%.
+glide_bench en (200/set, top-1/top-3) old vs new: G1–G4 identical (89.0/97.5, 86.5/96.0, 73.5/90.5,
+67.0/82.0); M (modern words) 42.5/66.5 → 47.5/73.0%.
+
+### Round 2 (rebuilt 16:28–16:47, both languages)
+Phrases en 696 / es 399 lines. Subtitles top-3: en 28.9% (same), es 26.1% (same). Texting holdout
+(now a different, larger held-out set, so not comparable with round 1): en 24.1% (253 words),
+es 28.9% (128 words). Context checks: en 19/25, es 11/15 (some of these contexts are now in the
+training sentences). Round-1 files kept in tools/.cache/round1, originals in tools/.cache/baseline.
+Note: `nohup sh script &` + `pgrep` can return the short-lived wrapper's pid; wait on the
+`sh /tmp/rebuild.sh` pid itself (an earlier "killed" Spanish run was this mix-up).
+
+### Done (was pending)
+- Rebuild both languages with round-2 phrases (`WORKERS=2 sh /tmp/rebuild.sh en es`; the script
+  is: ngram_count → build_dict → build_ngrams → build_typos → predict_bench ×2).
+
+### Not tested on the phone
+Predictions above in real chats; swiping rizz, eSIM, Zelle, wepa; recent names coming back.
+
+### How to catch up
+1. This entry. 2. tools/wordlists/README.md. 3. Suggester CACHE_* + noteRecent.
+
+---
+
+## Session 39 — 2026-11-12 (Claude Code): remember emails + usernames (like Gboard / Samsung)
+
+### Why
+Session 38 (day + night themes): user "looking good". Then asked for the keyboard to remember the
+emails and sign-in names they use, as Gboard and Samsung Keyboard do.
+
+### Decisions
+- **Own small store** learn/LoginStore.kt: JSON in `noBackupFilesDir/logins.json` (never backed up;
+  allowBackup is false anyway), max 50 entries, loaded once (keyboard and Settings share one
+  process). Not in UserStore's SQLite: no DB version bump for 50 rows.
+- **Which fields** (ime/EditorPolicy.kt `loginField`): email-type fields, plus one-line text fields
+  whose hint/label matches email / correo / username / usuario / log in / sign in / iniciar
+  sesión / account name (not "search"). Those hint fields now also get no autocorrect and no
+  auto-capitals (usernames shouldn't be "fixed").
+- **Learning** (TypingSession.captureField, run on Enter-with-action and when the field closes):
+  - An email typed in a sign-in/email field counts 1 use. It shows from the 2nd use (the dictionary's
+    rule), so a one-off recipient doesn't stick at once. The same text isn't counted twice within
+    10 min (finish() runs on hide and on leaving the field).
+  - **Password-next rule:** if the next field in the *same app* within 5 min is a password field,
+    the previous field's one-token text (email or username) is saved as confirmed and shows at
+    once. That covers sign-in pages with no hint and 2-step sign-ins (email page → password page).
+  - Never: password fields, incognito, apps asking for no learning, number/phone fields, the
+    Swipe Trainer, digits-only text (codes, phone numbers), text with spaces or > 80 chars.
+- **Suggesting** (TypingSession.showLogins, replaces word suggestions in those fields): empty
+  field → top 3 saved; typing → saved entries starting with it (any case), best in the centre;
+  after "@" → domain endings, the user's own domains first, then gmail/outlook/hotmail/yahoo/icloud
+  (shown as "@gmail.com"). A pick replaces the current token (after the last space/comma/
+  semicolon, so multi-recipient fields work). Long-press a saved one → "Forget …?". Updates on
+  every selection change (posted, coalesced).
+- **Settings:** Clipboard & privacy → Privacy group → "Emails & usernames" (status "On · N saved")
+  → page (settings/LoginsScreen.kt): switch with ⓘ, Saved list (Forget; "learning" tag until
+  shown), Add (email or username by hand, confirmed), Forget all (confirm dialog). Style guide map
+  updated.
+
+### Files changed
+- learn/LoginStore.kt (new).
+- ime/EditorPolicy.kt (`loginField`, LOGIN_HINT), ime/TypingSession.kt (capture, password-next,
+  showLogins, pick/long-press, onUpdateSelection refresh).
+- settings/LoginsScreen.kt (new), CategoryScreens.kt (PrivacyScreen row + navigate param),
+  SettingsActivity.kt (route "logins", Back → privacy), Prefs.kt (`rememberLogins`, default on).
+
+### Build
+Not built yet. Brace/paren and nested-comment checks pass; no `LocalContext` inside remember.
+
+### Known gaps
+- Apps that autofill the email themselves (password managers) aren't typed, so nothing is learned;
+  add by hand in Settings.
+- Hint detection depends on the app filling EditorInfo.hintText/label; Chrome pages often don't,
+  then only the password-next rule and email-type fields apply.
+- Settings → start page "Clipboard & privacy" status line doesn't mention it.
+
+### Not tested on the phone
+Gmail/Outlook sign-in (email field shows saved emails, "@" domains), a website sign-in in Chrome
+(username before password gets saved, shows at once next time), long-press → Forget, Settings
+page add/forget/forget all, incognito hides them, password fields never learn.
+
+### Next step
+User: Build + Install; sign in somewhere twice, check the bar. Then 3.9 ambient effects.
+
+### How to catch up
+1. This entry. 2. learn/LoginStore.kt. 3. TypingSession `captureField` / `showLogins`.
+
+---
+
+## Session 38 — 2026-11-12 (Claude Code): day + night for the built-in themes, Coquí day, El Yunque
+
+### Why
+The user asked to make sure the themes support day and night, including a Coquí day. Only 7 of 24
+presets had a `dark` variant (Classic, Material You, Pastel, Mountains, Beach, City Lights,
+Borinquen); the other 17 looked the same in both modes, so Dark mode did nothing for them.
+
+### Decisions (user picked each one in a question dialog)
+- **Coquí:** one theme, renamed "Coquí Night" → "Coquí", with a day look (leafy greens) and the old
+  night colours. The id stays `coqui_night` (file 41-coqui_night.json) so anyone using it keeps it.
+- **Fixed themes stay fixed:** Snow, Charcoal, Pure Black, High Contrast Light/Dark (they *are* the
+  always-light / always-dark picks).
+- **The other 12 got a second version.** Each keeps its fonts, key shape and look; only colours
+  change. A theme that was dark gets a new `light` (day), and its old colours become `dark`.
+  Dot Matrix (white body), Neon LED (lavender, smaller glow), Gamer RGB (light grey, same rainbow
+  outline), Glass (sky blue), Sunset (golden hour), Ocean (turquoise → sand), Aurora (icy mint),
+  Galaxy (pastel nebula), Coquí (day); new nights for Mechanical, Candy Glass (plum), Retro
+  Typewriter.
+- **New drawn scene "El Yunque"** (Coquí uses it in both versions): misty green peaks and ferns,
+  sun by day; moon, stars and 26 fireflies by night. Our own drawing, no image files. It's in
+  `Backdrop.SCENES`, so it also shows in Background → Scene and in Surprise me.
+- **Gallery:** cards of themes with a night version show "☀ ☾" after the name.
+
+### Files changed
+- tools/build_themes.py (new variants; DOT_KEYS and RGB constants) → regenerated
+  assets/themes 10, 11, 12, 13, 20, 21, 30–34, 41 (only these 12 changed).
+- theme/Backdrop.kt: `yunque()` + `fern()` in Scenes, SCENES entry.
+- settings/ThemesScreen.kt: ThemeCard name line.
+
+### Build
+Not built yet. build_themes.py contrast check: `problems: 0` (every text ≥ 4.5:1, both versions).
+Brace/paren balance and the nested-comment check pass.
+
+### Known gaps
+- The contrast check can't see the drawn scene; Coquí's day gradient stands in for its sky/peaks,
+  and ThemeResolver.readable still fixes text over pictures at run time.
+- Long names plus "☀ ☾" may wrap to two lines on narrow cards (e.g. Retro Typewriter).
+- The El Yunque drawing has not been seen yet (ferns' size/density may need tuning).
+
+### Not tested on the phone
+Settings → Themes → Dark mode Always light / Always dark: 19 previews change, 5 fixed ones don't.
+Coquí by day and night (scene, readable keys and suggestion bar). New day looks of Neon LED, Dot
+Matrix, Glass, Galaxy; new nights of Mechanical, Candy Glass, Retro Typewriter. Background → Scene
+→ El Yunque.
+
+### Next step
+User: Build + Install, check the above (and Session 37's calibration layout if not done). Then 3.9
+ambient effects.
+
+### How to catch up
+1. This entry. 2. tools/build_themes.py (themes 10–41). 3. Backdrop.kt `yunque`.
+
+---
+
+## Session 37 — 2026-11-12 (Claude Code): calibration page, sideways overlap + centred text
+
+### Why
+Session 36 (theme 3.8) built OK at 10:34; user: "it looks great". Then they reported two problems on
+Fit to my thumbs (pics/Screenshot_20261112_103733_Bori Keyboard.jpg, folded + sideways):
+1. Sideways, raising the key height made the practice keyboard cover the text and the slider.
+   (The screenshot shows the sentence drawn over "Too tall or too short?…", and the slider and
+   the "Now type this…" line on top of the number and q rows.)
+2. Unfolded, all the text sat on the left, so typing the sentence was hard to follow.
+
+### Cause
+CalibrationScreen drew two independent layers in a Box: the instructions column pinned to the top
+and the sentence + keys column pinned to the bottom (BoxScope.align(BottomCenter)). On a short
+screen, or with taller keys, they overlapped. All the text was start-aligned across the full width.
+
+### Fix (settings/CalibrationScreen.kt only)
+- Typing step is now one Column: compact one-line header (← Back · Fit to my thumbs · posture), an
+  instructions area with weight(1f) that shrinks and scrolls, a fixed row "Key height N%" +
+  slider (always visible, max 560 dp wide, centred), then the centred sentence and the practice keys.
+  Nothing can overlap; the keys keep their true size.
+- Thumbs and Done steps: same compact header; text centred (TextAlign.Center, max 560 dp).
+- PracticeKeyboard is no longer a BoxScope extension; the sentence is centred above the keys.
+- Instruction text merged: "Type the sentence on the keys below…" (the "Too tall or too short?"
+  line dropped; the slider row says it).
+- The header uses top/side safe-drawing insets (it was safeDrawingPadding on the whole column).
+
+### Build
+Not built yet. Brace/paren and nested-comment checks pass.
+
+### Known gaps
+At the slider's top end (150%) sideways, the keys plus the slider can be taller than the screen;
+then the bottom of the keys is cut off. Calibration itself caps at 130%.
+
+### Not tested on the phone
+Sideways folded + unfolded: drag the slider to max, so nothing overlaps; the sentence is centred
+over the keys; thumb step text centred; Done page centred.
+
+### Next step
+User: Build + Install, redo Fit to my thumbs sideways and unfolded. Then 3.9 ambient effects.
+
+### How to catch up
+1. This entry. 2. CalibrationScreen (if step == STEP_TYPE block, CalibrationHeader, CenteredText).
+
+---
+
+## Session 36 — 2026-11-12 (Claude Code): theme 3.8, share + import + Surprise me
+
+### Why
+Session 35's fix built OK (10:26) and the user confirmed the bar is back. The user asked to keep
+going with themes, so this is phase 3.8 from .bori/theme-plan.md. The settings two-pane layout and
+search wait until after the theme phases.
+
+### Decisions
+- **File format** (theme/ThemeShare.kt): `.boritheme` = a zip with `theme.json` plus the photo, if
+  the background is a photo. A bare theme.json also imports. Shared as `application/zip` so any
+  app (Quick Share, Drive, Gmail, chats) takes it.
+- **Share = what you see:** the user's Keys & letters picks (look, shape, font, capitals, size,
+  see-through, hints) and Background override are baked into both day and night variants. Photos
+  come from filesDir/backgrounds (the user's pick) or the theme's own folder. Not baked in: the
+  Key borders switch, effects/LED, sounds (they're the viewer's prefs, not part of ThemeSpec).
+  Material You tokens stay tokens, so they follow the receiver's wallpaper.
+- **Import is defensive:** whole file at most 24 MB, theme.json at most 256 KB, pictures at most
+  12 MB each, at most 8 entries. Only plain names (no '/', '\\', '..'), pictures must decode
+  (bounds), JSON goes through ThemeStore.decode. It always gets a new `my_<time>` id in Mine
+  (never overwrites anything); name and author are capped at 40 characters. A photo background
+  whose picture is missing is dropped. Then it becomes the keyboard's theme.
+- **Ways in:** Theme → "Add a shared theme" (system file picker, any type, since shared files
+  often come as octet-stream; no storage permission). Bori is also a share-sheet target (SEND,
+  application/zip + octet-stream; no VIEW filter, so Bori doesn't take over opening every zip).
+  SettingsActivity.importShared runs the import on a thread, shows a Toast, then opens the gallery.
+- **Surprise me** (theme/SurpriseTheme.kt): random light/dark, base hue and accent hue (same,
+  ±30°, 180°, ±120°). Plain 40%, 2-stop gradient 40%, drawn scene 20%. Random look, shape, font,
+  radius, gaps, sometimes an outline in the accent colour (+ glow on dark). Text is moved toward
+  black/white until ≥ 4.5:1 on both its key and the background (outline keys show the
+  background), hints ≥ 3:1, strip text ≥ 4.5:1 on every gradient stop, the Enter label white or
+  near-black with the Enter key darkened/lightened until 4.5:1. Scenes rely on
+  ThemeResolver.readable. Fun two-word names ("Mango Storm", "Coquí Glow"); author "Surprise me".
+- **Surprise UX** (Theme hub, first group): each tap saves into Mine and applies it. Tapping
+  again while the last surprise is still the theme replaces it (Mine doesn't fill up with
+  tries). "Undo surprise · Back to X" deletes it and restores the theme from before the first
+  tap. Leaving the page keeps the current surprise.
+- **Rows** (style guide): Theme hub gets "Surprise me" (+ Undo when it applies) and a new
+  "Share" group: "Share <name>" and "Add a shared theme". The editor's Theme group gets "Share".
+  Errors and results show as a Footnote line.
+
+### Files changed
+- theme/: ThemeShare.kt (new), SurpriseTheme.kt (new), ThemeStore.kt (`dirOf`).
+- settings/: ThemeShareUi.kt (new: shareTheme, importThemeNow, rememberThemeImporter,
+  importMessage, dropTheme), ThemesScreen.kt (hub rows; `selected` is now state),
+  ThemeEditorScreen.kt (Share row), SettingsActivity.kt (importShared on SEND).
+- AndroidManifest.xml (SEND filter on SettingsActivity), res/xml/file_paths.xml (cache
+  shared_themes/).
+
+### Build
+Bori build OK 2026-11-12 10:34 (no errors). Share/import + Surprise me not yet confirmed on the phone.
+
+### Known gaps
+- The editor's Duplicate copies theme.json only, not a photo in the theme's folder (rare: the
+  editor doesn't set photos yet).
+- The Undo surprise row goes away if you leave the Theme page.
+
+### Not tested on the phone
+Share → Quick Share/Drive/Gmail → open on the other side via "Add a shared theme" or the share
+sheet → same look, photo included. Surprise me ×10 (all readable? any ugly fonts?), Undo,
+replace-on-retap. A damaged/random zip shows a clear message. Share from the editor.
+
+### Next step
+User: Build + Install, try the above. Then 3.9 ambient background effects (rain, snow, leaves…).
+
+### How to catch up
+1. theme/ThemeShare.kt. 2. theme/SurpriseTheme.kt. 3. ThemesScreen hub (Surprise + Share group).
+
+---
+
+## Session 35 — 2026-11-12 (Claude Code): suggestion bar (and 📋) invisible on solid themes
+
+### Why
+User: "the clipboard has completely been gone" (pics/Screenshot_20261112_075925.jpg). The whole
+suggestion bar was blank: no 📋, no ⚙, no dividers, just the theme colour above the number row.
+
+### Cause
+Session 30 (press effects) set `clipChildren = false` on the key frame, the column and the root in
+view/InputRootView.kt so effects can spill over the bar. KeyboardView.onDraw began with
+`canvas.drawColor(theme.solidBackground)`; drawColor fills the whole clip, and with child clipping
+off that is the whole input view, so the keyboard (drawn after the bar) painted over it. Only on
+solid-colour themes: gradient/scene/photo themes make solidBackground transparent, which is why
+it wasn't seen earlier. The bar still took taps; it just wasn't visible.
+
+### Fix
+view/KeyboardView.kt, view/SuggestionStripView.kt, view/SearchBarView.kt: fill only the view's own
+rectangle (`drawRect(0, 0, width, height, backgroundPaint)`, skipped when transparent; the paint
+is a field, so there are no allocations in onDraw). The bar and search bar weren't affected (their
+FrameLayout clips), but they're changed too so the trap can't return. `clipChildren = false` is
+kept. Rule for later: no `canvas.drawColor` in views inside InputRootView.
+
+### Build
+Bori build OK 2026-11-12 10:26. User: "it is back!" (pics/Screenshot_20261112_102728: bar shows ⚙, suggestions, 📋 in the theme's colours).
+
+### Not tested on the phone
+Solid theme: ⚙ + 📋 visible, 📋 opens the clipboard, ⌨ returns, suggestions, the copied chip.
+Gradient/photo theme still fine; press effects still spill over the bar.
+
+### Next step
+User: Build + Install, check the bar. Then theme 3.8 (share .boritheme + import + Surprise me), as
+agreed in this session's plan. The settings two-pane layout + search wait until after the theme phases.
+
+### How to catch up
+1. This entry. 2. KeyboardView.onDraw (first lines). 3. .bori/theme-plan.md 3.8.
+
+---
+
 ## Session 34 — 2026-11-12 (Claude Code): settings, every page below the start page (built OK 20:49)
 
 ### Why

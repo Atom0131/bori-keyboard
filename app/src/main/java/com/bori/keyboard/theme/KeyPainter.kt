@@ -62,6 +62,7 @@ class KeyPainter {
      */
     fun draw(c: Canvas, r: RectF, color: Int, pressed: Boolean, accent: Boolean): RectF {
         face.set(r)
+        lastHollow = false
         if (!theme.keyShapes && !pressed && !accent) return face
         val t = theme
         shape.set(r)
@@ -109,6 +110,7 @@ class KeyPainter {
                     face.inset(half, half)
                     c.drawRoundRect(face, rad, rad, line)
                     face.set(shape)
+                    lastHollow = true
                 }
                 return face
             }
@@ -130,6 +132,34 @@ class KeyPainter {
         }
         if (t.hasOutline) c.drawRoundRect(face, rad, rad, border)
         return face
+    }
+
+    /** The last key drawn was only an outline (outline look): lights follow its line. */
+    private var lastHollow = false
+
+    /**
+     * LED lighting with a gradient (LedLights.framePaint): paints [p] over the face of the key
+     * [draw] just drew, so one rainbow runs across all the keys. Outline-look keys get it on
+     * their line instead of a fill.
+     */
+    fun overlay(c: Canvas, p: Paint) {
+        if (lastHollow) {
+            outline(c, p, line.strokeWidth.coerceAtLeast(1.5f * density))
+            return
+        }
+        p.style = Paint.Style.FILL
+        c.drawRoundRect(face, lastRad, lastRad, p)
+    }
+
+    /** LED lighting: an outline painted with [p] (a gradient) around the key [draw] just drew. */
+    fun outline(c: Canvas, p: Paint, widthPx: Float) {
+        p.style = Paint.Style.STROKE
+        p.strokeWidth = widthPx
+        val half = widthPx / 2
+        shape.inset(half, half)
+        c.drawRoundRect(shape, lastRad, lastRad, p)
+        shape.inset(-half, -half)
+        p.style = Paint.Style.FILL
     }
 
     /** LED lighting: an outline of [color] around the key [draw] just drew. */

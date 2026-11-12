@@ -71,7 +71,7 @@ data class Backdrop(
     val baseColor: Int,
 ) {
     companion object {
-        val SCENES = listOf("mountains" to "Mountains", "beach" to "Beach", "skyline" to "City", "dots" to "Dot grid")
+        val SCENES = listOf("mountains" to "Mountains", "beach" to "Beach", "skyline" to "City", "yunque" to "El Yunque", "dots" to "Dot grid")
 
         /** Ready-made gradients for Settings (the editor in 3.7 adds custom colours). */
         val GRADIENTS = listOf(
@@ -265,6 +265,7 @@ internal object Scenes {
         when (id) {
             "beach" -> beach(c, W, H, night, rnd)
             "skyline" -> skyline(c, W, H, night, rnd)
+            "yunque" -> yunque(c, W, H, night, rnd)
             "dots" -> dots(c, W, H, night)
             else -> mountains(c, W, H, night, rnd)
         }
@@ -397,6 +398,96 @@ internal object Scenes {
                 x += bw + W * 0.004f
             }
         }
+    }
+
+    /**
+     * El Yunque rainforest (the Coquí theme): misty green peaks, ferns along the bottom; sun by
+     * day, moon, stars and fireflies at night.
+     */
+    private fun yunque(c: Canvas, W: Float, H: Float, night: Boolean, rnd: Random) {
+        if (night) {
+            sky(c, W, H, Color.rgb(6, 20, 26), Color.rgb(16, 44, 38))
+            stars(c, W, H * 0.6f, rnd, 45)
+            p.color = Color.rgb(236, 240, 214)
+            c.drawCircle(W * 0.82f, H * 0.16f, H * 0.06f, p)
+        } else {
+            sky(c, W, H, Color.rgb(191, 227, 242), Color.rgb(232, 244, 236))
+            p.color = Color.rgb(255, 240, 190)
+            p.alpha = 90
+            c.drawCircle(W * 0.8f, H * 0.17f, H * 0.12f, p)
+            p.alpha = 255
+            c.drawCircle(W * 0.8f, H * 0.17f, H * 0.07f, p)
+        }
+        val layers = if (night) {
+            intArrayOf(Color.rgb(22, 54, 42), Color.rgb(14, 40, 30), Color.rgb(8, 28, 20))
+        } else {
+            intArrayOf(Color.rgb(150, 192, 160), Color.rgb(104, 160, 112), Color.rgb(62, 122, 68))
+        }
+        ridge(c, W, H, H * 0.36f, H * 0.3f, layers[0], rnd)
+        ridge(c, W, H, H * 0.52f, H * 0.22f, layers[1], rnd)
+        ridge(c, W, H, H * 0.7f, H * 0.12f, layers[2], rnd)
+        // Ferns rising from the bottom edge.
+        val fernColor = if (night) Color.rgb(5, 18, 11) else Color.rgb(38, 92, 44)
+        var x = W * 0.02f
+        while (x < W) {
+            val len = H * (0.22f + rnd.nextFloat() * 0.2f)
+            val lean = (rnd.nextFloat() - 0.5f) * len * 0.9f
+            fern(c, x, H, len, lean, fernColor, rnd)
+            x += W * (0.06f + rnd.nextFloat() * 0.07f)
+        }
+        if (night) {
+            // Fireflies: a soft halo and a bright centre.
+            repeat(26) {
+                val fx = rnd.nextFloat() * W
+                val fy = H * (0.3f + rnd.nextFloat() * 0.65f)
+                val r = H * (0.006f + rnd.nextFloat() * 0.006f)
+                p.color = Color.rgb(214, 255, 120)
+                p.alpha = 55
+                c.drawCircle(fx, fy, r * 3.5f, p)
+                p.alpha = 230
+                c.drawCircle(fx, fy, r, p)
+            }
+            p.alpha = 255
+        }
+    }
+
+    /** One fern frond: a curved stem from (x0, y0) with leaflets on both sides, shorter toward the tip. */
+    private fun fern(c: Canvas, x0: Float, y0: Float, len: Float, lean: Float, color: Int, rnd: Random) {
+        p.color = color
+        p.style = Paint.Style.STROKE
+        p.strokeCap = Paint.Cap.ROUND
+        p.strokeWidth = (len * 0.025f).coerceAtLeast(1f)
+        val cx = x0 + lean * 0.2f
+        val cy = y0 - len * 0.75f
+        val ex = x0 + lean
+        val ey = y0 - len
+        val stem = Path()
+        stem.moveTo(x0, y0)
+        stem.quadTo(cx, cy, ex, ey)
+        c.drawPath(stem, p)
+        val n = 9 + rnd.nextInt(4)
+        p.strokeWidth = (len * 0.018f).coerceAtLeast(1f)
+        for (i in 1 until n) {
+            val t = i / n.toFloat()
+            val u = 1f - t
+            // Point and direction on the quadratic curve.
+            val px = u * u * x0 + 2f * u * t * cx + t * t * ex
+            val py = u * u * y0 + 2f * u * t * cy + t * t * ey
+            var dx = 2f * u * (cx - x0) + 2f * t * (ex - cx)
+            var dy = 2f * u * (cy - y0) + 2f * t * (ey - cy)
+            val d = kotlin.math.sqrt(dx * dx + dy * dy).coerceAtLeast(0.001f)
+            dx /= d
+            dy /= d
+            val leaf = len * (0.05f + 0.2f * u)
+            // Leaflets point outward and a little up the stem.
+            for (side in intArrayOf(-1, 1)) {
+                val lx = -dy * side * 0.85f + dx * 0.5f
+                val ly = dx * side * 0.85f + dy * 0.5f
+                c.drawLine(px, py, px + lx * leaf, py + ly * leaf, p)
+            }
+        }
+        p.style = Paint.Style.FILL
+        p.strokeWidth = 0f
     }
 
     private fun dots(c: Canvas, W: Float, H: Float, night: Boolean) {

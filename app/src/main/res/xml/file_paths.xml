@@ -3,4 +3,6 @@
 <paths>
     <files-path name="clips" path="clips/" />
     <cache-path name="gifs" path="gifs/" />
+    <!-- Themes the user shares (Settings → Theme → Share). -->
+    <cache-path name="shared_themes" path="shared_themes/" />
 </paths>

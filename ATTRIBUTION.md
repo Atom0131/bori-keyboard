@@ -15,7 +15,7 @@ are built by `tools/build_dict.py`, and the phrase models (`*.ngram`) by `tools/
 | Next-word pairs and 3–4 word phrases (en, es): counts only, no text is shipped | OpenSubtitles 2018 via OPUS (first 20M lines per language) — P. Lison and J. Tiedemann, "OpenSubtitles2016: Extracting Large Parallel Corpora from Movie and TV Subtitles", LREC 2016; https://opus.nlpl.eu/OpenSubtitles/ ; http://www.opensubtitles.org | Distributed by OPUS for research use; statistical counts only, like FrequencyWords above |
 | Common misspellings, English (in `*_typos.txt`) | Wikipedia "Lists of common misspellings", via Roger Mitton's Birkbeck corpus copy (wikipedia.dat) — https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings | CC BY-SA 4.0 |
 | Common misspellings, Spanish (in `*_typos.txt`) | Spanish Wikipedia "Wikipedia:Corrector ortográfico/Listado" — https://es.wikipedia.org/wiki/Wikipedia:Corrector_ortogr%C3%A1fico/Listado | CC BY-SA 4.0 |
-| Modern words: slang 1920s–2020s, texting, AI/tech terms, app names (en, es) | Hand-curated for this project, `tools/wordlists/` — no third-party dictionary copied | Project's own (GPL-3.0) |
+| Modern words and texting phrases: slang 1920s–2020s, texting, AI, phone and brand words, Puerto Rican and regional Spanish, everyday texting sentences (en, es) | Hand-curated for this project, `tools/wordlists/` — no third-party dictionary copied | Project's own (GPL-3.0) |
 
 Because they're derived from CC BY-SA 4.0 data, the generated `.bdic` and `.ngram` files and the typo lists
 (`*_typos.txt`, built by `tools/build_typos.py`, which also adds generated keyboard slips) are

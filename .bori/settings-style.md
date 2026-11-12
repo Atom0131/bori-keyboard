@@ -52,6 +52,22 @@ Toptal, ScreensDesign and Eleken.
 Older code may still call CategoryScreen, PrefSwitch, Note or SectionTitle; they are kept as
 wrappers. Prefer the new blocks.
 
+## Full-screen tool pages (calibration, practice keyboards)
+Learned in Session 37 (user: sideways, the keys covered the text; unfolded, the text was hard to
+follow because it sat on the left):
+- Stack everything in **one Column**. Don't pin separate layers to the top and bottom of a Box;
+  on a short (sideways) screen they overlap. Give the instructions `weight(1f)` +
+  `verticalScroll` so they shrink first, and keep controls (sliders) in fixed rows.
+- Keep the header on one line (← Back · title · status) so sideways screens keep room.
+- **Centre** text on these pages (`TextAlign.Center`, max ~560 dp wide), especially anything
+  the user reads while typing on keys below it (the practice sentence).
+- Test in all four postures: folded/unfolded × upright/sideways.
+
+## Keyboard views
+- No `canvas.drawColor` in views inside InputRootView: child clipping is off there (press
+  effects spill over the bar), so drawColor paints over the suggestion bar (Session 35). Fill
+  your own rectangle with `drawRect(0, 0, width, height, paint)`.
+
 ## Compose mistakes that broke Bori builds
 - Read `LocalContext.current` (or any `Local….current`) **outside** `remember { }`:
   `val context = LocalContext.current; val prefs = remember { Prefs(context) }`. Inside
@@ -61,8 +77,9 @@ wrappers. Prefer the new blocks.
   `rg -n '\S/\*'`.
 
 ## Map (start page → pages → deeper pages)
-- **Theme** → Gallery, Dark mode, Key borders, Keys & letters, Background, Effects & lighting,
-  Design your own / Edit (the editor's colour picker opens in a dialog).
+- **Theme** → Gallery, Surprise me (+ Undo surprise), Dark mode, Key borders, Keys & letters,
+  Background, Effects & lighting (Background effect + Amount/Speed, press effect, LED), Design your own / Edit (the editor's colour picker opens in a
+  dialog; its Theme group has Share), Share group: Share <theme>, Add a shared theme.
 - **Layout & size** → Fit to my thumbs (calibration), Key height, Other ways of holding, Number
   row, Split keyboard.
 - **Typing** → 3 switches, Sound & vibration.
@@ -70,7 +87,8 @@ wrappers. Prefer the new blocks.
 - **Swipe & gestures** → Glide typing, Swipe trail, Learn my style, Practice (Trainer, Test Lab),
   Gestures.
 - **Emoji & GIFs** → Emoji style, GIF search.
-- **Clipboard & privacy** → Incognito, Clipboard history, Keep copies for, Suggest copied text.
+- **Clipboard & privacy** → Incognito, Emails & usernames (own page: switch, saved list, add,
+  forget all), Clipboard history, Keep copies for, Suggest copied text.
 - **Help improve Bori** → Typo log, Diagnostics.
 
 Routes live in SettingsActivity (`when (screen)`), and Back targets in `parentOf`.

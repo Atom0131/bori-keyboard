@@ -57,6 +57,9 @@ class SuggestionStripView(context: Context) : View(context) {
     private val density = resources.displayMetrics.density
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER }
     private val dividerPaint = Paint()
+    private val backgroundPaint = Paint()
+    /** False while an ambient effect runs behind us: InputRootView paints the background. */
+    var paintBackground = true
     private val pressPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val handler = Handler(Looper.getMainLooper())
     private val settingsWidth get() = 48 * density
@@ -117,7 +120,13 @@ class SuggestionStripView(context: Context) : View(context) {
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(theme.solidBackground)
+        // Only our own rectangle: drawColor fills the whole clip, and InputRootView turns
+        // child clipping off (for press effects), so it would paint over the suggestion bar.
+        val bg = theme.solidBackground
+        if (paintBackground && android.graphics.Color.alpha(bg) != 0) {
+            backgroundPaint.color = bg
+            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
+        }
         textPaint.color = theme.stripText
         textPaint.typeface = Typeface.DEFAULT
         textPaint.textSize = height * 0.42f

@@ -1,0 +1,263 @@
+# English slang of today: Gen Z / Gen Alpha, internet, texting, rude and sexual slang (user
+# choice: treated like any other word). Own list, Session 40. Older eras live in en_modern.txt.
+# Format: word tier era variants...  (see README.md)
+
+# ---------------------------------------------------------------- Gen Z / Gen Alpha
+rizz 2 2020s rizzed rizzing rizzler rizzy unrizz
+gyatt 3 2020s gyat
+skibidi 3 2020s
+delulu 2 2020s
+situationship 2 2020s situationships
+mid 1 2020s
+bussin 2 2020s
+sigma 2 2020s sigmas
+aura 1 2020s
+brainrot 2 2020s
+mewing 3 2020s mew mewed
+glazing 2 2020s glaze glazed glazer glazers
+cooked 1 2020s
+crashout 2 2020s crashouts crashing
+demure 2 2020s
+brat 2 2020s brats bratty
+ick 2 2020s icks
+slay 1 2020s slayed slaying slays slayy
+ate 1 2020s
+cap 1 2020s capping capper
+nocap 3 2020s
+bet 1 2020s
+sus 1 2020s sussy
+lowkey 1 2020s
+highkey 2 2020s
+fr 1 2020s frfr
+ong 2 2020s
+istg 2 2020s
+ngl 1 2020s
+tbh 1 2020s
+tbf 3 2020s
+iykyk 2 2020s
+bffr 3 2020s
+fyp 3 2020s
+oomf 3 2020s
+moots 3 2020s moot
+stan 2 2020s stans stanned stanning
+simp 2 2020s simps simping simped
+yeet 2 2020s yeeted yeeting
+vibe 1 2020s vibes vibing vibed vibey
+vibecheck 3 2020s
+periodt 2 2020s
+purr 2 2020s
+mother 1 2020s mothering mothered
+serve 1 2020s serving served
+snatched 2 2020s
+tea 1 2020s
+spill 1 2020s
+shook 2 2020s
+salty 2 2020s
+extra 1 2020s
+basic 1 2020s
+boujee 2 2020s bougie bourgeois
+drip 2 2020s drippy
+fit 1 2020s fits
+fire 1 2020s
+goat 1 2020s goated
+based 2 2020s
+cringe 1 2020s cringey cringy cringeworthy
+yikes 2 2020s
+oof 2 2020s
+bruh 1 2020s bro bros bruhh
+fam 2 2020s
+bestie 1 2020s besties
+bae 2 2020s
+boo 2 2020s
+sis 2 2020s
+queen 1 2020s
+king 1 2020s
+deadass 2 2020s
+dead 1 2020s
+weird 1 2020s
+unhinged 2 2020s
+feral 2 2020s
+chronically 3 2020s
+touch 1 2020s
+grass 1 2020s
+ratio 2 2020s ratioed ratioing
+dub 2 2020s dubs
+npc 2 2020s npcs
+mog 3 2020s mogged mogging mogs
+looksmaxxing 3 2020s looksmaxx looksmaxxed maxxing
+gooning 3 2020s goon gooner gooners
+fanum 3 2020s
+ohio 3 2020s
+gyattt 4 2020s
+edging 3 2020s
+sheesh 2 2020s sheeesh
+bussy 4 2020s
+pookie 2 2020s pookies
+gorg 3 2020s gorgeous
+gatekeep 2 2020s gatekeeping gatekept gatekeeper
+gaslight 2 2020s gaslighting gaslit gaslighter
+girlboss 2 2020s girlbossing
+mansplain 3 2020s mansplaining mansplained
+ghost 1 2020s ghosted ghosting
+breadcrumbing 3 2020s breadcrumb
+benching 3 2020s
+talking 1 2020s
+rent 1 2020s
+free 1 2020s
+iconic 1 2020s
+main 1 2020s
+character 1 2020s
+energy 1 2020s
+era 2 2020s eras
+core 2 2020s cottagecore
+aesthetic 1 2020s aesthetics
+vsco 3 2020s
+emo 2 2020s emos
+alt 2 2020s
+pick 1 2020s pickme
+glowup 2 2020s glowed
+softlaunch 3 2020s hardlaunch
+dupe 2 2020s dupes
+haul 2 2020s hauls
+unboxing 3 2020s unbox
+grwm 3 2020s
+ootd 3 2020s
+asmr 2 2020s
+ttyl 2 text
+brb 2 text
+gtg 2 text g2g
+omw 2 text
+wbu 2 text hbu
+hmu 2 text
+smh 1 text
+tf 2 text
+wtf 1 text wth
+af 1 text
+asf 2 text
+ffs 3 text
+fml 3 text
+pmo 3 text
+sm 2 text
+ppl 2 text
+abt 2 text
+rly 2 text
+srsly 3 text
+prolly 2 text
+bday 2 text bdays
+convo 2 text convos
+fave 1 text faves fav favs
+obvi 3 text
+totes 3 text
+whatev 3 text whatevs
+cuz 2 text
+ain't 1 text
+y'all 1 text
+finna 2 text
+tryna 2 text
+gonna 1 text
+gotta 1 text
+wanna 1 text
+dunno 2 text
+imma 2 text
+ight 2 text aight ait
+mmk 3 text
+kk 2 text
+hbd 3 text
+hny 4 text
+xoxo 2 text
+lmk 1 text
+idk 1 text
+omg 1 text
+lol 1 text
+lmao 1 text
+lmfao 2 text
+rofl 3 text
+ikr 2 text
+imo 2 text
+fomo 2 text
+yolo 2 text
+jomo 4 text
+bestfriend 3 text
+
+# ---------------------------------------------------------------- Black and Southern American English, widely typed
+finna 2 slang
+bout 2 slang
+chile 2 slang chileee
+honey 1 slang
+bih 3 slang
+sholl 4 slang
+boutta 2 slang
+nem 4 slang
+fasho 2 slang foshow
+hella 2 slang
+mad 1 slang
+lit 1 slang
+dope 1 slang
+bomb 1 slang
+turnt 2 slang turnup
+woke 2 slang
+cap 1 slang
+opp 2 slang opps
+plug 2 slang plugs
+bag 1 slang
+racks 2 slang
+bands 2 slang
+guap 3 slang
+bread 1 slang
+drip 2 slang
+ice 1 slang iced
+jawn 3 slang jawns
+jit 3 slang jits
+ard 3 slang
+dawg 2 slang dawgs dog
+homie 1 slang homies
+cuh 3 slang
+twin 2 slang
+gang 1 slang
+squad 1 slang
+bro 1 slang broski bruv
+fr 1 slang
+ong 2 slang
+deadass 2 slang
+
+# ---------------------------------------------------------------- rude and sexual slang (added like any word, user choice)
+fuck 1 rude fucked fucking fucks fucker fuckers fuckin fckin fkn fking motherfucker motherfuckers mf mfs
+shit 1 rude shits shitty shitting shitted bullshit horseshit shitshow shitpost shitposting
+bitch 1 rude bitches bitchy bitching
+ass 1 rude asses asshole assholes dumbass badass smartass jackass lazyass
+damn 1 rude dammit goddamn damnit
+hell 1 rude
+crap 1 rude crappy
+piss 2 rude pissed pissing pissy
+dick 2 rude dicks dickhead
+cock 3 rude cocks
+pussy 2 rude
+tits 3 rude titties tit
+boobs 2 rude boob boobies
+horny 2 rude
+thirsty 2 rude thirst thirsting
+hoe 2 rude hoes
+thot 3 rude thots
+slut 3 rude sluts slutty
+whore 3 rude whores
+cum 3 rude cumming
+jerk 1 rude jerking
+wank 4 rude wanker wankers
+bollocks 4 rude
+bastard 2 rude bastards
+douche 3 rude douchebag douchebags
+twat 4 rude
+prick 3 rude pricks
+dipshit 3 rude
+screw 1 rude screwed
+hookup 2 rude hookups hooking
+sexting 3 rude sext sexts sexted
+nudes 2 rude nude
+smash 1 rude smashed
+pegging 4 rude
+kinky 3 rude kink kinks
+milf 3 rude milfs
+dilf 3 rude
+daddy 1 rude
+fwb 3 rude
+nsfw 3 rude

@@ -43,6 +43,8 @@ OFL/Apache/CC with ATTRIBUTION entries). No Samsung, Apple or Nothing assets.
       Classic, Material You, Solid light/dark, High contrast ×2, Dot Matrix, Neon LED,
       Mechanical, Candy Glass, Glass, Borinquen, Coquí Night, Pastel, Sunset/Ocean/Aurora,
       Retro Typewriter, Galaxy, Gamer RGB.
+      Session 38: every preset except Snow, Charcoal, Pure Black and High Contrast ×2 has day +
+      night colours; Coquí Night → "Coquí" (id coqui_night) with a day look + El Yunque scene.
 - [x] 3.3 Key styling + fonts (Session 24, awaiting build; background opacity moved to 3.4): flat / raised 3D / sunken / outline / floating; rounded, pill,
       circle, square, squircle; key/background opacity; label size, hints, case. Fonts:
       Inter, Nunito, Atkinson Hyperlegible, JetBrains Mono, Doto, Press Start 2P, Bungee,
@@ -57,8 +59,8 @@ OFL/Apache/CC with ATTRIBUTION entries). No Samsung, Apple or Nothing assets.
       Water drop, Wood block, 8-bit, Piano mode; volume; follows silent mode.
 - [x] 3.7 (Session 32, built OK 19:51) Design-your-own editor: live preview, tap a key to paint it, HSV/hex picker,
       night colours, contrast warning < 4.5:1, undo, duplicate/rename/delete.
-- [ ] 3.8 Share (.boritheme zip) + Surprise me.
-- [ ] 3.9 Ambient background effects: rain, snow, leaves, sun rays, clouds, lightning,
+- [x] 3.8 (Session 36, built OK 10:34) Share (.boritheme zip) + import + Surprise me.
+- [x] 3.9 (Session 41, awaiting build) Ambient background effects: rain, snow, leaves, sun rays, clouds, lightning,
       starfield, aurora, fireflies, confetti, hearts, fireworks.
 - [ ] 3.10 Living themes: time of day (offline sun times), seasons, holidays (offline, incl.
       Three Kings, PR Constitution Day, Navidad through San Sebastián), weather (opt-in, off

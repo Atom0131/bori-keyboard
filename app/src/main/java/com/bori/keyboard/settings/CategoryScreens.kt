@@ -361,7 +361,7 @@ internal fun GifSearchScreen(onBack: () -> Unit) = SettingsPage("GIF search", on
 // ------------------------------------------------------------------ Clipboard & privacy
 
 @Composable
-internal fun PrivacyScreen(onBack: () -> Unit) = SettingsPage("Clipboard & privacy", onBack) {
+internal fun PrivacyScreen(onBack: () -> Unit, navigate: (String) -> Unit) = SettingsPage("Clipboard & privacy", onBack) {
     val context = LocalContext.current
     val prefs = remember { Prefs(context) }
     var incognito by remember { mutableStateOf(prefs.incognito) }
@@ -377,6 +377,9 @@ internal fun PrivacyScreen(onBack: () -> Unit) = SettingsPage("Clipboard & priva
             info = "Bori never learns from password fields or apps that ask for private input. " +
                 "Everything it learns stays on this phone.",
         ) { incognito = it; prefs.incognito = it }
+        RowDivider()
+        val logins = remember { com.bori.keyboard.learn.LoginStore.get(context) }
+        NavRow("Emails & usernames", loginsStatus(prefs, logins)) { navigate(SCREEN_LOGINS) }
     }
     Group("Clipboard") {
         SwitchRow(

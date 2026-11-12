@@ -76,6 +76,24 @@ class SettingsActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         intent.getStringExtra(EXTRA_SCREEN)?.let { startScreen.value = it }
+        importShared(intent)
+    }
+
+    /** A theme file shared to Bori from another app (share sheet): add it to Mine and use it. */
+    private fun importShared(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_SEND) return
+        @Suppress("DEPRECATION")
+        val uri = intent.getParcelableExtra<android.net.Uri>(Intent.EXTRA_STREAM) ?: return
+        Thread {
+            val result = importThemeNow(applicationContext, uri)
+            runOnUiThread {
+                android.widget.Toast.makeText(this, importMessage(result), android.widget.Toast.LENGTH_LONG).show()
+                // Open a page that isn't showing yet, so it reads the new theme fresh.
+                if (result.isSuccess) {
+                    startScreen.value = if (startScreen.value == SCREEN_THEME_GALLERY) "themes" else SCREEN_THEME_GALLERY
+                }
+            }
+        }.start()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +102,7 @@ class SettingsActivity : ComponentActivity() {
         intent?.getStringExtra(EXTRA_SCREEN)?.let { startScreen.value = it }
         // Folding/unfolding recreates the activity; stay on the same page (calibration needs it).
         savedInstanceState?.getString(STATE_SCREEN)?.let { startScreen.value = it }
+        if (savedInstanceState == null) importShared(intent)
         setContent {
             BoriTheme {
                 Surface(Modifier.fillMaxSize()) {
@@ -105,7 +124,8 @@ class SettingsActivity : ComponentActivity() {
                         SCREEN_THEME_KEYS -> KeysLettersScreen(back)
                         SCREEN_THEME_BACKGROUND -> BackgroundScreen(back)
                         SCREEN_THEME_EFFECTS -> EffectsScreen(back)
-                        "privacy" -> PrivacyScreen(back)
+                        "privacy" -> PrivacyScreen(back, go)
+                        SCREEN_LOGINS -> LoginsScreen(back)
                         "emoji" -> EmojiGifScreen(back, go)
                         SCREEN_GIFS -> GifSearchScreen(back)
                         "advanced" -> HelpScreen(back)
@@ -171,6 +191,7 @@ private fun parentOf(screen: String): String = when (screen) {
     SettingsActivity.SCREEN_CALIBRATE, "heights", "split" -> "layout"
     "trainer", "lab", "trail" -> "gestures"
     "sound" -> "typing"
+    SCREEN_LOGINS -> "privacy"
     SettingsActivity.SCREEN_GIFS -> "emoji"
     SCREEN_THEME_GALLERY, SCREEN_THEME_KEYS, SCREEN_THEME_BACKGROUND, SCREEN_THEME_EFFECTS -> "themes"
     else -> if (screen.startsWith(EDIT_PREFIX)) "themes" else "main"

@@ -7,9 +7,9 @@ Python 3 (stdlib only). Run from the project root; outputs go to `app/src/main/a
    - `<lang>_index.dic`, `<lang>_index.aff`, `<lang>_license`: wooorm/dictionaries `dictionaries/<lang>/`
    - `eng_sentences.tsv.bz2`, `spa_sentences.tsv.bz2`: https://downloads.tatoeba.org/exports/per_language/
 2. `python3 -I tools/build_dict.py en` (and `es`): builds `<lang>.bdic`.
-   It also merges `tools/wordlists/<lang>_modern.txt` (hand-curated slang 1920s–2020s,
-   texting, AI/tech words and app names the 2018 subtitles miss; format in
-   `tools/wordlists/README.md`). After editing a list, rebuild and rerun `typo_bench.py`
+   It also merges every `tools/wordlists/<lang>_*.txt` word list (modern slang 1920s–2020s,
+   AI, phone, brands, today's slang; es: Puerto Rico, regional slang, tech), listed by
+   `tools/wordlist_files.py`; format and capitalisation rule in `tools/wordlists/README.md`. After editing a list, rebuild and rerun `typo_bench.py`
    (set M checks the list's own words; set C must stay at 0% false changes).
 3. `python3 -I tools/verify_dict.py app/src/main/assets/dict/en.bdic the dont i'm`: checks the
    file and prints spot checks.
@@ -111,3 +111,23 @@ emoji listed in `view/EmojiData.kt` from each open set (cache: `tools/.cache/emo
 72 px WebP and writes `app/src/main/assets/emoji/<style>.bep` + `custom.bep` (overrides). Needs Pillow
 with WebP and `rsvg-convert` (Void: `xbps-install python3-Pillow librsvg-utils`). Re-run after adding
 emoji to EmojiData.kt. Delete `*.missing` markers in the cache to retry emoji a set lacked.
+
+## Prediction round (Session 40): phrases, conversation cache, full rebuild
+
+- `tools/wordlists/<lang>_phrases.txt`: everyday texting sentences. `ngram_count.py` counts each
+  line `PHRASE_WEIGHT` times (env, default 100) next to Tatoeba + subtitles and holds every 10th
+  line out to `tools/.cache/ngrams/<lang>.phrases_holdout.txt`. `WORKERS=2` (env) if the phone
+  runs out of memory (Spanish was killed once with 3).
+- Full rebuild of one language, in this order (about 8 min/lang on the phone):
+  `ngram_count.py` → `build_dict.py` (bigrams come from the counts) → `build_ngrams.py` →
+  `build_typos.py`; then `predict_bench.py` twice (subtitles, and `HOLDOUT=phrases`).
+- `predict_bench.py` env: `BDIC` / `NGRAM` (other files), `HOLDOUT=phrases`, `CACHE_BOOST`
+  (default 0.3 = Suggester.CACHE_BOOST, 0 = off), `CACHE_SIZE` (300), `UNK_FALLBACK=1`.
+- `suggest_sim.py` and `typo_bench.py` take `BDIC=<path with {lang}>` to compare dictionaries;
+  keep the previous ones in `tools/.cache/baseline/` before a rebuild.
+- typo_bench set V samples random rare words from each dictionary separately: compare V only on
+  the same dictionary. Set M now covers every word list (not only `_modern`).
+
+Results of Session 40 (top-3 next word): en subtitles 28.8 → 28.9%, texting holdout 25.7 → 26.1%;
+es 26.0 → 26.1%, 22.9 → 25.9%. Modern words in context: en 1/25 → 19/25, es 1/15 → 10/15.
+typo_bench en/es: C false changes 0%, B/E/F unchanged within 1–2 items, M better.

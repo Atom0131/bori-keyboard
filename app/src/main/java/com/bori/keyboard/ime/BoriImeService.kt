@@ -152,10 +152,12 @@ class BoriImeService :
     override fun onWindowShown() {
         DiagLog.event("window shown")
         super.onWindowShown()
+        root?.ambient?.running = true
     }
 
     override fun onWindowHidden() {
         DiagLog.event("window hidden")
+        root?.ambient?.running = false
         DiagLog.save(this)
         super.onWindowHidden()
     }
@@ -253,8 +255,53 @@ class BoriImeService :
             prefs.ledSpeed,
             prefs.ledBrightness,
             allowed,
+            prefs.ledSize,
+            com.bori.keyboard.view.LedLights.Direction.of(prefs.ledDirection),
         )
+        // Ambient background effect: dark ink on light backgrounds so snow and stars still show.
+        val bg = r.keyboard.currentTheme().background
+        val luma = (0.2126f * android.graphics.Color.red(bg) + 0.7152f * android.graphics.Color.green(bg) +
+            0.0722f * android.graphics.Color.blue(bg)) / 255f
+        r.ambient.configure(
+            com.bori.keyboard.view.AmbientView.Effect.of(prefs.ambientEffect),
+            prefs.ambientAmount,
+            prefs.ambientSpeed,
+            lightBackground = luma > 0.6f,
+            allowed = allowed,
+        )
+        // Moving lights or a background effect: ask for the screen's highest refresh rate.
+        highRefresh(allowed && (com.bori.keyboard.view.LedLights.Mode.of(prefs.ledMode).animated ||
+            prefs.ledMode == "reactive" || r.ambient.active))
+        // A new input view while the window is already up gets no onWindowShown.
+        if (isInputViewShown) r.ambient.running = true
+        r.syncAmbient()
         r.keyboard.invalidate()
+    }
+
+    /**
+     * Prefers the display mode with the highest refresh rate (same resolution) for the keyboard
+     * window while something animates, so a 120 Hz screen isn't dropped to 60 Hz by the
+     * system's adaptive refresh. 0 = no preference (back to the system's choice).
+     */
+    private fun highRefresh(on: Boolean) {
+        val w = window?.window ?: return
+        val lp = w.attributes
+        val id = if (on) {
+            runCatching {
+                val d = w.decorView.display ?: return@runCatching 0
+                val cur = d.mode
+                d.supportedModes
+                    .filter { it.physicalWidth == cur.physicalWidth && it.physicalHeight == cur.physicalHeight }
+                    .maxByOrNull { it.refreshRate }?.modeId ?: 0
+            }.getOrDefault(0)
+        } else {
+            0
+        }
+        if (lp.preferredDisplayModeId != id) {
+            lp.preferredDisplayModeId = id
+            w.attributes = lp
+            DiagLog.event("refresh: preferred mode $id (${if (on) "high" else "system"}), display ${w.decorView.display?.refreshRate} Hz")
+        }
     }
 
     /** "Move keys to fit my aim": the keyboard asks the heat map for this posture's shifts. */

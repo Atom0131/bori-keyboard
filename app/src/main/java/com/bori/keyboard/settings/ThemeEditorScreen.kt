@@ -1,5 +1,6 @@
 package com.bori.keyboard.settings
 
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -132,6 +133,8 @@ internal fun ThemeEditorScreen(id: String, onBack: () -> Unit, navigate: (String
         var picking by remember { mutableStateOf(false) }
         var renaming by remember { mutableStateOf(false) }
         var moreKeys by remember { mutableStateOf(false) }
+        val shareScope = androidx.compose.runtime.rememberCoroutineScope()
+        var shareNote by remember { mutableStateOf("") }
 
         if (store.isBuiltIn(id) || spec.id != id) {
             Footnote("This theme can't be edited. Go back and use “Design your own”.")
@@ -252,6 +255,10 @@ internal fun ThemeEditorScreen(id: String, onBack: () -> Unit, navigate: (String
                 val copy = spec.copy(id = newThemeId(), name = spec.name + " copy")
                 save(copy)
                 navigate(EDIT_PREFIX + copy.id)
+            }
+            RowDivider()
+            NavRow("Share", shareNote.ifEmpty { "Send it as a .boritheme file" }) {
+                shareScope.launch { shareNote = shareTheme(context, spec) ?: "" }
             }
             RowDivider()
             NavRow("Delete", "Can't be undone") { confirmDelete = true }

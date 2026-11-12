@@ -1,0 +1,160 @@
+# English abbreviations people text and never want "fixed" (user, Session 46: "it keeps
+# correcting eta"). Tier 1–2 = kept as typed (no real-word fix into eat/beta). Own list.
+# Format: word tier era variants...  (see README.md)
+ETA 1 text ETAs
+ASAP 1 text
+RSVP 2 text rsvped
+FYI 1 text
+TBD 2 text
+TBA 2 text
+EOD 2 text
+EOW 3 text
+WFH 2 text
+OOO 2 text
+PTO 2 text
+OOTO 3 text
+DIY 2 text
+FAQ 2 text FAQs
+ATM 2 text ATMs
+ICYMI 2 text
+=aka 1 text
+BYOB 2 text
+DOB 3 text
+SSN 3 text
+PDF 2 text PDFs
+URL 3 text URLs
+ETD 3 text
+ASL 3 text
+VIP 2 text VIPs
+CEO 2 text CEOs
+HR 2 text
+PSA 3 text
+EOM 3 text
+NDA 3 text
+KPI 3 text KPIs
+ROI 3 text
+
+# ---------------------------------------------------------------- acronyms people type (Session 46, round 2)
+# Picked from a scan of Wiktionary abbreviations x wordfreq x our dictionary (rare, weak or
+# missing ones), by hand. Left out: letters that are also everyday words (SAT, ACT, ER, AD, LA,
+# UPS, COO, SNAP, WIC, AM, PM, IT, US, CD is kept: "cd" isn't a word).
+# Places, news, media
+TV 1 text TVs
+USA 1 text
+UK 2 text
+EU 2 text
+UN 3 text
+NYC 2 text
+DC 2 text
+PR 2 text
+NJ 3 text
+NY 2 text
+ATL 3 text
+BBC 2 text
+CNN 2 text
+NBC 3 text
+CBS 3 text
+ABC 2 text
+ESPN 2 text
+# Sports
+NFL 2 text
+NBA 2 text
+NHL 3 text
+MLB 3 text
+MLS 3 text
+NCAA 3 text
+NASCAR 3 text
+UFC 2 text
+WWE 2 text
+MVP 2 text MVPs
+QB 3 text
+TD 3 text TDs
+OT 3 text
+# Government, law, money
+FBI 2 text
+CIA 2 text
+NSA 3 text
+IRS 2 text
+FDA 3 text
+CDC 3 text
+EPA 3 text
+NASA 2 text
+NATO 3 text
+GOP 3 text
+DNC 3 text
+POTUS 3 text
+SCOTUS 4 text
+FEMA 3 text
+OSHA 3 text
+HIPAA 3 text
+DMV 2 text
+DUI 3 text
+EBT 3 text
+SSI 3 text
+USPS 3 text
+DHL 3 text
+LLC 3 text
+CFO 3 text
+CTO 3 text
+IPO 3 text
+GDP 3 text
+APR 3 text
+USD 3 text
+# Health, science, school
+DNA 2 text
+RNA 3 text
+HIV 3 text
+MRI 3 text
+ICU 3 text
+CPR 3 text
+EMT 3 text
+ADHD 2 text
+OCD 3 text
+PTSD 3 text
+IQ 3 text
+UV 3 text
+GPA 2 text
+GED 3 text
+MBA 3 text
+PhD 2 text PhDs
+# Tech, cars, home
+PC 2 text PCs
+CD 3 text CDs
+DVD 3 text DVDs
+HTML 3 text
+CSS 3 text
+HTTP 3 text
+HTTPS 3 text
+IP 3 text
+ISP 3 text
+VPN 2 text
+QR 2 text
+SMS 2 text
+HDMI 3 text
+USB 2 text
+JPEG 3 text
+PNG 3 text
+SUV 2 text SUVs
+ATV 3 text ATVs
+RV 3 text RVs
+MPH 3 text
+MPG 3 text
+BMW 2 text
+HVAC 3 text
+AC 2 text
+BBQ 2 text
+# Groups, culture
+LGBTQ 2 text
+LGBT 3 text
+BLM 3 text
+AARP 3 text
+YMCA 3 text
+NAACP 3 text
+BTS 2 text
+# Time
+EST 3 text
+PST 3 text
+CST 3 text
+GMT 3 text
+UTC 3 text
+BCE 4 text

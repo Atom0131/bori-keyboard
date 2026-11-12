@@ -6,6 +6,34 @@
   "category": "Glass",
   "light": {
     "colors": {
+      "background": "#89C4F4",
+      "keyLetter": "#80FFFFFF",
+      "keyFunction": "#4DFFFFFF",
+      "keyPressed": "#CCFFFFFF",
+      "accent": "#0B4F9C",
+      "onAccent": "#FFFFFF",
+      "text": "#0B2547",
+      "textFunction": "#0B2547",
+      "hint": "#2F5580",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#0B2547",
+      "stripText": "#0B2547",
+      "backgroundGradient": [
+        "#A8DCFF",
+        "#6FA8E8"
+      ],
+      "keyBorder": "#B3FFFFFF"
+    },
+    "keys": {
+      "radius": 12,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "inter"
+    }
+  },
+  "dark": {
+    "colors": {
       "background": "#24467F",
       "keyLetter": "#33FFFFFF",
       "keyFunction": "#22FFFFFF",

@@ -1,0 +1,132 @@
+# English AI words: models, companies, tools and the terms people text about them.
+# Format: word tier era variants...  (see README.md). Own list, Session 40.
+# Already in en_modern.txt: AI ChatGPT GPT LLM OpenAI Anthropic Claude Gemini copilot Midjourney chatbot...
+
+# ---------------------------------------------------------------- models, products, companies
+copilot 2 ai
+llama 3 ai llamas
+mistral 3 ai
+grok 2 ai grokked grokking groks
+perplexity 3 ai
+DeepSeek 2 ai
+Qwen 4 ai
+Sora 3 ai
+DALL 3 ai
+ElevenLabs 3 ai
+Suno 3 ai
+HeyGen 4 ai
+Synthesia 4 ai
+Replika 4 ai
+Bing 2 ai
+Cortana 3 ai
+Siri 1 ai
+Alexa 1 ai
+Bixby 2 ai
+NotebookLM 3 ai
+HuggingFace 3 ai
+Nvidia 2 ai
+DeepMind 3 ai
+xAI 3 ai
+meta 2 ai
+Replit 3 ai
+GitHub 2 ai
+Ollama 4 ai
+LangChain 4 ai
+Jasper 4 ai
+Grammarly 2 ai
+Gemma 4 ai
+opus 3 ai
+sonnet 3 ai
+haiku 3 ai
+codex 3 ai
+Devin 4 ai
+
+# ---------------------------------------------------------------- terms
+prompt 1 ai prompts prompted prompting
+chatbot 1 ai chatbots
+AIs 2 ai
+LLMs 2 ai
+GPTs 3 ai
+agent 1 ai agents
+agentic 2 ai
+assistant 1 ai assistants
+model 1 ai models
+reasoning 2 ai
+context 1 ai contexts
+token 2 ai tokens
+tokenize 3 ai tokenized tokenizing tokenizer tokenizers tokenization
+embedding 3 ai embeddings embed embeds embedded
+vector 2 ai vectors vectorize vectorized
+retrieval 3 ai
+finetune 3 ai finetuned finetuning finetunes
+pretrain 3 ai pretrained pretraining
+pretrained 3 ai
+training 1 ai trained retrain retrained retraining
+dataset 2 ai datasets
+benchmark 2 ai benchmarks benchmarked benchmarking
+eval 3 ai evals
+parameter 2 ai parameters params
+weights 2 ai
+checkpoint 3 ai checkpoints
+inference 3 ai
+latency 3 ai
+GPU 2 ai GPUs
+TPU 3 ai TPUs
+CUDA 3 ai
+compute 2 ai
+multimodal 3 ai
+generative 2 ai
+genAI 3 ai
+diffusion 3 ai
+upscale 3 ai upscaled upscaling upscaler
+chatbots 2 ai
+hallucinate 2 ai hallucinates hallucinating hallucinated hallucination hallucinations
+jailbreak 3 ai jailbreaks jailbroken jailbreaking
+guardrails 3 ai guardrail
+alignment 3 ai
+AGI 3 ai
+ASI 4 ai
+superintelligence 3 ai
+sentient 3 ai sentience
+singularity 3 ai
+automation 2 ai automate automated automating automations
+workflow 2 ai workflows
+agentically 4 ai
+autonomous 2 ai
+chain 2 ai
+transformer 3 ai transformers
+attention 1 ai
+neural 2 ai
+quantized 4 ai quantize quantization
+opensource 3 ai
+vibe 1 ai vibes
+vibecoding 3 ai vibecode vibecoded vibecoder
+deepfake 2 ai deepfakes deepfaked
+voiceover 3 ai voiceovers
+transcribe 2 ai transcribed transcribing transcription transcript transcripts
+summarize 1 ai summarized summarizing summary summaries
+paraphrase 3 ai paraphrased paraphrasing
+rewrite 2 ai rewrote rewritten rewriting
+proofread 2 ai proofreading proofreader
+chatlog 4 ai chatlogs
+slop 3 ai
+humanize 3 ai humanized humanizer
+detector 3 ai detectors
+plagiarism 3 ai
+watermark 3 ai watermarks watermarked
+copilot 2 ai copilots
+MCP 4 ai
+API 2 ai APIs
+SDK 3 ai SDKs
+JSON 3 ai
+python 2 ai
+JavaScript 3 ai
+TypeScript 3 ai
+Kotlin 3 ai
+repo 2 ai repos
+codebase 3 ai codebases
+debug 2 ai debugged debugging debugger
+deploy 2 ai deployed deploying deployment
+backend 3 ai frontend
+startup 2 ai startups
+unicorn 3 ai

@@ -32,11 +32,16 @@ OUT = os.path.join(ROOT, "tools", ".cache", "ngrams")
 TATOEBA = {"en": "eng", "es": "spa"}
 ORDERS = (2, 3, 4)
 CHUNK = 100_000
-WORKERS = 3
+WORKERS = int(os.environ.get("WORKERS", "3"))
 # Subtitle lines from HOLDOUT_FROM on are kept out of the counts for predict_bench.py, as one
 # block: the same film often appears several times in a row, so scattered held-out lines would
 # also be in the counts word for word. Every HOLDOUT_EVERY-th line of the block is saved.
 HOLDOUT_FROM = 19_000_000
+# Hand-written texting sentences (tools/wordlists/<lang>_phrases.txt), each counted this many
+# times so modern words get a context the 2018 subtitles never had. Every PHRASE_HOLDOUT-th
+# line goes to <lang>.phrases_holdout.txt instead, for predict_bench.py.
+PHRASE_WEIGHT = int(os.environ.get("PHRASE_WEIGHT", "100"))
+PHRASE_HOLDOUT = 10
 HOLDOUT_EVERY = 25
 HOLDOUT_KEEP = 40_000
 WORD_RX = re.compile(r"[^\W\d_]+(?:'[^\W\d_]+)*")
@@ -87,6 +92,23 @@ def batches(lang, holdout):
             if len(buf) == CHUNK:
                 yield lang, idx, buf
                 buf, idx = [], idx + 1
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from wordlist_files import phrase_file
+    held = []
+    if os.path.exists(phrase_file(lang)):
+        with open(phrase_file(lang), encoding="utf-8") as f:
+            phrases = [x.strip() for x in f if x.strip() and not x.startswith("#")]
+        for i, line in enumerate(phrases):
+            if i % PHRASE_HOLDOUT == PHRASE_HOLDOUT - 1:
+                held.append(line)
+                continue
+            for _ in range(PHRASE_WEIGHT):
+                buf.append(line)
+                if len(buf) == CHUNK:
+                    yield lang, idx, buf
+                    buf, idx = [], idx + 1
+    with open(os.path.join(OUT, f"{lang}.phrases_holdout.txt"), "w", encoding="utf-8") as f:
+        f.write("\n".join(held) + "\n")
     subs = os.path.join(RAW, "opensubs", f"{lang}.20M.txt.gz")
     with gzip.open(subs, "rt", encoding="utf-8", errors="replace") as f:
         for i, line in enumerate(f):

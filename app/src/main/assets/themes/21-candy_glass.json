@@ -32,5 +32,34 @@
       "font": "nunito",
       "shape": "pill"
     }
+  },
+  "dark": {
+    "colors": {
+      "background": "#2A1540",
+      "keyLetter": "#26FFFFFF",
+      "keyFunction": "#1AFFFFFF",
+      "keyPressed": "#4DFFFFFF",
+      "accent": "#FF5FA2",
+      "onAccent": "#2A1540",
+      "text": "#FFF0FA",
+      "textFunction": "#FFF0FA",
+      "hint": "#D2B6E6",
+      "previewBackground": "#4A2A6A",
+      "previewText": "#FFF0FA",
+      "stripText": "#FFF0FA",
+      "backgroundGradient": [
+        "#1E0F33",
+        "#3A1B5C"
+      ],
+      "keyBorder": "#40FFFFFF"
+    },
+    "keys": {
+      "radius": 16,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "nunito",
+      "shape": "pill"
+    }
   }
 }

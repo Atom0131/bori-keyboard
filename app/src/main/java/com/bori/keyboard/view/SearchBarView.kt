@@ -30,6 +30,9 @@ class SearchBarView(context: Context) : View(context) {
 
     private val density = resources.displayMetrics.density
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val backgroundPaint = Paint()
+    /** False while an ambient effect runs behind us: InputRootView paints the background. */
+    var paintBackground = true
     private val blink = Handler(Looper.getMainLooper())
     private val blinker = object : Runnable {
         override fun run() {
@@ -65,7 +68,13 @@ class SearchBarView(context: Context) : View(context) {
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(theme.solidBackground)
+        // Only our own rectangle: drawColor fills the whole clip, and InputRootView turns
+        // child clipping off (for press effects), so it would paint over the suggestion bar.
+        val bg = theme.solidBackground
+        if (paintBackground && android.graphics.Color.alpha(bg) != 0) {
+            backgroundPaint.color = bg
+            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
+        }
         val h = height.toFloat()
         // The field.
         paint.color = theme.keyLetter
