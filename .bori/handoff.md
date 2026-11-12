@@ -315,7 +315,8 @@ See session-log Session 46.
    pictures + Undo, GIF search with a KLIPY key, emoji styles + 🇵🇷, swipe trail settings,
    typo-log fixes (wednes, asmr, rhe), predictions ("what are you", "voy a"), split keyboard
    on the Fold, Swipe Trainer data. Details in the session log entries 6–21.
-4. Git: Sessions 6–34 are committed on branch `stage3-themes-settings` and pushed; pull request
+4. Git: Sessions 35–46 committed as 40ef897 and pushed to `stage3-themes-settings` (PR #1).
+   Earlier: Sessions 6–34 are committed on branch `stage3-themes-settings` and pushed; pull request
    https://github.com/Atom0131/bori-keyboard/pull/1 (not merged yet). pics/ is git-ignored
    (private screenshots).
 
