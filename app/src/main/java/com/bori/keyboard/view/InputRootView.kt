@@ -8,66 +8,113 @@ import com.bori.keyboard.theme.KeyboardTheme
 
 /**
  * The IME's input view: suggestion strip + keyboard, with the preview overlay on top. The
- * clipboard and emoji panels take the keyboard's place (same height) while open.
+ * clipboard, emoji and GIF panels take the keyboard's place (same height) while open.
  */
 class InputRootView(context: Context) : FrameLayout(context) {
 
+    enum class Panel { KEYS, CLIPBOARD, EMOJI, GIF }
+
     val strip = SuggestionStripView(context)
+    /** Takes the strip's place while typing a GIF or clipboard search. */
+    val searchBar = SearchBarView(context).apply { visibility = GONE }
     val keyboard = KeyboardView(context)
+    /** Press effects over the keys (sparkles, hearts…); may spill up over the strip. */
+    val effects = EffectsView(context)
     val overlay = KeyOverlayView(context)
     val clipboard = ClipboardPanelView(context).apply { visibility = GONE }
     val emoji = EmojiPanelView(context).apply { visibility = GONE }
+    val gif = GifPanelView(context).apply { visibility = GONE }
 
-    val clipboardOpen: Boolean get() = clipboard.visibility == VISIBLE
-    val emojiOpen: Boolean get() = emoji.visibility == VISIBLE
+    /** What fills the key area right now. */
+    var panel = Panel.KEYS
+        private set
+
+    val clipboardOpen: Boolean get() = panel == Panel.CLIPBOARD
+    val emojiOpen: Boolean get() = panel == Panel.EMOJI
+    val gifOpen: Boolean get() = panel == Panel.GIF
+    val searching: Boolean get() = searchBar.visibility == VISIBLE
 
     init {
         val density = resources.displayMetrics.density
         val column = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            addView(strip, LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (44 * density).toInt()))
+            val top = FrameLayout(context).apply {
+                addView(strip, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+                addView(searchBar, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+            }
+            addView(top, LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (44 * density).toInt()))
             // The keys stay laid out (invisible) under the panel so the height doesn't jump.
             val keys = KeysFrame(context, keyboard).apply {
                 addView(keyboard, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
                 addView(clipboard, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
                 addView(emoji, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+                addView(gif, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+                addView(effects, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+                clipChildren = false
             }
+            clipChildren = false
             addView(keys, LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
         }
         addView(column, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
         addView(overlay, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         keyboard.overlay = overlay
+        keyboard.effects = effects
+        clipChildren = false
     }
 
     fun applyTheme(theme: KeyboardTheme) {
-        setBackgroundColor(theme.background)
+        val grad = theme.backgroundGradient
+        val backdrop = theme.backdrop
+        if (backdrop != null) {
+            background = com.bori.keyboard.theme.BackdropDrawable(context, backdrop)
+        } else if (grad != null) {
+            background = android.graphics.drawable.GradientDrawable(
+                android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, grad,
+            )
+        } else {
+            setBackgroundColor(theme.background)
+        }
         strip.setTheme(theme)
+        searchBar.setTheme(theme)
         keyboard.setTheme(theme)
         clipboard.setTheme(theme)
         emoji.setTheme(theme)
+        gif.setTheme(theme)
+    }
+
+    /** Shows [p] in the key area (the keys stay laid out underneath to keep the height). */
+    fun show(p: Panel) {
+        if (p == panel) return
+        if (panel == Panel.EMOJI) emoji.stopRepeat()
+        if (panel == Panel.GIF) gif.onHidden()
+        if (p != Panel.KEYS) {
+            keyboard.cancelAll()
+            effects.clear()
+        }
+        clipboard.visibility = if (p == Panel.CLIPBOARD) VISIBLE else GONE
+        emoji.visibility = if (p == Panel.EMOJI) VISIBLE else GONE
+        gif.visibility = if (p == Panel.GIF) VISIBLE else GONE
+        keyboard.visibility = if (p == Panel.KEYS) VISIBLE else INVISIBLE
+        strip.clipboardOpen = p == Panel.CLIPBOARD
+        panel = p
     }
 
     fun showClipboard(open: Boolean) {
-        if (open == clipboardOpen) return
-        if (open) {
-            keyboard.cancelAll()
-            showEmoji(false)
-        }
-        clipboard.visibility = if (open) VISIBLE else GONE
-        keyboard.visibility = if (open) INVISIBLE else VISIBLE
-        strip.clipboardOpen = open
+        if (open) show(Panel.CLIPBOARD) else if (panel == Panel.CLIPBOARD) show(Panel.KEYS)
     }
 
     fun showEmoji(open: Boolean) {
-        if (open == emojiOpen) return
-        if (open) {
-            keyboard.cancelAll()
-            showClipboard(false)
-        } else {
-            emoji.stopRepeat()
-        }
-        emoji.visibility = if (open) VISIBLE else GONE
-        keyboard.visibility = if (open) INVISIBLE else VISIBLE
+        if (open) show(Panel.EMOJI) else if (panel == Panel.EMOJI) show(Panel.KEYS)
+    }
+
+    fun showGif(open: Boolean) {
+        if (open) show(Panel.GIF) else if (panel == Panel.GIF) show(Panel.KEYS)
+    }
+
+    /** Search typing: the bar replaces the suggestion strip and the keys type into it. */
+    fun showSearch(on: Boolean) {
+        searchBar.visibility = if (on) VISIBLE else GONE
+        strip.visibility = if (on) INVISIBLE else VISIBLE
     }
 }
 

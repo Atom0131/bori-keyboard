@@ -11,6 +11,9 @@ import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodSubtype
 import com.bori.keyboard.clipboard.ClipboardHistory
 import com.bori.keyboard.dict.Dictionaries
+import com.bori.keyboard.gif.GifItem
+import com.bori.keyboard.gif.KlipyClient
+import com.bori.keyboard.gif.MediaLoader
 import com.bori.keyboard.layout.Key
 import com.bori.keyboard.layout.KeyCode
 import com.bori.keyboard.layout.Language
@@ -23,8 +26,10 @@ import com.bori.keyboard.theme.KeyboardTheme
 import com.bori.keyboard.view.BigScreen
 import com.bori.keyboard.view.ClipboardPanelView
 import com.bori.keyboard.view.EmojiPanelView
+import com.bori.keyboard.view.GifPanelView
 import com.bori.keyboard.view.InputRootView
 import com.bori.keyboard.view.KeyboardView
+import com.bori.keyboard.view.SearchBarView
 import com.bori.keyboard.view.ShiftState
 
 /**
@@ -35,7 +40,9 @@ class BoriImeService :
     InputMethodService(),
     KeyboardView.Listener,
     ClipboardPanelView.Listener,
-    EmojiPanelView.Listener {
+    EmojiPanelView.Listener,
+    GifPanelView.Listener,
+    SearchBarView.Listener {
 
     private lateinit var prefs: Prefs
     private var prefsListener: android.content.SharedPreferences.OnSharedPreferenceChangeListener? = null
@@ -52,7 +59,20 @@ class BoriImeService :
     private var layoutId = LayoutId.ALPHA
     private var shift = ShiftState.OFF
     private var lastShiftDownAt = 0L
-    private var themeNight: Boolean? = null
+    /** What the current theme was resolved from (id, night, revision); null = re-resolve. */
+    private var themeKey: String? = null
+
+    /** What the keys type into while a search bar is up (null = the app's field). */
+    private enum class SearchFor { GIF, CLIP }
+    private var searchFor: SearchFor? = null
+    private val query = StringBuilder()
+    /** The layout before the search started (e.g. numbers), put back afterwards. */
+    private var layoutBeforeSearch = LayoutId.ALPHA
+
+    private val klipy by lazy {
+        KlipyClient(key = { prefs.klipyKey }, customerId = { prefs.gifCustomerId }, filter = { prefs.gifFilter })
+    }
+    private val media by lazy { MediaLoader(resources, cacheDir) }
 
     private val imm get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -71,6 +91,7 @@ class BoriImeService :
         dictionaries = Dictionaries(this)
         clipboard = ClipboardHistory(this).apply {
             recording = { prefs.clipboardHistory && !prefs.incognito }
+            keepMs = { prefs.clipboardKeepMs }
             onChanged = {
                 root?.let { r -> if (r.clipboardOpen) r.clipboard.setClips(items()) }
                 if (::session.isInitialized) session.refresh()
@@ -88,7 +109,16 @@ class BoriImeService :
             if (key == Prefs.SPLIT_GAP || key == Prefs.SPLIT_EDGE || key == Prefs.SPLIT_BIG_KEY) {
                 root?.let { applySplitPrefs(it) }
             }
-            if (key == Prefs.THEME_MODE) root?.let { applyThemeIfNeeded(it) }
+            // Height sliders also resize the keyboard live.
+            if (key == Prefs.AIM_KEYS || key == Prefs.TOUCH_MAP) root?.let { applyAim(it) }
+            if (key != null && key in Prefs.EFFECT_KEYS) root?.let { applyEffects(it) }
+            if (key != null && key.startsWith(Prefs.KEY_HEIGHT_PREFIX)) {
+                root?.let { it.keyboard.keyHeightScales = prefs.keyHeightScales() }
+            }
+            if (key != null && key in Prefs.THEME_KEYS) {
+                // Effects in the theme's colour follow the new accent.
+                root?.let { applyThemeIfNeeded(it); applyEffects(it) }
+            }
             // Turning history off forgets what was kept, except pinned clips.
             if (key == Prefs.CLIPBOARD_HISTORY && !prefs.clipboardHistory) clipboard.clearUnpinned()
         }
@@ -98,6 +128,7 @@ class BoriImeService :
         DiagLog.event("service onDestroy")
         DiagLog.save(this)
         prefsListener?.let { prefs.unlisten(it) }
+        feedback.release()
         clipboard.stopListening()
         super.onDestroy()
     }
@@ -112,7 +143,9 @@ class BoriImeService :
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         DiagLog.event("config changed ${screenInfo()}")
         super.onConfigurationChanged(newConfig)
-        // The system dark mode can flip while the keyboard is open.
+        // The system dark mode (or the Material You wallpaper colours) can change while the
+        // keyboard is open.
+        themeKey = null
         root?.let { applyThemeIfNeeded(it) }
     }
 
@@ -138,12 +171,17 @@ class BoriImeService :
         r.keyboard.listener = this
         r.strip.listener = session
         r.clipboard.listener = this
+        r.clipboard.imageFile = { clipboard.imageFile(it) }
         r.emoji.listener = this
+        r.gif.listener = this
+        r.gif.client = klipy
+        r.gif.loader = media
+        r.searchBar.listener = this
         session.strip = r.strip
         root = r
         // Theme the new views at once: after a fold the view can be rebuilt while the keyboard
         // stays open, and it must not show the default palette until the next field.
-        themeNight = null
+        themeKey = null
         applyThemeIfNeeded(r)
         return r
     }
@@ -159,15 +197,21 @@ class BoriImeService :
         )
         super.onStartInputView(info, restarting)
         policy = EditorPolicy.from(info)
+        feedback.quiet = policy.isPassword
         language = Language.fromTag(currentLanguageTag(imm.currentInputMethodSubtype))
         layoutId = policy.initialLayout
         shift = ShiftState.OFF
+        // Picks up anything copied while the keyboard was away (the listener can miss copies
+        // if Android paused Bori); each copy is only recorded once.
+        clipboard.capture()
         val r = root ?: return
-        r.showClipboard(false)
-        r.showEmoji(false)
+        cancelSearch()
+        r.show(InputRootView.Panel.KEYS)
         applyThemeIfNeeded(r)
         r.keyboard.keyPreviewEnabled = prefs.keyPreview
-        r.keyboard.keyHeightScale = prefs.keyHeightScale
+        r.keyboard.keyHeightScales = prefs.keyHeightScales()
+        applyAim(r)
+        applyEffects(r)
         r.keyboard.heightRows = if (prefs.numberRow) 5 else 4
         applySplitPrefs(r)
         r.keyboard.glideTrail = prefs.glideTrail
@@ -181,15 +225,76 @@ class BoriImeService :
         loadLayout()
         updateAutoShift()
         askBigScreenLayout()
+        askCalibration()
     }
 
-    /** Light or dark per Settings → Appearance (system, light, dark, or dark at night). */
+    /**
+     * Press effects and LED lighting. Off in password fields (Stage 3 rule) and when the phone's
+     * "Remove animations" is on (animator duration scale 0).
+     */
+    private fun applyEffects(r: InputRootView) {
+        val animations = runCatching {
+            android.provider.Settings.Global.getFloat(contentResolver, android.provider.Settings.Global.ANIMATOR_DURATION_SCALE, 1f) > 0f
+        }.getOrDefault(true)
+        val allowed = animations && !policy.isPassword
+        val accent = r.keyboard.currentTheme().accent
+        fun colorOf(v: String): Int? = when (v) {
+            "rainbow" -> null
+            "theme" -> accent
+            else -> runCatching { android.graphics.Color.parseColor(v) }.getOrNull()
+        }
+        r.effects.effect = com.bori.keyboard.view.EffectsView.Effect.of(prefs.pressEffect)
+        r.effects.color = colorOf(prefs.effectColor)
+        r.effects.allowed = allowed
+        r.keyboard.led.configure(
+            com.bori.keyboard.view.LedLights.Mode.of(prefs.ledMode),
+            com.bori.keyboard.view.LedLights.Target.of(prefs.ledTarget),
+            colorOf(prefs.ledColor),
+            prefs.ledSpeed,
+            prefs.ledBrightness,
+            allowed,
+        )
+        r.keyboard.invalidate()
+    }
+
+    /** "Move keys to fit my aim": the keyboard asks the heat map for this posture's shifts. */
+    private fun applyAim(r: InputRootView) {
+        val map = com.bori.keyboard.learn.TouchMap.get(this)
+        r.keyboard.aimShifts = if (prefs.aimKeys && prefs.touchMap) {
+            { map.shifts(com.bori.keyboard.view.Posture.of(this)) }
+        } else {
+            null
+        }
+    }
+
+    /** Once (after the big-screen question): offer the thumb calibration. */
+    private fun askCalibration() {
+        val r = root ?: return
+        if (prefs.calibrationAsked || prefs.calibrated.isNotEmpty() || policy.isPassword) return
+        if (!prefs.splitAsked && BigScreen.isBig(this)) return
+        r.strip.showPrompt("Fit the keys to your thumbs?", "Set up", "No thanks", sticky = true) { yes ->
+            prefs.calibrationAsked = true
+            if (yes) openSettings(SettingsActivity.SCREEN_CALIBRATE)
+        }
+    }
+
+    /**
+     * The selected theme, light or dark per Settings → Appearance (system, light, dark, or
+     * dark at night). Only re-resolved when the theme, the mode or a saved edit changed.
+     */
     private fun applyThemeIfNeeded(r: InputRootView) {
         val night = KeyboardTheme.wantsDark(this, prefs.themeMode)
-        if (themeNight != night) {
-            r.applyTheme(KeyboardTheme.forContext(this, night))
-            themeNight = night
-        }
+        val id = prefs.themeId
+        val overrides = prefs.themeOverrides()
+        val key = "$id/$night/${prefs.themeRevision}/${overrides.key()}"
+        if (themeKey == key) return
+        val start = android.os.SystemClock.elapsedRealtime()
+        val theme = runCatching { KeyboardTheme.forContext(this, night, id, overrides) }
+            .onFailure { DiagLog.event("theme $id failed: $it") }
+            .getOrElse { (if (night) KeyboardTheme.dark() else KeyboardTheme.light()).copy(keyShapes = overrides.keyShapes) }
+        r.applyTheme(theme)
+        themeKey = key
+        DiagLog.event("theme=$id night=$night ${android.os.SystemClock.elapsedRealtime() - start}ms")
     }
 
     private fun applySplitPrefs(r: InputRootView) {
@@ -213,8 +318,8 @@ class BoriImeService :
     override fun onFinishInputView(finishingInput: Boolean) {
         DiagLog.event("finishInputView finishing=$finishingInput")
         root?.keyboard?.cancelAll()
-        root?.showClipboard(false)
-        root?.showEmoji(false)
+        cancelSearch()
+        root?.show(InputRootView.Panel.KEYS)
         session.finish()
         super.onFinishInputView(finishingInput)
     }
@@ -275,28 +380,57 @@ class BoriImeService :
         // Picks up anything copied while Bori wasn't listening.
         clipboard.capture()
         session.beforeEditorAction()
+        r.clipboard.filter = ""
         r.clipboard.setClips(clipboard.items())
         r.showClipboard(true)
         r.strip.clear()
     }
 
-    override fun onClipPaste(text: String) {
-        root?.showClipboard(false)
-        session.paste(text)
+    override fun onClipPaste(clip: ClipboardHistory.Clip) {
+        val r = root ?: return
+        if (!clip.isImage) {
+            r.showClipboard(false)
+            session.paste(clip.text)
+            return
+        }
+        val f = clipboard.imageFile(clip)
+        val mime = clip.mime ?: "image/png"
+        session.beforeEditorAction()
+        val sent = f != null && ContentSender.send(this, currentInputConnection, currentInputEditorInfo, f, mime, clip.text)
+        DiagLog.event("clip image paste $mime sent=$sent")
+        if (sent) {
+            r.showClipboard(false)
+            session.refresh()
+        } else {
+            r.strip.showPrompt(
+                if (f == null) "That picture is gone" else "This box can't take pictures",
+                "OK", "", sticky = false,
+            ) {}
+        }
     }
 
     override fun onClipLongPress(clip: ClipboardHistory.Clip) {
         val r = root ?: return
-        val preview = clip.text.trim().replace(Regex("\\s+"), " ").take(24)
+        val preview = if (clip.isImage) "🖼 picture" else clip.text.trim().replace(Regex("\\s+"), " ").take(24)
         r.strip.showPrompt("“$preview”", if (clip.pinned) "Unpin" else "Pin", "Delete", sticky = false) { pin ->
-            if (pin) clipboard.togglePin(clip.text) else clipboard.delete(clip.text)
+            if (pin) clipboard.togglePin(clip.id) else clipboard.delete(clip.id)
         }
+    }
+
+    override fun onClipSearch() {
+        startSearch(SearchFor.CLIP, root?.clipboard?.filter.orEmpty())
     }
 
     override fun onClipAction(action: Int) {
         val ic = currentInputConnection ?: return
         if (action == ClipboardPanelView.ACTION_CLEAR) {
-            clipboard.clearUnpinned()
+            val removed = clipboard.clearUnpinned()
+            if (removed.isNotEmpty()) {
+                val n = removed.size
+                root?.strip?.showPrompt("Cleared $n clip${if (n == 1) "" else "s"}", "Undo", "OK", sticky = false) { undo ->
+                    if (undo) clipboard.restore(removed)
+                }
+            }
             return
         }
         session.beforeEditorAction()
@@ -363,8 +497,189 @@ class BoriImeService :
         session.refresh()
     }
 
-    fun openSettings() {
-        startActivity(Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    override fun onEmojiGif() = openGif(null)
+
+    // ---------------------------------------------------------------- GIF panel
+
+    /** Opens the GIF panel; [query] runs a search right away (coming back from the search bar). */
+    private fun openGif(query: String?) {
+        val r = root ?: return
+        r.gif.locale = resources.configuration.locales[0].country.ifEmpty { "US" }.lowercase()
+        r.gif.open(prefs.gifSearch, prefs.klipyKey.isNotBlank(), recentGifs(), language == Language.ES, query)
+        r.show(InputRootView.Panel.GIF)
+        DiagLog.event("gif open on=${prefs.gifSearch} key=${prefs.klipyKey.isNotBlank()} search=${query != null}")
+    }
+
+    private fun recentGifs(): List<GifItem> = GifItem.listFromJson(prefs.recentGifs)
+
+    override fun onGifClose() {
+        root?.show(InputRootView.Panel.KEYS)
+        updateAutoShift()
+        session.refresh()
+    }
+
+    override fun onGifEmoji() = toggleEmoji()
+
+    override fun onGifSearchTap(current: String) = startSearch(SearchFor.GIF, current)
+
+    override fun onGifSettings() = openSettings(SettingsActivity.SCREEN_GIFS)
+
+    override fun onGifPicked(item: GifItem, query: String?) {
+        val r = root ?: return
+        feedback.onPress(EMOJI_KEY)
+        session.beforeEditorAction()
+        // Recents follow the same rule as learning: not in incognito or private fields.
+        if (!prefs.incognito && !policy.noLearning) {
+            val list = (listOf(item) + recentGifs().filter { it.slug != item.slug }).take(MAX_RECENT_GIFS)
+            prefs.recentGifs = GifItem.listToJson(list)
+            r.gif.setRecents(list)
+        }
+        klipy.share(item.slug, query)
+        if (!ContentSender.accepts(currentInputEditorInfo, "image/gif")) {
+            DiagLog.event("gif: field takes no GIFs, typing link")
+            session.paste(item.link)
+            r.strip.showPrompt("This app can't take GIFs here, so the link was typed", "OK", "", sticky = false) {}
+            return
+        }
+        r.strip.showPrompt("Sending GIF…", "", "", sticky = false) {}
+        media.fetchToSend(item) { file ->
+            val ok = file != null && ContentSender.send(
+                this, currentInputConnection, currentInputEditorInfo, file, "image/gif",
+                item.title.ifEmpty { "GIF" }, android.net.Uri.parse(item.link),
+            )
+            DiagLog.event("gif send ok=$ok downloaded=${file != null}")
+            if (ok) {
+                session.refresh()
+            } else {
+                root?.strip?.showPrompt(
+                    if (file == null) "Couldn't download that GIF" else "The app didn't take the GIF",
+                    "OK", "", sticky = false,
+                ) {}
+            }
+        }
+    }
+
+    override fun onGifLongPress(item: GifItem) {
+        val r = root ?: return
+        val inRecent = recentGifs().any { it.slug == item.slug }
+        r.strip.showPrompt(
+            "“${item.title.ifEmpty { "GIF" }.take(24)}”",
+            "Type link", if (inRecent) "Forget" else "✕", sticky = false,
+        ) { link ->
+            if (link) {
+                session.paste(item.link)
+            } else if (inRecent) {
+                val list = recentGifs().filter { it.slug != item.slug }
+                prefs.recentGifs = GifItem.listToJson(list)
+                r.gif.setRecents(list)
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------- search bar
+
+    /** The keys now type into the search bar instead of the app (GIF or clipboard search). */
+    private fun startSearch(target: SearchFor, initial: String) {
+        val r = root ?: return
+        session.beforeEditorAction()
+        if (searchFor == null) layoutBeforeSearch = layoutId
+        searchFor = target
+        query.setLength(0)
+        query.append(initial)
+        r.show(InputRootView.Panel.KEYS)
+        r.showSearch(true)
+        updateSearchBar()
+        layoutId = LayoutId.ALPHA
+        shift = ShiftState.OFF
+        loadLayout()
+        DiagLog.event("search start ${target.name.lowercase()}")
+    }
+
+    private fun updateSearchBar() {
+        root?.searchBar?.set(
+            query.toString(),
+            if (searchFor == SearchFor.GIF) "Search KLIPY GIFs" else "Search your clips",
+        )
+    }
+
+    /** Leaves the search bar and goes back to its panel; [submit] runs the search. */
+    private fun endSearch(submit: Boolean) {
+        val target = searchFor ?: return
+        val r = root ?: return
+        leaveSearch()
+        val q = query.toString().trim()
+        when (target) {
+            SearchFor.GIF -> openGif(if (submit) q else null)
+            SearchFor.CLIP -> {
+                if (submit) r.clipboard.filter = q
+                r.clipboard.setClips(clipboard.items())
+                r.show(InputRootView.Panel.CLIPBOARD)
+                r.strip.clear()
+            }
+        }
+    }
+
+    /** Drops the search bar (field changed, keyboard closed) without going to a panel. */
+    private fun cancelSearch() {
+        if (searchFor == null) return
+        // The next field sets its own layout, so the old one isn't put back here.
+        searchFor = null
+        root?.showSearch(false)
+    }
+
+    private fun leaveSearch() {
+        searchFor = null
+        root?.showSearch(false)
+        layoutId = layoutBeforeSearch
+        shift = ShiftState.OFF
+        loadLayout()
+    }
+
+    override fun onSearchBack() = endSearch(submit = false)
+
+    override fun onSearchClear() {
+        query.setLength(0)
+        updateSearchBar()
+    }
+
+    /** A key while searching; false lets normal handling run (layout switches, shift). */
+    private fun searchKey(key: Key): Boolean {
+        when (val code = key.code) {
+            is KeyCode.Text -> searchType(
+                if (shift != ShiftState.OFF && key.isLetter) code.text.uppercase(language.locale) else code.text,
+            )
+            KeyCode.Space -> searchType(" ")
+            KeyCode.Delete -> if (query.isNotEmpty()) {
+                query.setLength(query.length - Character.charCount(query.codePointBefore(query.length)))
+            }
+            KeyCode.Enter -> {
+                endSearch(submit = true)
+                return true
+            }
+            KeyCode.Emoji -> {
+                endSearch(submit = false)
+                return true
+            }
+            else -> return false
+        }
+        updateSearchBar()
+        return true
+    }
+
+    private fun searchType(text: String) {
+        if (query.length < MAX_QUERY) query.append(text)
+        if (shift == ShiftState.ON) {
+            shift = ShiftState.OFF
+            refreshKeyboardState()
+        }
+    }
+
+    fun openSettings(screen: String? = null) {
+        startActivity(
+            Intent(this, SettingsActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .apply { if (screen != null) putExtra(SettingsActivity.EXTRA_SCREEN, screen) },
+        )
     }
 
     @Suppress("DEPRECATION")
@@ -394,7 +709,7 @@ class BoriImeService :
 
     /** Glide typing works on the letters layout once the dictionary is ready. */
     private fun updateGlide() {
-        val on = prefs.glideTyping && layoutId == LayoutId.ALPHA && session.canGlide()
+        val on = prefs.glideTyping && layoutId == LayoutId.ALPHA && session.canGlide() && searchFor == null
         DiagLog.event(
             "glide on=$on (setting=${prefs.glideTyping} letters=${layoutId == LayoutId.ALPHA} " +
                 "session=${session.glideStatus()})",
@@ -409,11 +724,13 @@ class BoriImeService :
             incognito -> "🕶 " + language.displayName
             else -> language.displayName
         }
-        root?.keyboard?.setState(shift, EditorPolicy.enterLabel(policy.enterAction), space)
+        val enter = if (searchFor != null) "⌕" else EditorPolicy.enterLabel(policy.enterAction)
+        root?.keyboard?.setState(shift, enter, if (searchFor != null) "" else space)
     }
 
     /** Whether the editor wants a capital at the cursor right now. */
     private fun sentenceCapsNow(): Boolean {
+        if (searchFor != null) return false
         val ic = currentInputConnection ?: return false
         val info = currentInputEditorInfo ?: return false
         return prefs.autoCapitalize && policy.autoCapAllowed && ic.getCursorCapsMode(info.inputType) != 0
@@ -435,6 +752,7 @@ class BoriImeService :
     override fun onKeyPressed(key: Key) = feedback.onPress(key)
 
     override fun onKey(key: Key, x: Float, y: Float) {
+        if (searchFor != null && searchKey(key)) return
         when (val code = key.code) {
             is KeyCode.Text -> typeText(code.text, key.isLetter, x, y)
             is KeyCode.Switch -> {
@@ -478,7 +796,14 @@ class BoriImeService :
         java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.US).format(java.util.Date(t))
     }.getOrDefault("?")
 
-    override fun onPopupText(text: String) = typeText(text, isLetter = false, x = Float.NaN, y = Float.NaN)
+    override fun onPopupText(text: String) {
+        if (searchFor != null) {
+            searchType(text)
+            updateSearchBar()
+            return
+        }
+        typeText(text, isLetter = false, x = Float.NaN, y = Float.NaN)
+    }
 
     override fun onKeyLongPress(key: Key): Boolean = when (key.code) {
         KeyCode.Globe, KeyCode.Space -> {
@@ -489,6 +814,7 @@ class BoriImeService :
     }
 
     override fun onGlide(xs: FloatArray, ys: FloatArray, ts: IntArray, count: Int) {
+        if (searchFor != null) return
         val case = when (shift) {
             ShiftState.LOCKED -> TypingSession.GlideCase.ALL
             ShiftState.ON -> TypingSession.GlideCase.FIRST
@@ -502,11 +828,21 @@ class BoriImeService :
         }
     }
 
-    override fun onCursorMove(steps: Int) = session.moveCursor(steps)
+    override fun onCursorMove(steps: Int) {
+        if (searchFor == null) session.moveCursor(steps)
+    }
 
-    override fun onDeleteSlide(words: Int) = session.deleteSlide(words)
+    override fun onDeleteSlide(words: Int) {
+        if (searchFor == null) session.deleteSlide(words)
+    }
 
-    override fun onDeleteSlideEnd() = session.deleteSlideEnd()
+    override fun onDeleteSlideEnd() {
+        if (searchFor == null) {
+            session.deleteSlideEnd()
+        } else {
+            onSearchClear()
+        }
+    }
 
     private fun typeText(text: String, isLetter: Boolean, x: Float, y: Float) {
         val out = if (shift != ShiftState.OFF && isLetter) text.uppercase(language.locale) else text
@@ -542,6 +878,8 @@ class BoriImeService :
     private companion object {
         const val DOUBLE_TAP_MS = 300L
         const val MAX_RECENT_EMOJI = 32
+        const val MAX_RECENT_GIFS = 40
+        const val MAX_QUERY = 100
         /** Stand-ins so emoji panel taps get the same click and buzz as keys. */
         val EMOJI_KEY = Key("", KeyCode.Text(""))
         val DELETE_KEY = Key("⌫", KeyCode.Delete)

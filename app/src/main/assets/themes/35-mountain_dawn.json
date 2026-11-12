@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "id": "mountain_dawn",
+  "name": "Mountains",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#9BC7E8",
+      "keyLetter": "#D9FFFFFF",
+      "keyFunction": "#B3E6EEF5",
+      "keyPressed": "#FFFFFFFF",
+      "accent": "#3E5677",
+      "onAccent": "#FFFFFF",
+      "text": "#1C2A3A",
+      "textFunction": "#1C2A3A",
+      "hint": "#4F6378",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#1C2A3A",
+      "stripText": "#1C2A3A",
+      "backgroundGradient": [
+        "#9BC7E8",
+        "#F0E2D2"
+      ]
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "mountains"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#0B1430",
+      "keyLetter": "#B31E2745",
+      "keyFunction": "#99141B33",
+      "keyPressed": "#CC3A4A78",
+      "accent": "#9FB7FF",
+      "onAccent": "#0B1430",
+      "text": "#EEF2FF",
+      "textFunction": "#EEF2FF",
+      "hint": "#AAB6D6",
+      "previewBackground": "#3A4A78",
+      "previewText": "#EEF2FF",
+      "stripText": "#EEF2FF",
+      "backgroundGradient": [
+        "#0B1430",
+        "#2A3558",
+        "#141B33"
+      ]
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "mountains"
+    }
+  }
+}

@@ -95,12 +95,7 @@ fun SwipeTrainerScreen(onBack: () -> Unit) {
         }
     }
 
-    Column(
-        Modifier.fillMaxSize().safeDrawingPadding().imePadding().verticalScroll(rememberScrollState()).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        TextButton(onClick = onBack) { Text("← Back") }
-        Text("Swipe Trainer", style = MaterialTheme.typography.headlineSmall)
+    SettingsPage("Swipe Trainer", onBack, tryBar = false) {
         Text(
             "Swipe each word shown below with Bori Keyboard, the way you normally would. " +
                 "Switch the keyboard to the same language. Your swipes teach Bori where your finger " +

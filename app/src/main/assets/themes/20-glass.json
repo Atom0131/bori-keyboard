@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "id": "glass",
+  "name": "Glass",
+  "author": "Bori",
+  "category": "Glass",
+  "light": {
+    "colors": {
+      "background": "#24467F",
+      "keyLetter": "#33FFFFFF",
+      "keyFunction": "#22FFFFFF",
+      "keyPressed": "#66FFFFFF",
+      "accent": "#7FDBFF",
+      "onAccent": "#0B2547",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#CFE3FF",
+      "previewBackground": "#3A5E9A",
+      "previewText": "#FFFFFF",
+      "stripText": "#FFFFFF",
+      "backgroundGradient": [
+        "#1E3C72",
+        "#2A5298"
+      ],
+      "keyBorder": "#55FFFFFF"
+    },
+    "keys": {
+      "radius": 12,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "inter"
+    }
+  }
+}

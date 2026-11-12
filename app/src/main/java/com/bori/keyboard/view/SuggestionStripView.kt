@@ -117,7 +117,7 @@ class SuggestionStripView(context: Context) : View(context) {
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(theme.background)
+        canvas.drawColor(theme.solidBackground)
         textPaint.color = theme.stripText
         textPaint.typeface = Typeface.DEFAULT
         textPaint.textSize = height * 0.42f

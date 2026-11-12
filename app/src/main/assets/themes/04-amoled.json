@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "amoled",
+  "name": "Pure Black",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "#000000",
+      "keyLetter": "#151515",
+      "keyFunction": "#0B0B0B",
+      "keyPressed": "#333333",
+      "accent": "#FFFFFF",
+      "onAccent": "#000000",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#8A8A8A",
+      "previewBackground": "#2A2A2A",
+      "previewText": "#FFFFFF",
+      "stripText": "#FFFFFF"
+    },
+    "keys": {
+      "radius": 8,
+      "gapH": 5,
+      "gapV": 8
+    }
+  }
+}

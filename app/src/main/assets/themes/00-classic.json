@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "id": "classic",
+  "name": "Classic",
+  "author": "Bori",
+  "light": {
+    "colors": {
+      "background": "#E8EAED",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#C9CDD3",
+      "keyPressed": "#B0B5BC",
+      "accent": "@accent1_600|#1A73E8",
+      "onAccent": "#FFFFFF",
+      "text": "#202124",
+      "textFunction": "#202124",
+      "hint": "#80868B",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#202124",
+      "stripText": "#3C4043"
+    },
+    "keys": { "radius": 8, "gapH": 5, "gapV": 8 }
+  },
+  "dark": {
+    "colors": {
+      "background": "#202124",
+      "keyLetter": "#3C4043",
+      "keyFunction": "#2D2F31",
+      "keyPressed": "#5F6368",
+      "accent": "@accent1_200|#8AB4F8",
+      "onAccent": "#202124",
+      "text": "#E8EAED",
+      "textFunction": "#E8EAED",
+      "hint": "#9AA0A6",
+      "previewBackground": "#5F6368",
+      "previewText": "#FFFFFF",
+      "stripText": "#E8EAED"
+    },
+    "keys": { "radius": 8, "gapH": 5, "gapV": 8 }
+  }
+}

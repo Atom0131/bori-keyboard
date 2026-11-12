@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "id": "coqui_night",
+  "name": "Coquí Night",
+  "author": "Bori",
+  "category": "Puerto Rico",
+  "light": {
+    "colors": {
+      "background": "#0E2418",
+      "keyLetter": "#163322",
+      "keyFunction": "#11291B",
+      "keyPressed": "#25503A",
+      "accent": "#9BE15D",
+      "onAccent": "#0B1F12",
+      "text": "#DDF3E3",
+      "textFunction": "#DDF3E3",
+      "hint": "#7FA98E",
+      "previewBackground": "#25503A",
+      "previewText": "#DDF3E3",
+      "stripText": "#DDF3E3",
+      "backgroundGradient": [
+        "#06140D",
+        "#0E2418",
+        "#173A26"
+      ]
+    },
+    "keys": {
+      "radius": 12,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "id": "high_contrast_dark",
+  "name": "High Contrast Dark",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "#000000",
+      "keyLetter": "#000000",
+      "keyFunction": "#000000",
+      "keyPressed": "#4D4300",
+      "accent": "#FFE600",
+      "onAccent": "#000000",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#E0E0E0",
+      "previewBackground": "#000000",
+      "previewText": "#FFE600",
+      "stripText": "#FFFFFF",
+      "keyBorder": "#FFFFFF"
+    },
+    "keys": {
+      "radius": 6,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 2,
+      "font": "atkinson",
+      "labelScale": 1.1
+    }
+  }
+}

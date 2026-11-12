@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "solid_dark",
+  "name": "Charcoal",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "#1F2124",
+      "keyLetter": "#2E3135",
+      "keyFunction": "#26292C",
+      "keyPressed": "#4A4F55",
+      "accent": "#5EA0FF",
+      "onAccent": "#0B1220",
+      "text": "#F1F3F5",
+      "textFunction": "#F1F3F5",
+      "hint": "#9AA0A6",
+      "previewBackground": "#4A4F55",
+      "previewText": "#F1F3F5",
+      "stripText": "#F1F3F5"
+    },
+    "keys": {
+      "radius": 6,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "inter"
+    }
+  }
+}

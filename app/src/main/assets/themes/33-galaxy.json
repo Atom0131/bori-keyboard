@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "id": "galaxy",
+  "name": "Galaxy",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#2A0845",
+      "keyLetter": "#26FFFFFF",
+      "keyFunction": "#1AFFFFFF",
+      "keyPressed": "#59FFFFFF",
+      "accent": "#D0106A",
+      "onAccent": "#FFFFFF",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#D2C2F0",
+      "previewBackground": "#4A2A7A",
+      "previewText": "#FFFFFF",
+      "stripText": "#FFFFFF",
+      "backgroundGradient": [
+        "#0B0221",
+        "#2A0845",
+        "#6441A5"
+      ],
+      "keyBorder": "#33FFFFFF"
+    },
+    "keys": {
+      "radius": 12,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "orbitron"
+    }
+  }
+}

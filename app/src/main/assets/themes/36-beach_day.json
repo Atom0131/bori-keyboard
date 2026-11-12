@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "id": "beach_day",
+  "name": "Beach",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#78C4EE",
+      "keyLetter": "#D9FFFFFF",
+      "keyFunction": "#B3FFF4DC",
+      "keyPressed": "#FFFFFFFF",
+      "accent": "#B5501E",
+      "onAccent": "#FFFFFF",
+      "text": "#123247",
+      "textFunction": "#123247",
+      "hint": "#4B6A80",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#123247",
+      "stripText": "#0B1E2C",
+      "backgroundGradient": [
+        "#78C4EE",
+        "#2596C8",
+        "#F2D7A0"
+      ]
+    },
+    "keys": {
+      "radius": 14,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito",
+      "shape": "pill"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "beach"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#0C122E",
+      "keyLetter": "#B3163A58",
+      "keyFunction": "#99102A44",
+      "keyPressed": "#CC2E5A80",
+      "accent": "#FFC37A",
+      "onAccent": "#0C122E",
+      "text": "#F0F4FF",
+      "textFunction": "#F0F4FF",
+      "hint": "#A9BCD6",
+      "previewBackground": "#2E5A80",
+      "previewText": "#F0F4FF",
+      "stripText": "#F0F4FF",
+      "backgroundGradient": [
+        "#0C122E",
+        "#16284E",
+        "#3A3A44"
+      ]
+    },
+    "keys": {
+      "radius": 14,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito",
+      "shape": "pill"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "beach"
+    }
+  }
+}

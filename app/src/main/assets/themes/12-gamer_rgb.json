@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "id": "gamer_rgb",
+  "name": "Gamer RGB",
+  "author": "Bori",
+  "category": "Glow & LED",
+  "light": {
+    "colors": {
+      "background": "#050505",
+      "keyLetter": "#121212",
+      "keyFunction": "#0B0B0B",
+      "keyPressed": "#2A2A2A",
+      "accent": "#00FF88",
+      "onAccent": "#001A0E",
+      "text": "#F5F5F5",
+      "textFunction": "#F5F5F5",
+      "hint": "#9E9E9E",
+      "previewBackground": "#2A2A2A",
+      "previewText": "#F5F5F5",
+      "stripText": "#F5F5F5",
+      "keyBorderGradient": [
+        "#FF0040",
+        "#FF8A00",
+        "#FFE600",
+        "#00FF66",
+        "#00C8FF",
+        "#5B3BFF",
+        "#FF00E1"
+      ]
+    },
+    "keys": {
+      "radius": 6,
+      "gapH": 6,
+      "gapV": 9,
+      "borderWidth": 1.5,
+      "glow": 4,
+      "font": "orbitron"
+    }
+  }
+}

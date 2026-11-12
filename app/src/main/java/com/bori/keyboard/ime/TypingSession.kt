@@ -19,6 +19,8 @@ import com.bori.keyboard.predict.Suggestion
 import com.bori.keyboard.settings.Prefs
 import com.bori.keyboard.swipe.GlideDecoder
 import com.bori.keyboard.swipe.SwipeAdaptation
+import com.bori.keyboard.learn.TouchMap
+import com.bori.keyboard.view.Posture
 import com.bori.keyboard.view.SuggestionStripView
 import java.util.Locale
 
@@ -102,6 +104,19 @@ class TypingSession(
 
     private var proximity: KeyProximity? = null
     private var proximityFor: KeyGeometry? = null
+    /** TouchMap version / posture whose shifts [proximity] has (-1 = none). */
+    private var proximityShiftsVersion = -1
+    private var proximityPosture: Posture? = null
+
+    /** Touch heat map (where taps land per key). */
+    private val touchMap by lazy { TouchMap.get(ime) }
+
+    /**
+     * Taps of an autocorrected word, waiting: if the fix is undone they were not aimed at the
+     * fixed word's letters, so they're dropped; otherwise they're recorded at the next commit.
+     */
+    private class PendingTouches(val taps: Composer, val intended: String, val prox: KeyProximity, val posture: Posture)
+    private var pendingTouches: PendingTouches? = null
 
     // ---------------------------------------------------------------- cursor tracking
 
@@ -151,6 +166,8 @@ class TypingSession(
 
     fun finish() {
         dropRecorrect()
+        flushTouches()
+        touchMap.saveIfChanged()
         if (!composer.isEmpty) {
             ic?.finishComposingText()
             resetComposer()
@@ -182,6 +199,35 @@ class TypingSession(
             !(policy.appNoSuggestions && prefs.followNoSuggestions)
     private fun learningAllowed() = !prefs.incognito && !policy.noLearning && !trainerField
     private fun typoLogOn() = prefs.typoLog && learningAllowed()
+    private fun touchMapOn() = prefs.touchMap && learningAllowed()
+
+    // ---------------------------------------------------------------- touch heat map
+
+    private fun flushTouches() {
+        val p = pendingTouches ?: return
+        pendingTouches = null
+        touchMap.record(p.posture, p.taps, p.intended, p.prox)
+    }
+
+    /**
+     * Records the composing word's taps as aimed at [intended] (the word as kept, or the fix /
+     * pick when it only swaps up to 2 letters, so each tap still belongs to one letter).
+     * [wait]: an autocorrection, which backspace can still undo.
+     */
+    private fun recordTouches(intended: String, wait: Boolean) {
+        flushTouches()
+        if (!touchMapOn() || glideActive || trainerField) return
+        val typed = composer.typed
+        if (intended.length != typed.length || typed.length < 2) return
+        var diffs = 0
+        for (i in typed.indices) if (typed[i].lowercaseChar() != intended[i].lowercaseChar()) diffs++
+        if (diffs > 2) return
+        val prox = proximity() ?: return
+        val snap = Composer()
+        for (i in typed.indices) snap.add(typed[i].toString(), composer.x(i), composer.y(i))
+        val p = PendingTouches(snap, intended, prox, Posture.of(ime))
+        if (wait) pendingTouches = p else touchMap.record(p.posture, p.taps, p.intended, p.prox)
+    }
 
     // ---------------------------------------------------------------- typing
 
@@ -317,6 +363,7 @@ class TypingSession(
                 }
                 pendingKeep = u
                 pendingEdit = u
+                pendingTouches = null
                 refresh()
                 return
             }
@@ -369,6 +416,10 @@ class TypingSession(
         val word = auto?.word ?: typed
         val keep = pendingKeep?.takeIf { it.typed == typed && word == typed }
         val ctx = contextBefore(ic, excludeComposing = true)
+        // Heat map: a valid word kept as typed, or a small autocorrect fix (dropped if undone).
+        if (word != typed) recordTouches(word, wait = true)
+        else if (res?.typedValid == true || keep != null) recordTouches(typed, wait = false)
+        else flushTouches()
         // A glide committed as decoded (no alternative picked) teaches the user's finger offsets.
         lastGlide?.let { g ->
             if (glideActive && g.word == word && prefs.adaptSwipe && !trainerField) {
@@ -662,6 +713,8 @@ class TypingSession(
                 )
             }
             logEdit(pick.word)
+            // Picking a word is the clearest sign of what the taps meant.
+            if (!glideActive) recordTouches(pick.word, wait = false)
             resetComposer()
             result = null
             learn(ctx, pick.word, explicit)
@@ -832,8 +885,20 @@ class TypingSession(
         if (g !== proximityFor) {
             proximityFor = g
             proximity = KeyProximity(g)
+            proximityShiftsVersion = -1
         }
-        return proximity
+        // The user's learned per-key aim for how the phone is held now.
+        val p = proximity
+        if (p != null) {
+            val posture = Posture.of(ime)
+            val v = if (prefs.touchMap) touchMap.version else -2
+            if (v != proximityShiftsVersion || posture != proximityPosture) {
+                proximityShiftsVersion = v
+                proximityPosture = posture
+                if (v >= 0) touchMap.applyTo(p, posture) else p.setShifts(emptyMap())
+            }
+        }
+        return p
     }
 
     private fun currentResult(): SuggestResult? {

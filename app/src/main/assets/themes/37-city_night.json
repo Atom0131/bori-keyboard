@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "id": "city_night",
+  "name": "City Lights",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#FFB37C",
+      "keyLetter": "#C7FFFFFF",
+      "keyFunction": "#A6FFE9DA",
+      "keyPressed": "#F2FFFFFF",
+      "accent": "#6A4C93",
+      "onAccent": "#FFFFFF",
+      "text": "#2A1838",
+      "textFunction": "#2A1838",
+      "hint": "#6B5580",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#2A1838",
+      "stripText": "#2A1838",
+      "backgroundGradient": [
+        "#FFB37C",
+        "#D99A92"
+      ]
+    },
+    "keys": {
+      "radius": 8,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "inter"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "skyline"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#0A0F2C",
+      "keyLetter": "#B31C1E40",
+      "keyFunction": "#99101028",
+      "keyPressed": "#CC3A3C70",
+      "accent": "#FFD678",
+      "onAccent": "#0A0F2C",
+      "text": "#F4F0FF",
+      "textFunction": "#F4F0FF",
+      "hint": "#B5AED6",
+      "previewBackground": "#3A3C70",
+      "previewText": "#F4F0FF",
+      "stripText": "#F4F0FF",
+      "backgroundGradient": [
+        "#0A0F2C",
+        "#1C1E40",
+        "#101028"
+      ]
+    },
+    "keys": {
+      "radius": 8,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "inter"
+    },
+    "backdrop": {
+      "type": "scene",
+      "scene": "skyline"
+    }
+  }
+}

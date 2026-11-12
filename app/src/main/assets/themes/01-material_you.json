@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "id": "material_you",
+  "name": "Material You",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "@neutral2_100|#ECE6F0",
+      "keyLetter": "@neutral1_10|#FFFBFE",
+      "keyFunction": "@accent2_100|#E8DEF8",
+      "keyPressed": "@accent2_200|#CCC2DC",
+      "accent": "@accent1_600|#6750A4",
+      "onAccent": "#FFFFFF",
+      "text": "@neutral1_900|#1D1B20",
+      "textFunction": "@neutral1_900|#1D1B20",
+      "hint": "@neutral2_500|#79747E",
+      "previewBackground": "@neutral1_10|#FFFBFE",
+      "previewText": "@neutral1_900|#1D1B20",
+      "stripText": "@neutral1_900|#1D1B20"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "shape": "squircle"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "@neutral1_900|#141218",
+      "keyLetter": "@neutral2_800|#36343B",
+      "keyFunction": "@accent2_800|#4A4458",
+      "keyPressed": "@accent2_600|#625B71",
+      "accent": "@accent1_200|#D0BCFF",
+      "onAccent": "@accent1_800|#381E72",
+      "text": "@neutral1_50|#E6E0E9",
+      "textFunction": "@neutral1_50|#E6E0E9",
+      "hint": "@neutral2_300|#938F99",
+      "previewBackground": "@neutral2_700|#49454F",
+      "previewText": "@neutral1_50|#E6E0E9",
+      "stripText": "@neutral1_50|#E6E0E9"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "shape": "squircle"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "id": "borinquen",
+  "name": "Borinquen",
+  "author": "Bori",
+  "category": "Puerto Rico",
+  "light": {
+    "colors": {
+      "background": "#E6F2FB",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#BFDDF3",
+      "keyPressed": "#9CC9EC",
+      "accent": "#E4002B",
+      "onAccent": "#FFFFFF",
+      "text": "#0D2B55",
+      "textFunction": "#0D2B55",
+      "hint": "#4F7FA8",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#0D2B55",
+      "stripText": "#0D2B55"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito",
+      "look": "raised"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#0D2B55",
+      "keyLetter": "#173E72",
+      "keyFunction": "#11325F",
+      "keyPressed": "#2A5590",
+      "accent": "#E4002B",
+      "onAccent": "#FFFFFF",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#9FC4E8",
+      "previewBackground": "#2A5590",
+      "previewText": "#FFFFFF",
+      "stripText": "#FFFFFF"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito",
+      "look": "raised"
+    }
+  }
+}

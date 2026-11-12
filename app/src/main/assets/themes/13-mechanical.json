@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "id": "mechanical",
+  "name": "Mechanical",
+  "author": "Bori",
+  "category": "Glow & LED",
+  "light": {
+    "colors": {
+      "background": "#2B2B2B",
+      "keyLetter": "#EAE4D6",
+      "keyFunction": "#A39E94",
+      "keyPressed": "#CFC7B6",
+      "accent": "#C2410C",
+      "onAccent": "#FFFFFF",
+      "text": "#2F2B26",
+      "textFunction": "#1E1B17",
+      "hint": "#6E675C",
+      "previewBackground": "#EAE4D6",
+      "previewText": "#2F2B26",
+      "stripText": "#EAE4D6",
+      "keyBorder": "#1A1A1A"
+    },
+    "keys": {
+      "radius": 4,
+      "gapH": 4,
+      "gapV": 6,
+      "borderWidth": 1,
+      "font": "jetbrains_mono",
+      "look": "raised"
+    }
+  }
+}

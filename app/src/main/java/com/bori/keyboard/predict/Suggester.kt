@@ -233,8 +233,11 @@ class Suggester(
         val rare = dict.freqOf(dictNode) < REALFIX_RARE_FREQ
         if (!rare && (prevNode < 0 || dict.bigramLogP(prevNode, alt.node) == null)) return null
         val margin = (if (rare) REALFIX_MARGIN_RARE else REALFIX_MARGIN_COMMON) / levelFactor(level)
-        // The typed word is judged without the user's boosts, which past slips inflate.
-        return alt.takeIf { it.score - lm(dictNode, prevNode, ctx, withUser = false) >= margin }
+        // Both words are judged without the user's boosts: past slips inflate the typed word's,
+        // and the fix's own boost alone pushed real words over the line (typo log: "hub" → huh
+        // for someone who often types "huh"; the dictionary alone puts huh only 0.2 ahead).
+        val altScore = alt.score - userBoost(dict.keyOf(alt.node), ctx)
+        return alt.takeIf { altScore - lm(dictNode, prevNode, ctx, withUser = false) >= margin }
     }
 
     // ---------------------------------------------------------------- missed spaces

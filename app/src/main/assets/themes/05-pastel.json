@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "id": "pastel",
+  "name": "Pastel",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "#FDF3EE",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#F7DCE6",
+      "keyPressed": "#EFC7D6",
+      "accent": "#7656C9",
+      "onAccent": "#FFFFFF",
+      "text": "#4E4766",
+      "textFunction": "#4E4766",
+      "hint": "#9A8FB0",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#4E4766",
+      "stripText": "#4E4766"
+    },
+    "keys": {
+      "radius": 14,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito",
+      "shape": "pill"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#2A2433",
+      "keyLetter": "#3A3247",
+      "keyFunction": "#4A3550",
+      "keyPressed": "#5C4A70",
+      "accent": "#C9B6FF",
+      "onAccent": "#2A2433",
+      "text": "#F4EEFF",
+      "textFunction": "#F4EEFF",
+      "hint": "#B3A6C8",
+      "previewBackground": "#5C4A70",
+      "previewText": "#F4EEFF",
+      "stripText": "#F4EEFF"
+    },
+    "keys": {
+      "radius": 14,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito",
+      "shape": "pill"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 # Handoff
 
 Detailed per-session notes: `.bori/session-log.md` (read the latest entry first).
+Settings UI rules: `.bori/settings-style.md`.
 
 ## Goal
 Bori Keyboard (com.bori.keyboard): offline open-source keyboard, see .bori/plan.md.
@@ -137,26 +138,122 @@ crashes the keyboard switches to the phone's font automatically. See session-log
 Celeste/red/coquí launcher icon like the other Bori apps (tools/gen_icon.py); project pushed
 to GitHub as a public repo (GPL-3.0). See session-log Session 20.
 
+## Session 21 (clipboard upgrade + GIF search; not yet built)
+Clipboard keeps text + pictures for 1 h/1 day/1 week (default)/forever, up to 200, search,
+Undo after Clear, deleted clips stay deleted. GIF button in the emoji panel → KLIPY search
+(opt-in, the user's own key in Settings → GIFs; INTERNET added only for this). See
+session-log Session 21.
+Also: hub → huh fixed (the user's boosts no longer count toward real-word fixes); typo log
+lines have times and copy newest first.
+
+## Session 22 (Stage 3 plan approved + phase 3.1; built OK)
+Plan v2 (research on Keys Cafe, SwiftKey, Gboard, LED apps; weather, holidays, fonts,
+sounds): .bori/theme-plan.md, APPROVED. Phase 3.1: theme/ThemeSpec.kt, ThemeResolver.kt,
+ThemeStore.kt, assets/themes/classic.json; the keyboard re-themes live on theme changes.
+Should look exactly as before. See session-log Session 22.
+
+## Session 23 (theme gallery, phase 3.2; built OK 16:49, user using a theme)
+Settings → Themes: Gallery/Mine tabs, live mini-keyboard previews, light/dark chips, Key
+borders switch. 21 presets (assets/themes/NN-id.json, made by tools/build_themes.py with a
+4.5:1 contrast check). Engine: gradient backgrounds, key outlines (incl. rainbow), neon glow.
+See session-log Session 23.
+
+## Session 24 (key styles + fonts, phase 3.3; Bori build OK 17:09, phone test pending)
+3.2 built OK (16:49) and the user is using a theme. New: theme/KeyPainter.kt draws keys flat /
+raised / sunken / outline / floating, shapes rounded / square / pill / circle / squircle; 14
+bundled fonts (808 KB, tools/build_fonts.py); Settings → Themes → "Keys & letters" overrides
+(style, shape, font, letter case, size, transparency, hints). Presets got matching fonts.
+See session-log Session 24.
+
+## Session 25 (height per fold/rotation; not yet built)
+Keyboard height is now saved separately for folded/phone vs unfolded/tablet, upright vs
+sideways (view/BigScreen.kt `Posture`). Settings → Appearance & layout shows the current one
+first (live) and the other three below. Range 60–150%. Heat map + thumb calibration agreed as
+the next feature, in plan.md. See session-log Session 25.
+
+## Session 26 (touch heat map; not yet built)
+learn/TouchMap.kt records where taps land on each key (per posture), from words kept as typed,
+picked, or fixed with up to 2 swapped letters (an undone fix is dropped). The corrector aims at
+each key's learned shift after 15 taps. Settings → Corrections → Touch heat map shows dots
+per key, with copy/clear. See session-log Session 26.
+
+## Session 27 (P1 thumb calibration + aim; not yet built)
+Sessions 25 + 26 built OK (19:12). New: Settings "Fit to my thumbs" (settings/CalibrationScreen.kt):
+rest thumbs → height for this posture (+ split edge/gap when unfolded), type a pangram on a
+practice keyboard (real KeyGeometry) → heat map seed; fold/unfold and repeat (Settings now keeps
+its page across a fold). Opened from onboarding (optional card), Key height, the heat map, and
+a one-time strip prompt. "Move keys to fit my aim" (default on): near a letter border the key
+with the closer learned aim point wins (KeyboardView.aimedKeyAt). See session-log Session 27.
+
+## Session 28 (calibration too tall; not yet built)
+Calibrated keyboard was far too tall. Rows now capped at 8% of the screen (view/BigScreen.kt
+KeySize, shared with calibration), thumbs read as the top/middle row line, calibration max 130%,
+and a height slider on the practice step. See session-log Session 28.
+
+## Session 29 (P2 = theme 3.4 backgrounds; not yet built)
+Calibration fix (Session 28) built; user: "better, let's keep going". New: Settings → Themes →
+Background card (Theme's / Plain / Gradient / Scene / Photo) on top of any theme; theme/Backdrop.kt
+(BackgroundSpec in ThemeVariant.backdrop + override pref, cached BackdropRenderer, 4 drawn
+scenes with night versions); photo via the system photo picker, copied to filesDir/backgrounds;
+text over pictures auto-switches to black/white when below 4.5:1. 3 new scene presets.
+See session-log Session 29.
+
+## Session 30 (P3 = theme 3.5 press effects + LED lighting; not yet built)
+Backgrounds (Session 29) built OK 19:32, user sees the options. New: Themes → "Effects &
+lighting": 10 press effects (view/EffectsView.kt, particle pool, idle = no redraws) with theme /
+rainbow / 8 colours; LED modes rainbow wave, breathing, light up on press, colour cycle, row
+rainbow (view/LedLights.kt) on keys / letters / outlines, speed + brightness. Off in password
+fields and with system animations off. See session-log Session 30.
+
+## Session 31 (P4 = theme 3.6 sound packs; not yet built)
+Effects + LED (Session 30) built with no errors. New: Settings → Typing → Sound: 10 packs
+(Crisp tap, Typewriter with bell, Thocky, Clacky, Creamy, Bubble, Water drop, Wood block, 8-bit,
+Piano) + the phone's own; volume; try buttons. Synthesized by tools/build_sounds.py (pure
+Python, 350 KB of WAVs). ime/SoundPacks.kt (SoundPool, files copied out once per install).
+Follows silent/vibrate mode; off in password fields. See session-log Session 31.
+
+## Session 32 (P5 = theme 3.7 editor; not yet built)
+Sound packs (Session 31) built with no errors. New: Themes → "Make your own from …" copies the
+selected theme into Mine and opens settings/ThemeEditorScreen.kt (route "edit:<id>"): tap the
+preview to pick a part (again for its label), HSV + see-through + hex + quick colours, day/night
+colours, gradient background, key style (look, shape, font, roundness, outline, glow,
+see-through, spacing), contrast warnings < 4.5:1, undo, rename, duplicate, delete. Saves as you
+go and becomes the keyboard's theme. See session-log Session 32.
+
+## Session 33 (settings redesign, build 1 of 2; not yet built)
+Theme editor (Session 32) built OK 19:51. User asked for concise, better-organised settings after
+researching settings UI. Following the Android settings guide: new settings/SettingsUi.kt
+(SettingsPage with top bar + pinned "Try the keyboard here" bar, Group, NavRow, SwitchRow,
+ChoiceRow dialog, SliderRow, InfoButton), SettingsIcons.kt (path-data icons, no icon library),
+CategoryScreens.kt (Typing, Corrections, Swipe & gestures, Layout & size, Emoji & GIFs,
+Clipboard & privacy, Help). Start page = 7 groups with status lines. See session-log Session 33.
+
+## Session 34 (settings: every page below the start page; built OK 20:49, user: "amazing")
+Build 1 (Session 33) built; user: "looks great" but category pages too long and listy; apply the
+same pattern to every layer. Each page now shows only its main rows; detail moved one level down
+behind rows with status lines: Theme hub (Gallery, Dark mode, Key borders, Keys & letters,
+Background, Effects & lighting, Design your own → own pages), Typing → Sound & vibration,
+Swipe → Swipe trail, Layout → Other ways of holding / Split keyboard, Emoji → GIF search.
+Touch heat map, Dictionary, theme editor (colour picker in a dialog), Swipe Trainer and Test Lab
+use the grouped style. **Settings style guide: .bori/settings-style.md** (follow it for any
+new settings). See session-log Session 34.
+
 ## Next step
-000000000. User: Build + Install; check the new app icon.
-00000000. User: try each emoji style + 🇵🇷 in Flags (not tested yet).
-0000000. User: Build + Install; try each emoji style and the 🇵🇷 flag.
-000000. User: Build + Install; set trail colour/thickness and swipe.
-0000. User: Build + Install; tap 😊, the panel should be keyboard-sized and scroll.
-00. User: Build + Install; type wednes, necc, "points or", rje/rhse, asmr; then Copy typo log
-    after a few days of typing (new "edit" lines) and paste it.
-000. User: Build + Install; test predictions ("what are you", "voy a") and Copy diagnostics ngram line.
-0. User: Build + Install; test swipe + corrections in the Google search box and Messages.
-1. User: Build + Install APK (the 2026-11-01 11:21 build had Sessions 6-9; 9b emoji and 10
-   are unbuilt); paste any errors to fix. Then test emoji panel, rhe/teh/adn/qeu, foldable,
-   agentic, rizz, copacetic, tachycardia (tap + swipe), wepa, keyboard speed and memory.
-2. Test rhe→the, almost tjere→there, ot→it, "and" stays "and", number row + its switch,
-   long-press o → 9 (number row off), vibration slider; on the Fold: split + prompt when
-   unfolded, normal on the cover screen.
-3. Paste Swipe Trainer "Copy data" (goes to tools/.cache/raw/swipes/ for glide_bench set R).
-4. Stage 3: theme engine.
+0. Settings redesign approved (built OK 20:49). Left from its plan: two-pane list-detail when
+   unfolded (≥ 600 dp) and settings search. Then P6 (3.8 share .boritheme + Surprise me), then
+   3.9, 3.10, autocorrect tidy-up, Stage 4, Stage 5 (plan.md "Build order").
+1. User: Install the 17:09 build if not done (Session 24, phase 3.3). Settings → Themes → Keys & letters: try each
+   key style, shape and font with the test box open; check Dot Matrix, Retro Typewriter,
+   Mechanical, Neon LED, Snow. Paste any build errors.
+2. Then phase 3.4 (backgrounds: photo, gradients, scenes), see .bori/theme-plan.md.
+3. Older checks never confirmed on the phone (do when convenient): clipboard history +
+   pictures + Undo, GIF search with a KLIPY key, emoji styles + 🇵🇷, swipe trail settings,
+   typo-log fixes (wednes, asmr, rhe), predictions ("what are you", "voy a"), split keyboard
+   on the Fold, Swipe Trainer data. Details in the session log entries 6–21.
+4. Nothing is committed since the first commit (Sessions 6–24 are uncommitted). Commit and
+   push when the user asks.
 
 ## Last Bori build
 Result: OK
-Time: 2026-11-05 11:53
+Time: 2026-11-11 20:49
 debug build, app-debug.apk

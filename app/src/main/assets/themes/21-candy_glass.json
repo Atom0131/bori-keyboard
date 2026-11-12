@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "id": "candy_glass",
+  "name": "Candy Glass",
+  "author": "Bori",
+  "category": "Glass",
+  "light": {
+    "colors": {
+      "background": "#E6C3F2",
+      "keyLetter": "#80FFFFFF",
+      "keyFunction": "#4DFFFFFF",
+      "keyPressed": "#B3FFFFFF",
+      "accent": "#D61F69",
+      "onAccent": "#FFFFFF",
+      "text": "#4A1E5E",
+      "textFunction": "#4A1E5E",
+      "hint": "#8A5A9E",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#4A1E5E",
+      "stripText": "#4A1E5E",
+      "backgroundGradient": [
+        "#FFD1E8",
+        "#C9B6FF"
+      ],
+      "keyBorder": "#B3FFFFFF"
+    },
+    "keys": {
+      "radius": 16,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "nunito",
+      "shape": "pill"
+    }
+  }
+}
