@@ -38,6 +38,8 @@ object TypoRecorder {
         if (typed.isEmpty()) return
         val o = JSONObject().apply {
             put("k", kind)
+            // When, so a pasted log shows which lines came after a fix was installed.
+            put("t", java.text.SimpleDateFormat("MM-dd HH:mm", java.util.Locale.US).format(java.util.Date()))
             put("lang", language)
             put("typed", typed)
             put("chosen", chosen)
@@ -82,8 +84,10 @@ object TypoRecorder {
     fun count(context: Context): Int =
         runCatching { File(context.filesDir, FILE).useLines { it.count() } }.getOrDefault(0)
 
+    /** Newest lines first: long pastes get cut off at the end, so the old lines are lost, not the new. */
     fun export(context: Context): String =
-        runCatching { File(context.filesDir, FILE).readText() }.getOrDefault("")
+        runCatching { File(context.filesDir, FILE).readLines().filter { it.isNotBlank() }.asReversed().joinToString("\n") }
+            .getOrDefault("")
 
     fun clear(context: Context) {
         File(context.filesDir, FILE).delete()

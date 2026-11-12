@@ -1,0 +1,140 @@
+# Spanish AI, phone and brand words as people type them. Own list, Session 40.
+# Format: word tier era variants...  (see README.md)
+
+# ---------------------------------------------------------------- AI
+IA 1 ai IAs
+ChatGPT 1 ai
+Gemini 2 ai
+Claude 2 ai
+Copilot 2 ai
+DeepSeek 2 ai
+Grok 2 ai
+Siri 1 ai
+Alexa 1 ai
+Bixby 2 ai
+chatbot 1 ai chatbots
+prompt 1 ai prompts promptear
+modelo 1 ai modelos
+agente 1 ai agentes
+asistente 1 ai asistentes
+algoritmo 1 ai algoritmos algorítmico
+entrenamiento 2 ai entrenar entrenado entrenada
+inteligencia 1 ai
+artificial 1 ai
+generativa 2 ai generativo generativos generativas
+deepfake 2 ai deepfakes
+alucinación 2 ai alucinaciones alucinar alucina
+token 2 ai tokens
+automatizar 2 ai automatización automatizado automatizada
+programar 1 ai programación programador programadora
+código 1 ai códigos
+resumen 1 ai resúmenes resumir
+traducir 1 ai traductor traducción
+datos 1 ai
+
+# ---------------------------------------------------------------- phone
+celular 1 tech celulares cel celu
+móvil 1 tech móviles
+teléfono 1 tech teléfonos
+cargador 1 tech cargadores cargar cargando cargado
+batería 1 tech baterías
+pantalla 1 tech pantallas
+cámara 1 tech cámaras
+plegable 2 tech plegables
+audífonos 1 tech audífono auriculares cascos
+bocina 2 tech bocinas
+reloj 1 tech
+tableta 2 tech tabletas tablet
+chip 1 tech chips
+eSIM 2 tech
+SIM 2 tech
+wifi 1 tech
+datos 1 tech
+señal 1 tech
+contraseña 1 tech contraseñas clave claves
+usuario 1 tech usuarios
+correo 1 tech correos
+email 1 tech emails
+captura 1 tech capturas screenshot pantallazo pantallazos
+notificación 1 tech notificaciones
+actualizar 1 tech actualización actualizaciones actualizado
+descargar 1 tech descarga descargas descargado descargando
+instalar 1 tech instalado instalando desinstalar
+reiniciar 1 tech reinicio reiniciado
+configuración 1 tech ajustes
+aplicación 1 tech aplicaciones app apps
+fondo 1 tech
+widget 2 tech widgets
+teclado 1 tech teclados
+huella 2 tech
+desbloquear 2 tech desbloqueo desbloqueado
+bloquear 1 tech bloqueado bloqueo
+videollamada 1 tech videollamadas
+llamada 1 tech llamadas
+mensaje 1 tech mensajes mensajito
+texto 1 tech textos
+audio 1 tech audios
+nota 1 tech notas
+sticker 1 tech stickers
+emoji 1 tech emojis
+estado 1 tech estados
+historia 1 tech historias
+reel 2 tech reels
+grupo 1 tech grupos
+chat 1 tech chats
+link 1 tech links enlace enlaces
+recarga 2 tech recargas recargar
+saldo 2 tech
+plan 1 tech planes
+roaming 3 tech
+hotspot 3 tech
+bluetooth 2 tech
+nube 1 tech
+respaldo 2 tech respaldar
+almacenamiento 2 tech
+memoria 1 tech
+gigas 2 tech giga GB
+megas 2 tech mega
+
+# ---------------------------------------------------------------- brands
+Samsung 1 brand
+Galaxy 2 brand
+iPhone 1 brand iPhones
+iPad 2 brand
+AirPods 2 brand
+Android 1 brand
+Google 1 brand
+Gmail 2 brand
+YouTube 1 brand
+WhatsApp 1 brand wasap guasap
+Facebook 1 brand face
+Instagram 1 brand insta IG
+TikTok 1 brand
+Snapchat 2 brand
+Telegram 2 brand
+Twitter 1 brand
+Netflix 1 brand
+Spotify 1 brand
+Disney 1 brand
+Amazon 1 brand
+Shein 2 brand
+Temu 2 brand
+Uber 1 brand
+DiDi 3 brand
+Rappi 3 brand
+Zelle 2 brand
+Venmo 2 brand
+PayPal 2 brand
+ATH 2 brand
+mercado 2 brand
+Walmart 1 brand
+Costco 2 brand
+claro 2 brand
+Movistar 2 brand
+Telcel 2 brand
+Roblox 2 brand
+Fortnite 2 brand
+Minecraft 2 brand
+PlayStation 2 brand
+Xbox 2 brand
+Nintendo 2 brand

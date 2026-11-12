@@ -457,8 +457,9 @@ TESTS = {
 
 def main():
     lang = sys.argv[1]
-    d = Bdic(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                          "app", "src", "main", "assets", "dict", f"{lang}.bdic"))
+    # BDIC=<path with {lang}>: compare another dictionary (e.g. tools/.cache/baseline/{lang}.bdic).
+    d = Bdic(os.environ.get("BDIC", "").replace("{lang}", lang) or os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "app", "src", "main", "assets", "dict", f"{lang}.bdic"))
     import time
     for arg in sys.argv[2:] or TESTS[lang]:
         w, _, prev = arg.partition(":")

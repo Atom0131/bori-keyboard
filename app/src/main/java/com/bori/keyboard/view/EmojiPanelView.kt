@@ -30,6 +30,8 @@ class EmojiPanelView(context: Context) : FrameLayout(context) {
         fun onEmoji(text: String)
         fun onEmojiDelete()
         fun onEmojiClose()
+        /** The GIF button: switch to the GIF panel. */
+        fun onEmojiGif()
     }
 
     var listener: Listener? = null
@@ -162,7 +164,7 @@ class EmojiPanelView(context: Context) : FrameLayout(context) {
     }
 
     private fun rebuildBar() {
-        setBackgroundColor(theme.background)
+        setBackgroundColor(theme.solidBackground)
         bar.removeAllViews()
         tabs.removeAllViews()
         bar.addView(
@@ -171,6 +173,14 @@ class EmojiPanelView(context: Context) : FrameLayout(context) {
                 setOnClickListener { listener?.onEmojiClose() }
             },
             LinearLayout.LayoutParams(dp(56), LayoutParams.MATCH_PARENT).apply { setMargins(dp(4), dp(4), dp(4), dp(4)) },
+        )
+        bar.addView(
+            barButton("GIF", selected = false).apply {
+                background = rounded(theme.keyFunction)
+                contentDescription = "GIFs"
+                setOnClickListener { listener?.onEmojiGif() }
+            },
+            LinearLayout.LayoutParams(dp(48), LayoutParams.MATCH_PARENT).apply { setMargins(0, dp(4), dp(4), dp(4)) },
         )
         val icons = listOf(-1 to "🕘") + EmojiData.categories.mapIndexed { i, c -> i to c.icon }
         for ((cat, icon) in icons) {

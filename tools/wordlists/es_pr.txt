@@ -1,0 +1,201 @@
+# Español de Puerto Rico (and the Caribbean): slang, food, places, everyday words. Own list, Session 40.
+# Format: word tier era variants...  (see README.md). Some are also in es_modern.txt (raised only).
+
+# ---------------------------------------------------------------- slang and expressions
+wepa 1 pr wepaa wepaaa
+acho 1 pr achoo
+diantre 2 pr diantres
+bregar 1 pr brega bregando bregué bregó bregamos bregan
+janguear 1 pr jangueo janguea jangueando jangueé jangueamos janguearon jangueo jangueos
+corillo 2 pr corillos
+pana 1 pr panas panita panitas
+mano 1 pr manito
+broki 2 pr brokis
+bro 1 pr
+cabrón 1 pr cabrona cabrones cabronas cabronería
+cabron 2 pr
+puñeta 1 pr puñetas puñetero puñetera
+carajo 1 pr carajos
+coño 1 pr
+chacho 2 pr chacha
+nene 1 pr nena nenes nenas
+jevo 2 pr jeva jevos jevas
+chamaco 2 pr chamaca chamacos chamacas
+bichote 3 pr bichotes
+bellaco 2 pr bellaca bellacos bellacas bellaquear bellaqueo bellaquera
+perreo 1 pr perrear perreando perreamos perreó
+reguetón 1 pr reggaetón reguetonero reguetonera reggaeton
+trap 2 pr trapero trapera
+bichear 3 pr bicheando
+revolú 2 pr
+bochinche 2 pr bochinchero bochinchera bochinches bochinchear
+chisme 1 pr chismes chismoso chismosa chismear chismeando
+chavos 1 pr chavo
+pela 2 pr pelas
+mahones 2 pr mahón
+zafacón 1 pr zafacones zafacon
+guagua 1 pr guaguas
+chiringa 2 pr chiringas
+parquear 2 pr parqueo parqueé parqueó parquea parqueando parking
+chinchorro 2 pr chinchorros chinchorreo chinchorrear chinchorreando
+chinchorreando 2 pr
+pichear 2 pr pichea pichié picheó picheando pichéale
+afrentao 2 pr afrentá afrentada afrentado
+enchismao 2 pr enchismá enchismada enchismado
+jartera 2 pr jartura jarto jarta
+jaquetón 3 pr
+mamey 2 pr
+brutal 1 pr
+cheverísimo 3 pr
+chévere 1 pr
+fokin 3 pr
+mamabicho 3 pr
+bembé 3 pr
+corito 3 pr
+tostón 1 pr tostones
+mofongo 1 pr mofongos
+alcapurria 2 pr alcapurrias
+bacalaíto 2 pr bacalaítos
+pastelillo 2 pr pastelillos
+pasteles 1 pr pastel
+pernil 1 pr
+arroz 1 pr
+gandules 1 pr gandul
+pegao 2 pr
+coquito 1 pr
+tembleque 2 pr
+piragua 2 pr piraguas
+quesito 2 pr quesitos
+mallorca 2 pr mallorcas
+sorullito 2 pr sorullitos sorullo
+pionono 3 pr
+chillo 2 pr
+pinchos 2 pr pincho
+lechón 1 pr lechonera
+habichuelas 1 pr habichuela
+sofrito 1 pr
+recaíto 2 pr recao
+adobo 1 pr
+sazón 1 pr
+medalla 2 pr medallas
+parranda 1 pr parrandas parrandero parranderos
+asalto 2 pr
+coquí 1 pr coquíes coquis
+boricua 1 pr boricuas
+borincano 2 pr borincana borincanos
+borinqueño 2 pr borinqueña borinqueños borinqueñas
+Borinquen 1 pr Borinquén
+jíbaro 2 pr jíbara jíbaros jíbaras
+pava 3 pr
+cuatro 1 pr
+güiro 2 pr
+bomba 1 pr
+plena 1 pr
+salsa 1 pr
+playa 1 pr playita
+chinas 2 pr china
+guineo 2 pr guineos
+pantalla 1 pr pantallas
+ahorita 1 pr
+ahoritita 3 pr
+nítido 1 pr nítida
+bendito 1 pr
+ay 1 pr
+oye 1 pr
+mira 1 pr
+dale 1 pr
+tranqui 2 pr
+ea 2 pr diantre
+fuá 3 pr
+pai 1 pr
+mai 1 pr
+abuela 1 pr abuelo titi tití
+titi 2 pr
+mija 1 pr mijo
+gufear 2 pr gufeo gufeando gufiao
+chillin 3 pr
+lambón 2 pr lambona lambones
+fresco 1 pr fresca
+pelú 3 pr
+morón 3 pr
+tecato 3 pr tecata
+bichote 3 pr
+gata 2 pr gatas
+chulería 2 pr chulo chula
+guillao 2 pr guillá guillado guillarse
+jaibería 3 pr jaibero jaibera
+chiripa 3 pr chiripas chiripero
+estofón 3 pr
+mangar 3 pr mangó
+mamao 3 pr mamá
+emborujao 3 pr
+espeluznao 4 pr
+pichón 3 pr
+zángano 3 pr
+lechón 1 pr
+
+# ---------------------------------------------------------------- places and names in PR
+Bayamón 1 pr
+carolina 1 pr
+Caguas 1 pr
+Ponce 1 pr
+Mayagüez 1 pr
+Arecibo 1 pr
+Guaynabo 1 pr
+Humacao 2 pr
+Fajardo 2 pr
+Vieques 2 pr
+culebra 2 pr
+rincón 2 pr
+Aguadilla 2 pr
+cayey 2 pr
+cidra 3 pr
+toa 2 pr
+dorado 2 pr
+Isabela 2 pr
+Luquillo 2 pr
+Piñones 3 pr
+condado 2 pr
+Santurce 2 pr
+hato 2 pr
+Yunque 1 pr
+Loíza 2 pr
+Utuado 3 pr
+Jayuya 3 pr
+cabo 2 pr
+lajas 3 pr
+Boquerón 3 pr
+plaza 1 pr
+Walgreens 2 pr
+Econo 2 pr
+pueblo 2 pr
+amigo 2 pr
+LUMA 2 pr
+AEE 3 pr
+popular 2 pr
+ATH 2 pr
+claro 2 pr
+liberty 2 pr
+bad 2 pr
+bunny 2 pr
+Benito 2 pr
+daddy 2 pr
+yankee 2 pr
+Ozuna 2 pr
+Anuel 2 pr
+Arcángel 3 pr
+Jhayco 3 pr
+Farruko 3 pr
+Wisin 3 pr
+Yandel 3 pr
+Tego 3 pr
+Calderón 3 pr
+Myke 3 pr
+towers 3 pr
+Rauw 2 pr
+Alejandro 2 pr
+Karol 2 pr
+young 3 pr
+Miko 3 pr
+Eladio 3 pr
+Carrión 3 pr

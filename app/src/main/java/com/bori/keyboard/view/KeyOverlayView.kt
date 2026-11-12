@@ -199,11 +199,13 @@ class KeyOverlayView(context: Context) : View(context) {
             drawBubble(canvas, pv.rect, radius, pv.theme.previewBackground)
             textPaint.color = pv.theme.previewText
             textPaint.textSize = pv.rect.height() * 0.5f
+            textPaint.typeface = pv.theme.typeface ?: android.graphics.Typeface.DEFAULT
             drawCentered(canvas, pv.label, pv.rect.centerX(), pv.rect.centerY())
         }
         val p = popup ?: return
         drawBubble(canvas, p.rect, radius, p.theme.previewBackground)
         textPaint.textSize = p.rect.height() * 0.42f
+        textPaint.typeface = p.theme.typeface ?: android.graphics.Typeface.DEFAULT
         p.items.forEachIndexed { i, s ->
             val l = p.rect.left + i * p.cellWidth
             val cell = RectF(l, p.rect.top, l + p.cellWidth, p.rect.bottom)

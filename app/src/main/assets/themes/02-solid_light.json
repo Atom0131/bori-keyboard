@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "id": "solid_light",
+  "name": "Snow",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "#FFFFFF",
+      "keyLetter": "#F3F4F6",
+      "keyFunction": "#E2E5EA",
+      "keyPressed": "#C8CDD5",
+      "accent": "#2563EB",
+      "onAccent": "#FFFFFF",
+      "text": "#111827",
+      "textFunction": "#111827",
+      "hint": "#6B7280",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#111827",
+      "stripText": "#111827"
+    },
+    "keys": {
+      "radius": 6,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "inter",
+      "look": "floating"
+    }
+  }
+}

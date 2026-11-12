@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "id": "high_contrast_light",
+  "name": "High Contrast Light",
+  "author": "Bori",
+  "category": "Simple",
+  "light": {
+    "colors": {
+      "background": "#FFFFFF",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#FFFFFF",
+      "keyPressed": "#FFE600",
+      "accent": "#000000",
+      "onAccent": "#FFE600",
+      "text": "#000000",
+      "textFunction": "#000000",
+      "hint": "#333333",
+      "previewBackground": "#FFE600",
+      "previewText": "#000000",
+      "stripText": "#000000",
+      "keyBorder": "#000000"
+    },
+    "keys": {
+      "radius": 6,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 2,
+      "font": "atkinson",
+      "labelScale": 1.1
+    }
+  }
+}

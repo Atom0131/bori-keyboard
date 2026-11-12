@@ -12,3 +12,9 @@
   - Problems solved, known gaps, and what hasn't been tested on the phone.
   - The exact next step, and a short "How to catch up" list.
 - Keep `.bori/handoff.md` short. It links to the log.
+
+## Settings UI
+- Any new or changed settings page follows `.bori/settings-style.md` (user-approved style:
+  grouped rows, status on the second line, short pages with details one level down).
+- Before handing off Compose code: read `LocalContext.current` outside `remember { }`, and no
+  `/*` inside Kotlin comments (both broke Bori builds).

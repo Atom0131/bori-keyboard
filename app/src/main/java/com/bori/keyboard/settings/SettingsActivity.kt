@@ -65,36 +65,96 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import com.bori.keyboard.learn.UserStore
 import com.bori.keyboard.predict.Aggressiveness
-import com.bori.keyboard.theme.ThemeMode
 import com.bori.keyboard.view.BigScreen
+import com.bori.keyboard.view.Posture
 import kotlinx.coroutines.delay
 
 class SettingsActivity : ComponentActivity() {
+    /** The screen to show; the keyboard can ask for one (e.g. GIF settings from the GIF panel). */
+    private val startScreen = mutableStateOf("main")
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        intent.getStringExtra(EXTRA_SCREEN)?.let { startScreen.value = it }
+        importShared(intent)
+    }
+
+    /** A theme file shared to Bori from another app (share sheet): add it to Mine and use it. */
+    private fun importShared(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_SEND) return
+        @Suppress("DEPRECATION")
+        val uri = intent.getParcelableExtra<android.net.Uri>(Intent.EXTRA_STREAM) ?: return
+        Thread {
+            val result = importThemeNow(applicationContext, uri)
+            runOnUiThread {
+                android.widget.Toast.makeText(this, importMessage(result), android.widget.Toast.LENGTH_LONG).show()
+                // Open a page that isn't showing yet, so it reads the new theme fresh.
+                if (result.isSuccess) {
+                    startScreen.value = if (startScreen.value == SCREEN_THEME_GALLERY) "themes" else SCREEN_THEME_GALLERY
+                }
+            }
+        }.start()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        intent?.getStringExtra(EXTRA_SCREEN)?.let { startScreen.value = it }
+        // Folding/unfolding recreates the activity; stay on the same page (calibration needs it).
+        savedInstanceState?.getString(STATE_SCREEN)?.let { startScreen.value = it }
+        if (savedInstanceState == null) importShared(intent)
         setContent {
             BoriTheme {
                 Surface(Modifier.fillMaxSize()) {
-                    var screen by remember { mutableStateOf("main") }
+                    var screen by startScreen
                     val back = { screen = parentOf(screen) }
                     BackHandler(enabled = screen != "main") { back() }
                     val go = { to: String -> screen = to }
                     when (screen) {
-                        "typing" -> TypingScreen(back)
+                        "typing" -> TypingScreen(back, go)
+                        "sound" -> SoundVibrationScreen(back)
                         "corrections" -> CorrectionsScreen(back, go)
                         "gestures" -> GesturesScreen(back, go)
-                        "layout" -> LayoutScreen(back)
+                        "trail" -> TrailScreen(back)
+                        "layout" -> LayoutScreen(back, go)
+                        "heights" -> HeightsScreen(back)
+                        "split" -> SplitScreen(back)
+                        "themes" -> ThemesScreen(back, go)
+                        SCREEN_THEME_GALLERY -> ThemeGalleryScreen(back)
+                        SCREEN_THEME_KEYS -> KeysLettersScreen(back)
+                        SCREEN_THEME_BACKGROUND -> BackgroundScreen(back)
+                        SCREEN_THEME_EFFECTS -> EffectsScreen(back)
                         "privacy" -> PrivacyScreen(back, go)
-                        "advanced" -> AdvancedScreen(back)
+                        SCREEN_LOGINS -> LoginsScreen(back)
+                        "emoji" -> EmojiGifScreen(back, go)
+                        SCREEN_GIFS -> GifSearchScreen(back)
+                        "advanced" -> HelpScreen(back)
                         "dictionary" -> DictionaryScreen(back)
+                        "touchmap" -> TouchMapScreen(back, go)
+                        SCREEN_CALIBRATE -> CalibrationScreen(back)
                         "lab" -> SwipeTestLabScreen(back)
                         "trainer" -> SwipeTrainerScreen(back)
-                        else -> SettingsScreen(go)
+                        else -> if (screen.startsWith(EDIT_PREFIX)) {
+                            ThemeEditorScreen(screen.removePrefix(EDIT_PREFIX), back, go)
+                        } else {
+                            SettingsScreen(go)
+                        }
                     }
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STATE_SCREEN, startScreen.value)
+    }
+
+    companion object {
+        const val EXTRA_SCREEN = "screen"
+        const val SCREEN_GIFS = "gifs"
+        const val SCREEN_CALIBRATE = "calibrate"
+        private const val STATE_SCREEN = "screen"
     }
 }
 
@@ -127,12 +187,20 @@ private fun isSelected(context: Context): Boolean {
 
 /** Where Back goes from each screen: tools return to their category, categories to the start. */
 private fun parentOf(screen: String): String = when (screen) {
-    "dictionary" -> "corrections"
-    "trainer", "lab" -> "gestures"
-    else -> "main"
+    "dictionary", "touchmap" -> "corrections"
+    SettingsActivity.SCREEN_CALIBRATE, "heights", "split" -> "layout"
+    "trainer", "lab", "trail" -> "gestures"
+    "sound" -> "typing"
+    SCREEN_LOGINS -> "privacy"
+    SettingsActivity.SCREEN_GIFS -> "emoji"
+    SCREEN_THEME_GALLERY, SCREEN_THEME_KEYS, SCREEN_THEME_BACKGROUND, SCREEN_THEME_EFFECTS -> "themes"
+    else -> if (screen.startsWith(EDIT_PREFIX)) "themes" else "main"
 }
 
-/** The start screen: setup until it's done, a test box, then one row per settings category. */
+/**
+ * The start page: setup steps until they're done, then the seven settings groups, each with
+ * its current state on the second line (Android settings guide: show status, not a feature list).
+ */
 @Composable
 private fun SettingsScreen(navigate: (String) -> Unit) {
     val context = LocalContext.current
@@ -149,22 +217,9 @@ private fun SettingsScreen(navigate: (String) -> Unit) {
         }
     }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .safeDrawingPadding()
-            .imePadding()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        Text("Bori Keyboard", style = MaterialTheme.typography.headlineMedium)
-        Text(
-            "Private, offline keyboard. Nothing you type leaves this phone.",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-
+    SettingsPage("Bori Keyboard", onBack = null) {
         if (!enabled || !selected) {
+            Footnote("Private, offline keyboard. Nothing you type leaves this phone.")
             SetupStep(
                 number = 1,
                 title = "Turn on Bori Keyboard",
@@ -189,7 +244,7 @@ private fun SettingsScreen(navigate: (String) -> Unit) {
 
         var split by remember { mutableStateOf(prefs.splitOnBigScreens) }
         var splitAsked by remember { mutableStateOf(prefs.splitAsked) }
-        // Until a choice is made; afterwards it lives under Appearance & layout.
+        // Until a choice is made; afterwards it lives under Layout & size.
         if (!splitAsked && LocalConfiguration.current.smallestScreenWidthDp >= BigScreen.MIN_DP) {
             BigScreenStep(split, splitAsked) { on ->
                 split = on
@@ -198,233 +253,87 @@ private fun SettingsScreen(navigate: (String) -> Unit) {
             }
         }
 
-        TryItField()
-
-        CategoryRow("Typing", "Capitals, double-space period, vibration and sound") { navigate("typing") }
-        CategoryRow("Corrections & suggestions", "Autocorrect strength, suggestions, your dictionary") {
-            navigate("corrections")
+        // Optional: once the keyboard is on and picked, until calibrated or dismissed.
+        var calAsked by remember { mutableStateOf(prefs.calibrationAsked || prefs.calibrated.isNotEmpty()) }
+        if (enabled && selected && !calAsked) {
+            CalibrationStep(
+                onStart = { navigate(SettingsActivity.SCREEN_CALIBRATE) },
+                onSkip = { prefs.calibrationAsked = true; calAsked = true },
+            )
         }
-        CategoryRow("Swipe & gestures", "Glide typing, cursor slide, flicks, Swipe Trainer") { navigate("gestures") }
-        CategoryRow("Appearance & layout", "Dark mode, number row, key height, split keyboard") { navigate("layout") }
-        CategoryRow("Privacy & clipboard", "Incognito, what Bori learns, clipboard history") { navigate("privacy") }
-        CategoryRow("Help improve Bori", "Typo log and diagnostics to share when something's wrong") {
-            navigate("advanced")
+
+        val s = remember { overviewStatus(context, prefs) }
+        Group(null) {
+            NavRow("Theme", s.theme, SettingsIcons.Palette) { navigate("themes") }
+            RowDivider()
+            NavRow("Layout & size", s.layout, SettingsIcons.Height) { navigate("layout") }
+            RowDivider()
+            NavRow("Typing", s.typing, SettingsIcons.Keyboard) { navigate("typing") }
+            RowDivider()
+            NavRow("Corrections", s.corrections, SettingsIcons.Spellcheck) { navigate("corrections") }
+            RowDivider()
+            NavRow("Swipe & gestures", s.gestures, SettingsIcons.Swipe) { navigate("gestures") }
+            RowDivider()
+            NavRow("Emoji & GIFs", s.emoji, SettingsIcons.Emoji) { navigate("emoji") }
+            RowDivider()
+            NavRow("Clipboard & privacy", s.privacy, SettingsIcons.Lock) { navigate("privacy") }
+        }
+        Group(null) {
+            NavRow("Help improve Bori", "Typo log and diagnostics", SettingsIcons.Build) { navigate("advanced") }
         }
     }
 }
 
-@Composable
-private fun CategoryRow(title: String, summary: String, onClick: () -> Unit) {
-    Card(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(Modifier.padding(16.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text(title, style = MaterialTheme.typography.titleMedium)
-                Text(summary, style = MaterialTheme.typography.bodySmall)
-            }
-            Text("›", style = MaterialTheme.typography.headlineSmall)
-        }
+/** Second lines of the start page: each group's current state. */
+private class OverviewStatus(
+    val theme: String,
+    val layout: String,
+    val typing: String,
+    val corrections: String,
+    val gestures: String,
+    val emoji: String,
+    val privacy: String,
+)
+
+private fun overviewStatus(context: Context, prefs: Prefs): OverviewStatus {
+    val themeName = runCatching { com.bori.keyboard.theme.ThemeStore(context).get(prefs.themeId).name }.getOrDefault("Classic")
+    val mode = when (prefs.themeMode) {
+        com.bori.keyboard.theme.ThemeMode.SYSTEM -> "Follows system"
+        com.bori.keyboard.theme.ThemeMode.LIGHT -> "Light"
+        com.bori.keyboard.theme.ThemeMode.DARK -> "Dark"
+        com.bori.keyboard.theme.ThemeMode.NIGHT -> "Dark at night"
     }
+    val posture = Posture.of(context)
+    val height = "Height ${(prefs.keyHeightScale(posture) * 100).toInt()}%"
+    val layout = listOfNotNull(
+        height,
+        if (prefs.numberRow) "Number row" else null,
+        if (prefs.splitOnBigScreens) "Split when unfolded" else null,
+    ).joinToString(" · ")
+    val auto = AUTOCORRECT_CHOICES.firstOrNull { it.first == prefs.autocorrect }?.second ?: ""
+    val corrections = "Autocorrect: $auto" + if (!prefs.showSuggestions) " · Suggestions off" else ""
+    val gestures = if (prefs.glideTyping) "Glide typing on" else "Glide typing off"
+    val emojiName = com.bori.keyboard.view.EmojiPack.STYLES.firstOrNull { it.first == prefs.emojiStyle }?.second ?: "Phone default"
+    val emoji = "$emojiName · " + if (prefs.gifSearch) "GIFs on" else "GIFs off"
+    val keep = CLIP_KEEP_CHOICES.firstOrNull { it.first == prefs.clipboardKeepMs }?.second ?: ""
+    val clip = if (prefs.clipboardHistory) "Clipboard: $keep" else "Clipboard off"
+    val privacy = clip + if (prefs.incognito) " · Incognito on" else " · Incognito off"
+    return OverviewStatus("$themeName · $mode", layout, soundStatus(prefs), corrections, gestures, emoji, privacy)
 }
 
+/** Older pages use this name; it is now the standard settings page. */
 @Composable
-private fun TryItField() {
-    var test by remember { mutableStateOf("") }
-    OutlinedTextField(
-        value = test,
-        onValueChange = { test = it },
-        label = { Text("Try it here") },
-        modifier = Modifier.fillMaxWidth(),
-    )
-}
-
-/** A category page: back button, title, a test box at the top, then the settings. */
-@Composable
-private fun CategoryScreen(title: String, onBack: () -> Unit, content: @Composable () -> Unit) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .safeDrawingPadding()
-            .imePadding()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        TextButton(onClick = onBack) { Text("← Back") }
-        Text(title, style = MaterialTheme.typography.headlineSmall)
-        TryItField()
-        content()
-    }
-}
+internal fun CategoryScreen(title: String, onBack: () -> Unit, content: @Composable () -> Unit) =
+    SettingsPage(title, onBack) { content() }
 
 @Composable
-private fun SectionTitle(text: String) {
+internal fun SectionTitle(text: String) {
     Text(text, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 8.dp))
 }
 
 @Composable
-private fun Note(text: String) {
-    Text(text, style = MaterialTheme.typography.bodySmall)
-}
-
-@Composable
-private fun TypingScreen(onBack: () -> Unit) = CategoryScreen("Typing", onBack) {
-    val context = LocalContext.current
-    val prefs = remember { Prefs(context) }
-    PrefSwitch("Capitalise sentences", prefs.autoCapitalize) { prefs.autoCapitalize = it }
-    PrefSwitch("Double-space types a period", prefs.doubleSpacePeriod) { prefs.doubleSpacePeriod = it }
-
-    SectionTitle("Key press feedback")
-    PrefSwitch("Vibrate on key press", prefs.haptics) { prefs.haptics = it }
-    val feedback = remember { com.bori.keyboard.ime.Feedback(context, prefs) }
-    var strength by remember { mutableFloatStateOf(prefs.vibrationStrength.toFloat()) }
-    Text("Vibration strength: ${strength.toInt()}%")
-    Slider(
-        value = strength,
-        onValueChange = {
-            // Buzz at each 5% step while dragging so the strength can be felt.
-            if (it.toInt() / 5 != strength.toInt() / 5) feedback.vibrate(it.toInt())
-            strength = it
-        },
-        onValueChangeFinished = {
-            prefs.vibrationStrength = strength.toInt()
-            feedback.vibrate(strength.toInt())
-        },
-        valueRange = 1f..100f,
-    )
-    PrefSwitch("Sound on key press", prefs.sound) { prefs.sound = it }
-    PrefSwitch("Show key preview", prefs.keyPreview) { prefs.keyPreview = it }
-}
-
-@Composable
-private fun CorrectionsScreen(onBack: () -> Unit, navigate: (String) -> Unit) =
-    CategoryScreen("Corrections & suggestions", onBack) {
-        val context = LocalContext.current
-        val prefs = remember { Prefs(context) }
-        Text("Autocorrect")
-        var level by remember { mutableStateOf(prefs.autocorrect) }
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            for (l in Aggressiveness.entries) {
-                FilterChip(
-                    selected = level == l,
-                    onClick = { level = l; prefs.autocorrect = l },
-                    label = { Text(l.name.lowercase().replaceFirstChar { it.uppercase() }) },
-                )
-            }
-        }
-        Note("Backspace right after an autocorrection puts back what you typed.")
-
-        SectionTitle("Suggestion bar")
-        PrefSwitch("Show suggestions", prefs.showSuggestions) { prefs.showSuggestions = it }
-        PrefSwitch("Next-word predictions", prefs.nextWordPrediction) { prefs.nextWordPrediction = it }
-        PrefSwitch("Block offensive words", prefs.blockOffensive) { prefs.blockOffensive = it }
-        PrefSwitch("Fix words you tap on", prefs.tapToFix) { prefs.tapToFix = it }
-        Note("Tap a word you already typed and the bar shows fixes for it; tap one to swap it in.")
-        PrefSwitch("Follow apps that turn suggestions off", prefs.followNoSuggestions) { prefs.followNoSuggestions = it }
-        Note("Some apps, like the Google search box, ask keyboards for no suggestions. Leave this off to keep swipe and corrections there too. Passwords, emails and web addresses never get them.")
-
-        SectionTitle("Words")
-        Note("Add your own words, unblock words, or make Bori forget words it learned.")
-        OutlinedButton(onClick = { navigate("dictionary") }) { Text("Your dictionary") }
-    }
-
-@Composable
-private fun GesturesScreen(onBack: () -> Unit, navigate: (String) -> Unit) =
-    CategoryScreen("Swipe & gestures", onBack) {
-        val context = LocalContext.current
-        val prefs = remember { Prefs(context) }
-        SectionTitle("Glide typing")
-        PrefSwitch("Glide typing (swipe across letters)", prefs.glideTyping) { prefs.glideTyping = it }
-        var trailOn by remember { mutableStateOf(prefs.glideTrail) }
-        PrefSwitch("Show swipe trail", trailOn) { trailOn = it; prefs.glideTrail = it }
-        if (trailOn) TrailSettings(prefs)
-        PrefSwitch("Learn my swipe style", prefs.adaptSwipe) { prefs.adaptSwipe = it }
-        Note("The Swipe Trainer teaches Bori your swipe style; the Test Lab shows how it reads swipes.")
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = { navigate("trainer") }) { Text("Swipe Trainer") }
-            OutlinedButton(onClick = { navigate("lab") }) { Text("Swipe Test Lab") }
-        }
-
-        SectionTitle("Gestures")
-        PrefSwitch("Slide on spacebar to move cursor", prefs.spaceCursor) { prefs.spaceCursor = it }
-        PrefSwitch("Slide left from delete to erase words", prefs.deleteSlide) { prefs.deleteSlide = it }
-        PrefSwitch("Flick up on a key for its number or symbol", prefs.keyFlicks) { prefs.keyFlicks = it }
-    }
-
-@Composable
-private fun LayoutScreen(onBack: () -> Unit) = CategoryScreen("Appearance & layout", onBack) {
-    val context = LocalContext.current
-    val prefs = remember { Prefs(context) }
-    Text("Theme")
-    var mode by remember { mutableStateOf(prefs.themeMode) }
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        for ((m, label) in listOf(
-            ThemeMode.SYSTEM to "Follow system",
-            ThemeMode.LIGHT to "Light",
-            ThemeMode.DARK to "Dark",
-            ThemeMode.NIGHT to "Dark at night",
-        )) {
-            FilterChip(selected = mode == m, onClick = { mode = m; prefs.themeMode = m }, label = { Text(label) })
-        }
-    }
-    Note("“Dark at night” goes dark from 7 pm to 7 am by the phone's clock.")
-
-    SectionTitle("Emoji style")
-    EmojiStyleSettings(prefs)
-
-    SectionTitle("Layout & size")
-    PrefSwitch("Number row", prefs.numberRow) { prefs.numberRow = it }
-    var height by remember { mutableFloatStateOf(prefs.keyHeightScale) }
-    Text("Key height: ${(height * 100).toInt()}%")
-    Slider(
-        value = height,
-        onValueChange = { height = it },
-        onValueChangeFinished = { prefs.keyHeightScale = height },
-        valueRange = 0.8f..1.3f,
-    )
-
-    SectionTitle("Big screens (unfolded foldables, tablets)")
-    var split by remember { mutableStateOf(prefs.splitOnBigScreens) }
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text("Split keyboard", Modifier.weight(1f))
-        Switch(checked = split, onCheckedChange = {
-            split = it
-            prefs.splitOnBigScreens = it
-        })
-    }
-    Note("Puts half the keys under each thumb. The cover screen always uses the normal keyboard.")
-    if (split) SplitSpacing(prefs)
-}
-
-@Composable
-private fun PrivacyScreen(onBack: () -> Unit, navigate: (String) -> Unit) = CategoryScreen("Privacy", onBack) {
-    val context = LocalContext.current
-    val prefs = remember { Prefs(context) }
-    PrefSwitch("Incognito (don't learn new words)", prefs.incognito) { prefs.incognito = it }
-    Note(
-        "Bori never learns from password fields or apps that ask for private input. " +
-            "Learned words stay on this phone.",
-    )
-
-    SectionTitle("Clipboard")
-    PrefSwitch("Clipboard history", prefs.clipboardHistory) { prefs.clipboardHistory = it }
-    PrefSwitch("Offer copied text in the suggestion bar", prefs.clipboardChip) { prefs.clipboardChip = it }
-    Note(
-        "The 📋 button above the keys shows what you copied in the last hour; pin clips to keep " +
-            "them. Copies are stored on this phone only, never while incognito, and never when " +
-            "the app marks them as passwords.",
-    )
-    OutlinedButton(onClick = { navigate("dictionary") }) { Text("Your dictionary") }
-}
-
-@Composable
-private fun AdvancedScreen(onBack: () -> Unit) = CategoryScreen("Help improve Bori", onBack) {
-    val context = LocalContext.current
-    val prefs = remember { Prefs(context) }
-    Note("Nothing here is sent anywhere. You copy it and paste it into a chat yourself.")
-    SectionTitle("Typo log")
-    TypoLogSection(prefs)
-    SectionTitle("Diagnostics")
-    DiagnosticsSection()
+internal fun Note(text: String) {
+    Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
 
 @Composable
@@ -454,39 +363,21 @@ private fun SetupStep(
 
 /**
  * How far apart the split halves sit and how far they stay from the screen edges; hands and
- * grips differ. The keys take whatever width is left. Saved when a slider is let go, and an
- * open keyboard updates straight away.
+ * grips differ. Saved when a slider is let go; an open keyboard updates straight away.
  */
 @Composable
-private fun SplitSpacing(prefs: Prefs) {
+internal fun SplitSpacing(prefs: Prefs) {
     var gap by remember { mutableFloatStateOf(prefs.splitGap) }
     var edge by remember { mutableFloatStateOf(prefs.splitEdge) }
-    Text("Space between the halves: ${(gap * 100).toInt()}%")
-    Slider(
-        value = gap,
-        onValueChange = { gap = it },
-        onValueChangeFinished = { prefs.splitGap = gap },
-        valueRange = 0.1f..0.5f,
-    )
-    Text("Space at the screen edges: ${(edge * 100).toInt()}%")
-    Slider(
-        value = edge,
-        onValueChange = { edge = it },
-        onValueChangeFinished = { prefs.splitEdge = edge },
-        valueRange = 0f..0.2f,
-    )
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            "Unfold and tap “Try it here” to see the keys move as you change these.",
-            Modifier.weight(1f),
-            style = MaterialTheme.typography.bodySmall,
-        )
+    SliderRow("Space between halves", gap, "${(gap * 100).toInt()}%", 0.1f..0.5f, onChange = { gap = it }, onDone = { prefs.splitGap = gap })
+    SliderRow("Space at the edges", edge, "${(edge * 100).toInt()}%", 0f..0.2f, onChange = { edge = it }, onDone = { prefs.splitEdge = edge })
+    Row(Modifier.fillMaxWidth().padding(end = 8.dp), horizontalArrangement = Arrangement.End) {
         TextButton(onClick = {
             gap = Prefs.DEFAULT_SPLIT_GAP
             edge = Prefs.DEFAULT_SPLIT_EDGE
             prefs.splitGap = gap
             prefs.splitEdge = edge
-        }) { Text("Reset") }
+        }) { Text("Reset spacing") }
     }
 }
 
@@ -515,33 +406,25 @@ private fun BigScreenStep(split: Boolean, asked: Boolean, onChoose: (Boolean) ->
     }
 }
 
-private val EMOJI_PREVIEW = listOf("😀", "😂", "🥰", "😎", "👍", "🔥", "🐶", "🍕", "🎉", "❤️", "🇵🇷")
-
+/** Onboarding card: fit the keyboard to where the user's thumbs rest. */
 @Composable
-private fun EmojiStyleSettings(prefs: Prefs) {
-    val context = LocalContext.current
-    var style by remember { mutableStateOf(prefs.emojiStyle) }
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        for ((id, name, _) in EmojiPack.STYLES) {
-            FilterChip(selected = style == id, onClick = { style = id; prefs.emojiStyle = id }, label = { Text(name) })
-        }
-    }
-    val pack = remember(style) { EmojiPack.get(context, style) }
-    val custom = remember { EmojiPack.custom(context) }
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        for (e in EMOJI_PREVIEW) {
-            val bmp = remember(pack, e) { (custom?.bitmap(e) ?: pack?.bitmap(e))?.asImageBitmap() }
-            if (bmp != null) {
-                androidx.compose.foundation.Image(bmp, contentDescription = e, modifier = Modifier.size(32.dp))
-            } else {
-                Text(e, fontSize = 24.sp)
+private fun CalibrationStep(onStart: () -> Unit, onSkip: () -> Unit) {
+    Card(Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Optional", style = MaterialTheme.typography.labelMedium)
+            Text("Fit the keys to your thumbs", style = MaterialTheme.typography.titleMedium)
+            Text(
+                "Hold the phone the way you type and rest your thumbs. Bori sets the keyboard " +
+                    "height (and the split on big screens) to match, then learns your aim from a " +
+                    "short sentence. Do it folded and unfolded.",
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = onStart) { Text("Start") }
+                TextButton(onClick = onSkip) { Text("Not now") }
             }
         }
     }
-    Note(
-        "Changes how emoji look in Bori's emoji panel. The person you send them to sees their own " +
-            "phone's emoji. The Puerto Rico flag 🇵🇷 shows with its light-blue triangle in every style. " + EmojiPack.STYLES.first { it.first == style }.third + ".",
-    )
 }
 
 /** Preset swipe trail colours; the first two are the theme and rainbow options. */
@@ -553,7 +436,7 @@ private val TRAIL_COLORS = listOf(
 )
 
 @Composable
-private fun TrailSettings(prefs: Prefs) {
+internal fun TrailSettings(prefs: Prefs) {
     var color by remember { mutableStateOf(prefs.glideTrailColor) }
     var width by remember { mutableFloatStateOf(prefs.glideTrailWidth) }
     val accent = MaterialTheme.colorScheme.primary
@@ -626,6 +509,8 @@ private fun TrailSettings(prefs: Prefs) {
     }
 }
 
+internal fun trailColorLabel(c: Int) = trailColorName(c)
+
 private fun trailColorName(c: Int) = when (c) {
     Prefs.TRAIL_THEME -> "Theme colour"
     Prefs.TRAIL_RAINBOW -> "Rainbow"
@@ -655,8 +540,9 @@ internal fun PrefSwitch(label: String, initial: Boolean, onChange: (Boolean) -> 
 }
 
 @Composable
-private fun DictionaryScreen(onBack: () -> Unit) {
+internal fun DictionaryScreen(onBack: () -> Unit) = SettingsPage("Your dictionary", onBack) {
     val context = LocalContext.current
+    val prefs = remember { Prefs(context) }
     val store = remember { UserStore.get(context) }
     var version by remember { mutableStateOf(0) }
     val personal = remember(version) { store.listPersonal() }
@@ -665,82 +551,90 @@ private fun DictionaryScreen(onBack: () -> Unit) {
     var newWord by remember { mutableStateOf("") }
     var lang by remember { mutableStateOf("en") }
     var confirmClear by remember { mutableStateOf(false) }
+    var offensive by remember { mutableStateOf(prefs.blockOffensive) }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .safeDrawingPadding()
-            .imePadding()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        TextButton(onClick = onBack) { Text("← Back") }
-        Text("Your dictionary", style = MaterialTheme.typography.headlineSmall)
-
-        Text("Add a word", style = MaterialTheme.typography.titleMedium)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(selected = lang == "en", onClick = { lang = "en" }, label = { Text("English") })
-            FilterChip(selected = lang == "es", onClick = { lang = "es" }, label = { Text("Español") })
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            OutlinedTextField(
-                value = newWord,
-                onValueChange = { newWord = it.filter { c -> c.isLetter() || c == '\'' || c == '-' } },
-                label = { Text("Word") },
-                singleLine = true,
-                modifier = Modifier.weight(1f),
-            )
-            Spacer(Modifier.width(8.dp))
-            Button(onClick = {
-                store.addPersonal(lang, newWord)
-                newWord = ""
-                version++
-            }, enabled = newWord.isNotBlank()) { Text("Add") }
-        }
-
-        WordSection("Added by you", personal, "Remove") { store.remove("personal", it); version++ }
-        WordSection("Learned from your typing", learned, "Forget") { store.remove("words", it); version++ }
-        WordSection("Blocked from suggestions", blocked, "Unblock") { store.remove("blocked", it); version++ }
-
-        if (!confirmClear) {
-            OutlinedButton(onClick = { confirmClear = true }) { Text("Forget everything learned") }
-        } else {
-            Text("Forget all learned words and word pairs? Words you added stay.")
+    Group("Add a word") {
+        RowContent {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { store.clearLearned(); confirmClear = false; version++ }) { Text("Forget") }
-                TextButton(onClick = { confirmClear = false }) { Text("Cancel") }
+                FilterChip(selected = lang == "en", onClick = { lang = "en" }, label = { Text("English") })
+                FilterChip(selected = lang == "es", onClick = { lang = "es" }, label = { Text("Español") })
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                OutlinedTextField(
+                    value = newWord,
+                    onValueChange = { newWord = it.filter { c -> c.isLetter() || c == '\'' || c == '-' } },
+                    label = { Text("Word") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f),
+                )
+                Spacer(Modifier.width(8.dp))
+                Button(onClick = {
+                    store.addPersonal(lang, newWord)
+                    newWord = ""
+                    version++
+                }, enabled = newWord.isNotBlank()) { Text("Add") }
+            }
+        }
+    }
+    WordSection("Added by you", personal, "Remove") { store.remove("personal", it); version++ }
+    WordSection("Learned from your typing", learned, "Forget") { store.remove("words", it); version++ }
+    Group("Blocked") {
+        SwitchRow("Block offensive words", offensive) { offensive = it; prefs.blockOffensive = it }
+    }
+    WordSection("Blocked by you", blocked, "Unblock") { store.remove("blocked", it); version++ }
+
+    Group(null) {
+        NavRow("Forget everything learned", "Words you added stay") { confirmClear = true }
+    }
+    if (confirmClear) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { confirmClear = false },
+            title = { Text("Forget everything learned?") },
+            text = { Text("All learned words and word pairs go. Words you added stay.") },
+            confirmButton = { TextButton(onClick = { store.clearLearned(); confirmClear = false; version++ }) { Text("Forget") } },
+            dismissButton = { TextButton(onClick = { confirmClear = false }) { Text("Cancel") } },
+        )
+    }
+}
+
+/** A word list in a group: the first few, "Show all" for the rest. */
+@Composable
+private fun WordSection(title: String, entries: List<UserStore.Entry>, action: String, onAction: (UserStore.Entry) -> Unit) {
+    var all by remember { mutableStateOf(false) }
+    Group("$title (${entries.size})") {
+        if (entries.isEmpty()) {
+            RowContent { Text("None yet", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            return@Group
+        }
+        val shown = if (all) entries.take(300) else entries.take(WORDS_SHOWN)
+        for ((i, e) in shown.withIndex()) {
+            if (i > 0) RowDivider()
+            Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(e.word, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                Text(e.lang, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                TextButton(onClick = { onAction(e) }) { Text(action) }
+            }
+        }
+        if (entries.size > WORDS_SHOWN) {
+            RowDivider()
+            TextButton(onClick = { all = !all }, modifier = Modifier.padding(start = 4.dp)) {
+                Text(if (all) "Show fewer" else "Show all ${entries.size}")
             }
         }
     }
 }
 
-@Composable
-private fun WordSection(title: String, entries: List<UserStore.Entry>, action: String, onAction: (UserStore.Entry) -> Unit) {
-    Text("$title (${entries.size})", style = MaterialTheme.typography.titleMedium)
-    if (entries.isEmpty()) {
-        Text("None yet", style = MaterialTheme.typography.bodySmall)
-        return
-    }
-    for (e in entries.take(200)) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(e.word, Modifier.weight(1f))
-            Text(e.lang, style = MaterialTheme.typography.labelSmall)
-            TextButton(onClick = { onAction(e) }) { Text(action) }
-        }
-        HorizontalDivider()
-    }
-}
+private const val WORDS_SHOWN = 5
 
 /** Opt-in log of the user's own corrections, copied out for tuning (see TypoRecorder). */
 @Composable
-private fun DiagnosticsSection() {
+internal fun DiagnosticsSection() {
     val context = LocalContext.current
     var size by remember { mutableStateOf(com.bori.keyboard.ime.DiagLog.export(context).length) }
     var copied by remember { mutableStateOf(false) }
     Text(
-        "If the keyboard crashes or won't open, Bori notes when it opened, closed " +
-            "and resized (and the crash details). Never what you type.",
+        "If the keyboard crashes or won't open, this shows when it opened, closed and resized, " +
+            "and the crash. Never what you type.",
         style = MaterialTheme.typography.bodySmall,
     )
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -759,15 +653,14 @@ private fun DiagnosticsSection() {
 }
 
 @Composable
-private fun TypoLogSection(prefs: Prefs) {
+internal fun TypoLogSection(prefs: Prefs) {
     val context = LocalContext.current
     var count by remember { mutableStateOf(com.bori.keyboard.ime.TypoRecorder.count(context)) }
     var copied by remember { mutableStateOf(false) }
     PrefSwitch("Keep a typo log for tuning", prefs.typoLog) { prefs.typoLog = it }
     Text(
-        "When on, each time you pick a suggestion or undo an autocorrect, Bori saves what you " +
-            "typed, what you chose and the word before it. Not in password or incognito fields. " +
-            "It stays on this phone until you copy it.",
+        "Saves what you typed and what you chose each time you pick a suggestion or undo a fix. " +
+            "Never in password or incognito fields.",
         style = MaterialTheme.typography.bodySmall,
     )
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -783,4 +676,15 @@ private fun TypoLogSection(prefs: Prefs) {
         }, enabled = count > 0) { Text("Clear") }
     }
     if (copied) Text("Copied. Paste it into your chat with Claude.", style = MaterialTheme.typography.bodySmall)
+}
+
+/** One posture's key height; resizes the keyboard live while dragging. */
+@Composable
+internal fun HeightSlider(prefs: Prefs, p: Posture, title: String) {
+    // Keyed by posture: after a fold or rotation each slider keeps its own value.
+    var h by remember(p) { mutableFloatStateOf(prefs.keyHeightScale(p)) }
+    SliderRow(title, h, "${(h * 100).toInt()}%", Prefs.HEIGHT_MIN..Prefs.HEIGHT_MAX, onChange = {
+        h = it
+        prefs.setKeyHeightScale(p, it)
+    })
 }

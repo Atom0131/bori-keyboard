@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Files Bori may hand to the app being typed in: saved clipboard pictures and GIFs to send. -->
+<paths>
+    <files-path name="clips" path="clips/" />
+    <cache-path name="gifs" path="gifs/" />
+    <!-- Themes the user shares (Settings → Theme → Share). -->
+    <cache-path name="shared_themes" path="shared_themes/" />
+</paths>

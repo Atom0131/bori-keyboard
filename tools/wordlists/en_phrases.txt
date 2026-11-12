@@ -1,0 +1,738 @@
+# Everyday texting sentences (own writing, Session 40). tools/ngram_count.py counts each line
+# PHRASE_WEIGHT times next to Tatoeba and the subtitles, so modern words get a context
+# ("I asked ChatGPT", "turn off bluetooth"). Every 10th line is held out for predict_bench.py.
+# One sentence per line; punctuation splits clauses like everywhere else.
+
+# ---------------------------------------------------------------- AI
+I asked ChatGPT and it said no
+just ask ChatGPT
+ask ChatGPT to write it
+I used ChatGPT for my essay
+ChatGPT wrote the whole thing
+did you try asking ChatGPT
+let me ask ChatGPT real quick
+I had ChatGPT summarize it
+ChatGPT is down again
+I asked Claude to fix my code
+Claude is better at writing
+ask Gemini on your phone
+Gemini can read your screen
+I use Copilot at work
+Copilot wrote half of this code
+the AI made it up
+the AI is hallucinating again
+it hallucinated a fake source
+that sounds like AI wrote it
+this is so AI generated
+is this picture AI
+that video is a deepfake
+AI is taking over everything
+AI is going to take our jobs
+I made it with AI
+use AI to make a logo
+can AI do my homework
+the new model is so much smarter
+which model are you using
+I hit the rate limit
+I ran out of tokens
+my prompt was too long
+write a better prompt
+the prompt matters a lot
+just change the prompt
+it needs more context
+give it more context
+the chatbot was useless
+I talked to the chatbot for an hour
+the customer service bot is useless
+I want to talk to a real person
+vibe coding is wild
+I vibe coded an app this weekend
+the agent did it all by itself
+AI agents are the next big thing
+open source models are getting good
+the AI voice sounds so real
+turn on the AI features
+I turned off the AI summaries
+it gave me a summary of the meeting
+transcribe this voice note
+can you summarize this for me
+summarize this in one sentence
+translate this into Spanish
+make it sound more professional
+make it shorter please
+rewrite this so it sounds nicer
+fix my grammar
+proofread this before I send it
+I generated an image of my dog
+the image looks so fake
+make a picture of a coquí
+Siri never understands me
+hey Siri set a timer
+Alexa play some music
+Alexa turn off the lights
+Bixby keeps popping up
+I asked Siri and she called my mom
+
+# ---------------------------------------------------------------- phone
+my phone is dying
+my phone is at five percent
+my phone died
+my phone is about to die
+can I charge my phone
+do you have a charger
+I need a charger
+I forgot my charger
+bring a charger please
+my battery is so bad
+the battery drains so fast
+my phone keeps overheating
+my phone is so slow
+my phone froze
+my phone keeps crashing
+restart your phone
+turn it off and on again
+did you try restarting it
+I dropped my phone
+I cracked my screen
+my screen is cracked
+I need a new screen protector
+I need a new case
+I got a new phone
+I'm getting the new Galaxy
+I want the new iPhone
+I switched to Android
+I switched to iPhone
+which phone should I get
+the camera on this phone is crazy
+the foldable is so cool
+I love my Fold
+the Flip is so cute
+my phone fell in the water
+I can't find my phone
+have you seen my phone
+call my phone
+I left my phone at home
+my phone was on silent
+sorry my phone was on silent
+my phone was on do not disturb
+I didn't get your text
+I didn't see your message
+I just saw this
+sorry I just saw your text
+text me when you get there
+text me when you're home
+call me when you can
+call me back
+can you call me
+I'll call you later
+I'll text you later
+I'll send it to you
+send me the link
+send me a screenshot
+send me the picture
+send me your location
+share your location
+I'll send you my location
+can you send me the address
+I'll send you the address
+check your email
+check your DMs
+I sent you a DM
+I'll DM you
+reply to my text
+why didn't you text me back
+you left me on read
+he left me on read
+she left me on delivered
+turn on your location
+turn off airplane mode
+turn on bluetooth
+turn off bluetooth
+connect to the wifi
+what's the wifi password
+the wifi is so slow
+the wifi is down
+I have no signal
+I have no service
+I have one bar
+I'm out of data
+I ran out of data
+use my hotspot
+turn on your hotspot
+can I use your hotspot
+download the app
+delete the app
+update the app
+uninstall it and install it again
+the app keeps crashing
+the app won't open
+my phone needs an update
+the update ruined my phone
+I need more storage
+my storage is full
+delete some pictures
+back up your photos
+it's in the cloud
+log into your account
+log out and log back in
+I forgot my password
+reset your password
+what's your username
+I got locked out of my account
+I need the code they sent me
+put the code in
+scan the QR code
+scan this
+add me on Snapchat
+add me on Instagram
+follow me on TikTok
+I saw it on TikTok
+I saw it on Instagram
+it's all over TikTok
+it went viral on TikTok
+post it on your story
+I posted it on my story
+did you see my story
+check my story
+I'm going live
+watch my live
+I'm on FaceTime
+FaceTime me
+can we FaceTime later
+let's do a video call
+join the Zoom
+I'm in a meeting
+the meeting is on Teams
+send it on WhatsApp
+text me on WhatsApp
+I'll WhatsApp you
+put it in the group chat
+add me to the group chat
+the group chat is dead
+mute the group chat
+I muted the group chat
+leave the group chat
+check the group chat
+I'll AirDrop it to you
+AirDrop me the pictures
+use Quick Share
+I'll Venmo you
+Venmo me
+I'll Zelle you the money
+send it on Zelle
+Cash App me
+pay me back on Venmo
+I paid with Apple Pay
+order it on Amazon
+it's on Amazon
+I ordered it on Temu
+I got it from Shein
+order DoorDash
+let's get DoorDash
+I'll order an Uber
+get an Uber
+my Uber is here
+my Uber is two minutes away
+the Uber driver is lost
+put it on Google Maps
+use Waze
+my GPS is wrong
+it's on Netflix
+watch it on Netflix
+it's on Disney plus
+put it on Spotify
+add it to my playlist
+make a playlist
+did you see my Spotify wrapped
+
+# ---------------------------------------------------------------- slang
+no cap
+that's cap
+stop the cap
+that was fire
+this is fire
+that song is fire
+that's so mid
+the movie was mid
+honestly it was mid
+it's giving main character
+it's giving
+she ate
+she ate that
+he ate and left no crumbs
+slay queen
+you're slaying
+that's so sus
+lowkey I agree
+lowkey I want to go
+highkey obsessed
+I'm lowkey tired
+I'm so cooked
+we are so cooked
+he's cooked
+bro is cooked
+bro really said that
+bro what
+bruh what
+bruh moment
+it's not that deep
+he has so much rizz
+he has no rizz
+she rizzed him up
+I'm delulu
+delulu is the solulu
+it's a situationship
+we're in a situationship
+he gives me the ick
+that's an ick
+I'm about to crash out
+he crashed out
+don't crash out
+the vibes are off
+good vibes only
+vibe check
+we vibing
+I'm not feeling it
+it's a vibe
+that's so real
+real
+so real
+fr fr
+for real
+deadass
+on god
+ong
+I'm dead
+I'm crying
+I can't
+I can't even
+I'm weak
+no way
+no because why
+not me crying
+the way I screamed
+period
+periodt
+purr
+and that's on period
+spill the tea
+what's the tea
+that's the tea
+sis really did that
+he's the goat
+she's literally the goat
+that's goated
+W
+big W
+take the L
+that's an L
+huge L
+he got ratioed
+touch grass
+go touch grass
+main character energy
+pick me
+stop glazing
+he's glazing
+quit glazing him
+you're so extra
+that's so basic
+she's so boujee
+that's so cringe
+I'm so done
+I'm over it
+I'm so over it
+we move
+it is what it is
+same
+mood
+big mood
+literally me
+that's literally me
+I'm screaming
+let him cook
+let her cook
+he's cooking
+the aura is crazy
+minus aura
+plus aura
+that's brainrot
+my brain is rotting
+iykyk
+ngl that was good
+ngl I'm tired
+tbh I don't care
+tbh it's fine
+idk what to do
+idk lol
+lol same
+lmao what
+lmao I'm dead
+omg stop
+omg yes
+omw
+on my way
+I'm on my way
+otw
+be there in five
+ttyl
+brb
+gtg
+hmu
+lmk
+lmk when you're free
+wyd
+what you doing
+wya
+where you at
+hbu
+wbu
+nm
+not much
+nothing much
+I'm bored
+let's hang out
+we should hang out
+let's link up
+pull up
+pull up later
+you up
+you good
+are you good
+I'm good
+all good
+we good
+my bad
+my fault
+no worries
+no problem
+np
+ty
+thank you so much
+tysm
+ily
+love you
+love you too
+miss you
+I miss you
+happy birthday
+hbd
+happy birthday bestie
+congrats
+congrats bestie
+good morning
+good night
+gn
+gm
+sleep well
+sweet dreams
+
+# ---------------------------------------------------------------- everyday texting
+are you coming
+are you still coming
+what time are you coming
+what time should I come
+I'm here
+I'm outside
+come outside
+I'm almost there
+I'm running late
+sorry I'm late
+I'll be there soon
+I'm leaving now
+I just got home
+I'm home
+did you eat
+what are you eating
+what do you want to eat
+let's get food
+I'm hungry
+I'm starving
+I'm so tired
+I'm going to bed
+I'm going to sleep
+I just woke up
+can you pick me up
+can you pick up some milk
+don't forget
+remind me later
+see you tomorrow
+see you soon
+see you later
+talk to you later
+call you later
+on my way home
+how was your day
+how was work
+how was school
+how are you
+how are you doing
+what's up
+what are you up to
+what are you doing later
+are you free tomorrow
+are you free this weekend
+I'm free after work
+let me know
+let me check
+I'll let you know
+sounds good
+sounds like a plan
+that works
+that works for me
+perfect thanks
+okay cool
+cool thanks
+yes please
+no thanks
+for sure
+of course
+I don't know
+I don't care
+I don't think so
+I think so
+I hope so
+me too
+same here
+what happened
+what's wrong
+are you okay
+I'm okay
+I'm sorry
+it's okay
+don't worry about it
+just wondering
+just checking
+just checking in
+good luck
+you got this
+I'm proud of you
+
+# ---------------------------------------------------------------- more (Session 40, round 2)
+so I asked ChatGPT
+I asked ChatGPT how to do it
+I asked ChatGPT what it means
+I asked ChatGPT for ideas
+I asked ChatGPT to explain it
+I asked Claude and it said the same thing
+I asked Gemini to plan our trip
+ask ChatGPT what it thinks
+ask Claude to check it
+ask the AI to do it
+I'll ask ChatGPT
+I'll ask the AI
+I need a charger
+I need a new phone
+I need a new charger
+I need a phone case
+I need a nap
+let him cook
+let them cook
+let me cook
+no cap bro
+no cap that was crazy
+no cap I'm serious
+that's so mid bro
+that's so real
+that's so cringe
+that's so sus
+he's so mid
+it's lowkey fire
+it's highkey mid
+that's lowkey fire
+it was lowkey fun
+she's so delulu
+I'm so delulu
+he's so cooked
+I'm cooked
+you're cooked
+the vibes were immaculate
+that's a red flag
+that's a green flag
+huge red flag
+he's a red flag
+I'm screaming at this
+I'm crying at this
+this is so funny
+this is sending me
+that sent me
+you're so funny
+it's giving rich
+it's giving broke
+it's giving nothing
+not the vibes
+who asked
+nobody asked
+skibidi toilet
+what the sigma
+he's such a sigma
+I'm the main character
+it's the aura for me
+aura points
+lost so much aura
+glow up
+she had a glow up
+the glow up is crazy
+she's my bestie
+my bestie is the best
+hey bestie
+girl dinner
+hot girl walk
+it's a whole vibe
+on the timeline
+it's trending
+it's going viral
+that's going viral
+send it to the group chat
+post it on Instagram
+post it on TikTok
+upload it to YouTube
+watch it on YouTube
+it's on YouTube
+I'll send you the TikTok
+did you see that TikTok
+I saw a TikTok about it
+my For You page
+my fyp is so weird
+I deleted TikTok
+I deleted Instagram
+I deleted the app
+check your Snapchat
+open my snap
+send me a snap
+keep the streak
+don't break the streak
+we have a streak
+my phone is so old
+my iPhone is so slow
+my Samsung is so fast
+my Galaxy is acting up
+my Pixel has the best camera
+my AirPods died
+I lost my AirPods
+I can't find my AirPods
+connect your AirPods
+my earbuds died
+my battery is at one percent
+plug it in
+it's charging
+fast charging is so good
+wireless charging is slow
+turn on dark mode
+turn on low power mode
+turn off notifications
+turn off location
+turn on location services
+turn on your camera
+turn off your camera
+mute your mic
+unmute yourself
+you're on mute
+you're muted
+can you hear me
+I can't hear you
+you're breaking up
+the call dropped
+my call dropped
+I'll call you back
+I'm calling you
+pick up the phone
+answer your phone
+why aren't you answering
+check your voicemail
+leave a voicemail
+my eSIM isn't working
+activate the eSIM
+switch to eSIM
+put the SIM card in
+my phone is locked
+unlock your phone
+I forgot my passcode
+face ID isn't working
+use your fingerprint
+the screen is frozen
+the screen went black
+force restart it
+hold the power button
+factory reset it
+take a screenshot
+take a screen recording
+send me a screen recording
+I took a screenshot
+he screenshotted it
+don't screenshot this
+I'll screenshot it
+pay me on Zelle
+send it on Cash App
+I'll pay you back
+I paid on Apple Pay
+use Google Pay
+I'll Venmo you later
+Venmo request me
+I got it on Amazon
+it came from Amazon
+my Amazon package
+the package came
+my package is late
+order from Temu
+it's from Temu
+Shein haul
+my Shein order
+order food
+order pizza
+get Uber Eats
+order on DoorDash
+the DoorDash guy
+the Uber is here
+get a Lyft
+call an Uber
+I'm in the Uber
+watch Netflix
+what are you watching on Netflix
+Netflix and chill
+play it on Spotify
+my Spotify playlist
+listening to Spotify
+put it on Apple Music
+download it on Spotify
+it's on Hulu
+it's on Max
+it's on Prime
+play Fortnite
+play Roblox
+play Minecraft
+hop on Fortnite
+get on Discord
+join the Discord
+are you on Discord
+I'm streaming on Twitch
+watch my stream
+I'm live on TikTok
+
+# ---------------------------------------------------------------- abbreviations (Session 46)
+what's your ETA
+what's the ETA
+send me your ETA
+my ETA is ten minutes
+ETA five minutes
+ETA is 20 minutes
+I need it ASAP
+call me ASAP
+text me back ASAP
+as soon as possible
+please RSVP by Friday
+did you RSVP
+the date is TBD
+I'll send it by EOD
+I'm WFH today
+I'm working from home today
+I'm OOO this week
+I'm taking PTO
+it's a DIY project
+I need to go to the ATM
+FYI the meeting moved
+just FYI
+ICYMI
+it's BYOB
+the link is in the PDF
+TLDR it's fine

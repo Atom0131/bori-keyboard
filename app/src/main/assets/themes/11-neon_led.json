@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "id": "neon_led",
+  "name": "Neon LED",
+  "author": "Bori",
+  "category": "Glow & LED",
+  "light": {
+    "colors": {
+      "background": "#F4F0FF",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#ECE6FF",
+      "keyPressed": "#D9CCFF",
+      "accent": "#C2179F",
+      "onAccent": "#FFFFFF",
+      "text": "#1A1033",
+      "textFunction": "#1A1033",
+      "hint": "#6A5A8A",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#1A1033",
+      "stripText": "#1A1033",
+      "keyBorder": "#00A8C6"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 7,
+      "gapV": 10,
+      "borderWidth": 1.5,
+      "glow": 3,
+      "font": "monoton",
+      "labelCase": "upper",
+      "labelScale": 0.95
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#05010F",
+      "keyLetter": "#0B0720",
+      "keyFunction": "#0B0720",
+      "keyPressed": "#1D1450",
+      "accent": "#FF2BD6",
+      "onAccent": "#05010F",
+      "text": "#CFFBFF",
+      "textFunction": "#CFFBFF",
+      "hint": "#6FD7E6",
+      "previewBackground": "#1D1450",
+      "previewText": "#CFFBFF",
+      "stripText": "#CFFBFF",
+      "keyBorder": "#00E5FF"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 7,
+      "gapV": 10,
+      "borderWidth": 1.5,
+      "glow": 6,
+      "font": "monoton",
+      "labelCase": "upper",
+      "labelScale": 0.95
+    }
+  }
+}

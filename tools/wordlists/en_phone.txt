@@ -1,0 +1,141 @@
+# English phone and device words: settings, features, problems, shopping. Own list, Session 40.
+# Format: word tier era variants...  (see README.md)
+
+# ---------------------------------------------------------------- the phone itself
+phone 1 tech phones
+cellphone 2 tech cellphones
+smartphone 1 tech smartphones
+flagship 3 tech flagships
+foldable 2 tech foldables
+flip 1 tech flips
+fold 1 tech folds folded unfolded unfold
+tablet 1 tech tablets
+charger 1 tech chargers
+charging 1 tech charge charged
+wireless 1 tech
+cable 1 tech cables
+adapter 2 tech adapters
+powerbank 3 tech powerbanks
+case 1 tech cases
+screen 1 tech screens
+protector 2 tech protectors
+battery 1 tech batteries
+camera 1 tech cameras
+selfie 1 tech selfies
+lens 2 tech lenses
+zoom 1 tech zoomed zooming
+megapixel 3 tech megapixels
+storage 1 tech
+gigabyte 2 tech gigabytes gigs gig
+terabyte 3 tech terabytes
+GB 2 tech
+TB 3 tech
+SIM 2 tech SIMs
+eSIM 2 tech eSIMs
+SD 3 tech
+microSD 3 tech
+USB 2 tech
+LTE 3 tech
+NFC 3 tech
+GPS 2 tech
+VPN 2 tech VPNs
+OTP 3 tech
+QR 2 tech
+IMEI 4 tech
+OLED 3 tech
+AMOLED 3 tech
+LCD 3 tech
+Hz 3 tech
+mAh 4 tech
+stylus 2 tech
+earbuds 2 tech earbud
+headphones 1 tech headphone
+smartwatch 2 tech smartwatches
+wearable 3 tech wearables
+tracker 2 tech trackers
+speaker 1 tech speakers
+dongle 3 tech dongles
+router 2 tech routers
+modem 3 tech modems
+
+# ---------------------------------------------------------------- settings and features
+settings 1 tech
+notification 1 tech notifications notif notifs
+ringtone 2 tech ringtones
+vibrate 1 tech vibrating vibration
+silent 1 tech
+DND 3 tech
+airplane 1 tech
+hotspot 2 tech hotspots
+tether 3 tech tethering tethered
+bluetooth 2 tech
+wifi 1 tech
+data 1 tech
+roaming 2 tech
+signal 1 tech signals
+reception 2 tech
+bars 2 tech
+widget 2 tech widgets
+wallpaper 1 tech wallpapers
+lockscreen 3 tech lockscreens
+homescreen 3 tech homescreens
+fingerprint 2 tech fingerprints
+passcode 2 tech passcodes
+password 1 tech passwords
+passkey 3 tech passkeys
+autofill 3 tech autofilled
+keyboard 1 tech keyboards
+autocorrect 2 tech autocorrected autocorrecting
+swipe 1 tech swiped swiping swipes
+tap 1 tech tapped tapping taps
+scroll 1 tech scrolled scrolling scrolls doomscroll doomscrolling
+screenshot 1 tech screenshots screenshotted
+screenrecord 3 tech screenrecording
+brightness 2 tech
+darkmode 4 tech
+update 1 tech updates updated updating
+upgrade 1 tech upgrades upgraded upgrading
+download 1 tech downloads downloaded downloading
+upload 1 tech uploads uploaded uploading
+install 1 tech installed installing uninstall uninstalled reinstall reinstalled
+reboot 2 tech rebooted rebooting
+restart 1 tech restarted restarting
+reset 1 tech factory
+backup 2 tech backups backed
+sync 2 tech synced syncing
+cloud 1 tech
+bloatware 3 tech
+sideload 3 tech sideloaded sideloading
+bootloader 3 tech bootloaders
+rooted 3 tech root rooting
+firmware 3 tech
+APK 3 tech APKs
+OS 2 tech
+UI 2 tech
+beta 2 tech betas
+glitch 1 tech glitches glitched glitching glitchy
+bug 1 tech bugs buggy
+crash 1 tech crashed crashing crashes
+lag 2 tech laggy lagging lagged
+frozen 2 tech freeze freezing froze
+overheating 2 tech overheat overheated
+drain 2 tech draining drained
+cracked 1 tech crack
+voicemail 2 tech voicemails
+facetime 2 tech facetimed facetiming
+videocall 3 tech videocalls
+groupchat 2 tech groupchats gc
+text 1 tech texted texting texts
+iMessage 2 tech iMessages
+RCS 4 tech
+SMS 2 tech
+MMS 3 tech
+emoji 1 tech emojis
+sticker 2 tech stickers
+meme 1 tech memes
+airdrop 2 tech airdropped airdropping
+carrier 2 tech carriers
+unlimited 2 tech
+prepaid 2 tech
+unlocked 2 tech unlock
+trade 1 tech tradein

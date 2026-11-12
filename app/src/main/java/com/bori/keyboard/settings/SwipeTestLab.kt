@@ -54,12 +54,7 @@ fun SwipeTestLabScreen(onBack: () -> Unit) {
     var progress by remember { mutableFloatStateOf(0f) }
     var report by remember { mutableStateOf("") }
 
-    Column(
-        Modifier.fillMaxSize().safeDrawingPadding().verticalScroll(rememberScrollState()).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        TextButton(onClick = onBack) { Text("← Back") }
-        Text("Swipe Test Lab", style = MaterialTheme.typography.headlineSmall)
+    SettingsPage("Swipe Test Lab", onBack, tryBar = false) {
         Text(
             "Swipes the 500 most common words with simulated fingers and checks what the " +
                 "decoder guesses. Your learned words slightly affect the ranking.",

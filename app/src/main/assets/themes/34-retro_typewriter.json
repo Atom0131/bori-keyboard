@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "id": "retro_typewriter",
+  "name": "Retro Typewriter",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#3B2F2A",
+      "keyLetter": "#F2EBDD",
+      "keyFunction": "#C9BFAE",
+      "keyPressed": "#D8CDB8",
+      "accent": "#8B1E1E",
+      "onAccent": "#F2EBDD",
+      "text": "#2A211C",
+      "textFunction": "#2A211C",
+      "hint": "#7A6A5C",
+      "previewBackground": "#F2EBDD",
+      "previewText": "#2A211C",
+      "stripText": "#F2EBDD",
+      "keyBorder": "#1A1410"
+    },
+    "keys": {
+      "radius": 22,
+      "gapH": 7,
+      "gapV": 9,
+      "borderWidth": 2,
+      "font": "special_elite",
+      "shape": "circle",
+      "look": "raised"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#14110F",
+      "keyLetter": "#3A2F28",
+      "keyFunction": "#2A221D",
+      "keyPressed": "#4E4036",
+      "accent": "#C0392B",
+      "onAccent": "#FFF7EA",
+      "text": "#F2EBDD",
+      "textFunction": "#F2EBDD",
+      "hint": "#B8A992",
+      "previewBackground": "#3A2F28",
+      "previewText": "#F2EBDD",
+      "stripText": "#F2EBDD",
+      "keyBorder": "#000000"
+    },
+    "keys": {
+      "radius": 22,
+      "gapH": 7,
+      "gapV": 9,
+      "borderWidth": 2,
+      "font": "special_elite",
+      "shape": "circle",
+      "look": "raised"
+    }
+  }
+}

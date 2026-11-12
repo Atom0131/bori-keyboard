@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "id": "dot_matrix",
+  "name": "Dot Matrix",
+  "author": "Bori",
+  "category": "Glow & LED",
+  "light": {
+    "colors": {
+      "background": "#F2F2F2",
+      "keyLetter": "#FFFFFF",
+      "keyFunction": "#E6E6E6",
+      "keyPressed": "#CFCFCF",
+      "accent": "#D71921",
+      "onAccent": "#FFFFFF",
+      "text": "#111111",
+      "textFunction": "#111111",
+      "hint": "#6A6A6A",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#111111",
+      "stripText": "#111111",
+      "keyBorder": "#C8C8C8"
+    },
+    "keys": {
+      "radius": 22,
+      "gapH": 6,
+      "gapV": 9,
+      "borderWidth": 1,
+      "font": "doto",
+      "shape": "circle",
+      "labelScale": 1.1
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#000000",
+      "keyLetter": "#111111",
+      "keyFunction": "#0A0A0A",
+      "keyPressed": "#2B2B2B",
+      "accent": "#D71921",
+      "onAccent": "#FFFFFF",
+      "text": "#F2F2F2",
+      "textFunction": "#F2F2F2",
+      "hint": "#7A7A7A",
+      "previewBackground": "#1E1E1E",
+      "previewText": "#F2F2F2",
+      "stripText": "#F2F2F2",
+      "keyBorder": "#2A2A2A"
+    },
+    "keys": {
+      "radius": 22,
+      "gapH": 6,
+      "gapV": 9,
+      "borderWidth": 1,
+      "font": "doto",
+      "shape": "circle",
+      "labelScale": 1.1
+    }
+  }
+}

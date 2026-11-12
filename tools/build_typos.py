@@ -97,12 +97,13 @@ def log_p(d, node):
 
 
 def modern_words(lang):
-    path = os.path.join(T.ROOT, "tools", "wordlists", f"{lang}_modern.txt")
+    from wordlist_files import word_files
     out = set()
-    if os.path.exists(path):
+    for path in word_files(lang):
         with open(path, encoding="utf-8") as f:
             for line in f:
-                for t in line.split("#", 1)[0].split():
+                p = line.split("#", 1)[0].split()
+                for t in p[:1] + p[3:]:
                     out.add(t.lstrip("=").lower())
     return out
 

@@ -7,3 +7,6 @@ __pycache__/
 *.jks
 keystore.properties
 .bori/agent.lock
+
+# Personal phone screenshots shared with agents (not for the public repo)
+pics/

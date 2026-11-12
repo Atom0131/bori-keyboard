@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "id": "sunset",
+  "name": "Sunset",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#FFC3A0",
+      "keyLetter": "#B3FFFFFF",
+      "keyFunction": "#80FFFFFF",
+      "keyPressed": "#E6FFFFFF",
+      "accent": "#B23A6B",
+      "onAccent": "#FFFFFF",
+      "text": "#3A1C3F",
+      "textFunction": "#3A1C3F",
+      "hint": "#7A4A6E",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#3A1C3F",
+      "stripText": "#3A1C3F",
+      "backgroundGradient": [
+        "#FFE0B5",
+        "#FFB199",
+        "#F78CA8"
+      ]
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#6A2C5A",
+      "keyLetter": "#1FFFFFFF",
+      "keyFunction": "#1F000000",
+      "keyPressed": "#59FFFFFF",
+      "accent": "#FFD166",
+      "onAccent": "#3A1C3F",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#FFE3D3",
+      "previewBackground": "#7A3A5E",
+      "previewText": "#FFFFFF",
+      "stripText": "#FFFFFF",
+      "backgroundGradient": [
+        "#2E1A47",
+        "#6A2C5A",
+        "#A3405A"
+      ]
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "nunito"
+    }
+  }
+}

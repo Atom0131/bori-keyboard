@@ -46,6 +46,39 @@ class Suggester(
     var blockOffensive = true
 
     /**
+     * Conversation cache: dictionary words used in the last [CACHE_SIZE] words in this app (a
+     * cache language model). Names and topic words come back sooner. Memory only; TypingSession
+     * clears it when the app changes and feeds it only where learning is allowed.
+     */
+    private val recent = ArrayDeque<String>()
+    private val recentCount = HashMap<String, Int>()
+
+    fun noteRecent(word: String) {
+        val key = word.lowercase(locale)
+        if (dict.findWord(key) < 0) return
+        recent.addLast(key)
+        recentCount[key] = (recentCount[key] ?: 0) + 1
+        while (recent.size > CACHE_SIZE) {
+            val old = recent.removeFirst()
+            val n = (recentCount[old] ?: 1) - 1
+            if (n <= 0) recentCount.remove(old) else recentCount[old] = n
+        }
+    }
+
+    /**
+     * Next-word predictions only. Corrections don't use it (Session 45): the user felt fixes got
+     * worse after Session 40, and this was the one change typo_bench can't see, so a typo is
+     * never pulled toward a word typed a moment ago.
+     */
+    private fun cacheBoost(key: String): Float =
+        recentCount[key]?.let { CACHE_BOOST * ln(1f + it) } ?: 0f
+
+    fun clearRecent() {
+        recent.clear()
+        recentCount.clear()
+    }
+
+    /**
      * Context for prediction: the word before the cursor, or the start of a sentence, plus up
      * to two [earlier] words of the same sentence (oldest first) for the n-gram model.
      * [earlierStart]: the sentence starts right before the first of them (or before [prevWord]
@@ -233,8 +266,11 @@ class Suggester(
         val rare = dict.freqOf(dictNode) < REALFIX_RARE_FREQ
         if (!rare && (prevNode < 0 || dict.bigramLogP(prevNode, alt.node) == null)) return null
         val margin = (if (rare) REALFIX_MARGIN_RARE else REALFIX_MARGIN_COMMON) / levelFactor(level)
-        // The typed word is judged without the user's boosts, which past slips inflate.
-        return alt.takeIf { it.score - lm(dictNode, prevNode, ctx, withUser = false) >= margin }
+        // Both words are judged without the user's boosts: past slips inflate the typed word's,
+        // and the fix's own boost alone pushed real words over the line (typo log: "hub" → huh
+        // for someone who often types "huh"; the dictionary alone puts huh only 0.2 ahead).
+        val altScore = alt.score - userBoost(dict.keyOf(alt.node), ctx)
+        return alt.takeIf { altScore - lm(dictNode, prevNode, ctx, withUser = false) >= margin }
     }
 
     // ---------------------------------------------------------------- missed spaces
@@ -341,7 +377,7 @@ class Suggester(
             val seen = HashSet<Int>()
             fun consider(node: Int) {
                 if (!seen.add(node) || (blockOffensive && dict.isOffensive(node))) return
-                offer(dict.wordOf(node), lm(node, prevNode, ctx))
+                offer(dict.wordOf(node), lm(node, prevNode, ctx) + cacheBoost(dict.keyOf(node)))
             }
             val r = resolve(ctx, prevNode)
             if (r.any) dict.ngrams!!.forEachNext(r) { consider(it) }
@@ -354,7 +390,7 @@ class Suggester(
                 val node = dict.findWord(w)
                 val word = if (node >= 0) dict.wordOf(node) else w
                 val base = if (node >= 0) lm(node, prevNode, ctx) else learnedLm(w, ctx)
-                offer(word, base + 0.5f * ln(1f + count))
+                offer(word, base + 0.5f * ln(1f + count) + cacheBoost(w.lowercase(locale)))
             }
         }
         return byKey.values.sortedByDescending { it.score }.take(limit)
@@ -442,6 +478,9 @@ class Suggester(
         const val USER_PAIR_BOOST = 1.0f
         /** On top of the pair boost, for a three-word phrase the user has typed before. */
         const val USER_TRIPLE_BOOST = 0.8f
+        /** Conversation cache (tools/predict_bench.py CACHE_BOOST / CACHE_SIZE). */
+        const val CACHE_BOOST = 0.3f
+        const val CACHE_SIZE = 300
         /** A listed typo (tools/build_typos.py) is offered as its word at this edit cost... */
         const val TYPO_LIST_COST = 0.3f
         /** ...plus this score bonus, so it beats look-alikes the taps alone can't rule out. */

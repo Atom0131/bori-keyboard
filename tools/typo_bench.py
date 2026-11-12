@@ -328,11 +328,10 @@ def load_user_log(lang):
 def load_modern(d, lang):
     """Every spelling in tools/wordlists/<lang>_modern.txt that made it into the dictionary,
     as one-word sentences: typed as-is they must stay, and with typos they should come back."""
-    path = os.path.join(ROOT, "tools", "wordlists", f"{lang}_modern.txt")
-    if not os.path.exists(path):
-        return []
+    from wordlist_files import word_files
     out = []
-    with open(path, encoding="utf-8") as f:
+    for path in word_files(lang):
+      with open(path, encoding="utf-8") as f:
         for line in f:
             p = line.split("#", 1)[0].split()
             if len(p) < 3:

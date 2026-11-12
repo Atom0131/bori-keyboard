@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "id": "ocean",
+  "name": "Ocean",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#7FD3D8",
+      "keyLetter": "#B3FFFFFF",
+      "keyFunction": "#80FFFFFF",
+      "keyPressed": "#E6FFFFFF",
+      "accent": "#00687A",
+      "onAccent": "#FFFFFF",
+      "text": "#06323A",
+      "textFunction": "#06323A",
+      "hint": "#2E6670",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#06323A",
+      "stripText": "#06323A",
+      "backgroundGradient": [
+        "#B8F0F0",
+        "#5CC8D6",
+        "#F2E2B8"
+      ]
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "inter"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#203A43",
+      "keyLetter": "#26FFFFFF",
+      "keyFunction": "#1AFFFFFF",
+      "keyPressed": "#4DFFFFFF",
+      "accent": "#4DD0E1",
+      "onAccent": "#062A30",
+      "text": "#FFFFFF",
+      "textFunction": "#FFFFFF",
+      "hint": "#B6E3EA",
+      "previewBackground": "#2C5364",
+      "previewText": "#FFFFFF",
+      "stripText": "#FFFFFF",
+      "backgroundGradient": [
+        "#0F2027",
+        "#203A43",
+        "#2C5364"
+      ]
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "font": "inter"
+    }
+  }
+}

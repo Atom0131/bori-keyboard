@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "id": "aurora",
+  "name": "Aurora",
+  "author": "Bori",
+  "category": "Scenes",
+  "light": {
+    "colors": {
+      "background": "#D4F5EA",
+      "keyLetter": "#B3FFFFFF",
+      "keyFunction": "#80FFFFFF",
+      "keyPressed": "#E6FFFFFF",
+      "accent": "#0F7A5A",
+      "onAccent": "#FFFFFF",
+      "text": "#0B3A33",
+      "textFunction": "#0B3A33",
+      "hint": "#3F7066",
+      "previewBackground": "#FFFFFF",
+      "previewText": "#0B3A33",
+      "stripText": "#0B3A33",
+      "backgroundGradient": [
+        "#E6F7FF",
+        "#C9F2E4",
+        "#A8E6D2"
+      ],
+      "keyBorder": "#6633B38C"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "inter"
+    }
+  },
+  "dark": {
+    "colors": {
+      "background": "#123247",
+      "keyLetter": "#17FFFFFF",
+      "keyFunction": "#14FFFFFF",
+      "keyPressed": "#4DFFFFFF",
+      "accent": "#7CF3C0",
+      "onAccent": "#06261A",
+      "text": "#E8FFF7",
+      "textFunction": "#E8FFF7",
+      "hint": "#9FD9C4",
+      "previewBackground": "#1B4A5A",
+      "previewText": "#E8FFF7",
+      "stripText": "#E8FFF7",
+      "backgroundGradient": [
+        "#0B1026",
+        "#123247",
+        "#155450",
+        "#1A6A5A"
+      ],
+      "keyBorder": "#33A8FFE0"
+    },
+    "keys": {
+      "radius": 10,
+      "gapH": 5,
+      "gapV": 8,
+      "borderWidth": 1,
+      "font": "inter"
+    }
+  }
+}
